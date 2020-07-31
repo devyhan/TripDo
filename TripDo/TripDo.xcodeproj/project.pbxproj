@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		7E77796B24D3AD9300F79259 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77796A24D3AD9300F79259 /* ViewController.swift */; };
 		7E77797024D3AD9400F79259 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E77796F24D3AD9400F79259 /* Assets.xcassets */; };
 		7E77797324D3AD9400F79259 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E77797124D3AD9400F79259 /* LaunchScreen.storyboard */; };
+		7E77797C24D3AEBF00F79259 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7E77797B24D3AEBF00F79259 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E77797C24D3AEBF00F79259 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +79,9 @@
 			dependencies = (
 			);
 			name = TripDo;
+			packageProductDependencies = (
+				7E77797B24D3AEBF00F79259 /* SnapKit */,
+			);
 			productName = TripDo;
 			productReference = 7E77796324D3AD9300F79259 /* TripDo.app */;
 			productType = "com.apple.product-type.application";
@@ -105,6 +110,9 @@
 				Base,
 			);
 			mainGroup = 7E77795A24D3AD9300F79259;
+			packageReferences = (
+				7E77797A24D3AEBF00F79259 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 7E77796424D3AD9300F79259 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -278,7 +286,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.devyhan93.TripDo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -296,7 +304,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.devyhan93.TripDo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -322,6 +330,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7E77797A24D3AEBF00F79259 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7E77797B24D3AEBF00F79259 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E77797A24D3AEBF00F79259 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7E77795B24D3AD9300F79259 /* Project object */;
 }
