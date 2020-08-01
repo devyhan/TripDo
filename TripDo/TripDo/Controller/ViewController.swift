@@ -7,28 +7,134 @@
 //
 
 import UIKit
+import MapKit
+import SnapKit
 
 class ViewController: UIViewController {
+  
+  let locationManager = CLLocationManager()
+  let layout = UICollectionViewFlowLayout()
+  
+  var userId: [Int64]?
+  
+  var userName: [String]?
+  
+  fileprivate let mkMapView: MKMapView = {
+    let mkMV = MKMapView()
+    
+    return mkMV
+  }()
+  
+  fileprivate lazy var mainCollectionView: UICollectionView = {
+    let cv = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+    cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
+    cv.backgroundColor = .white
+    
+    return cv
+  }()
+  
+  fileprivate let floatingButton: UIButton = {
+    let b = UIButton()
+    b.backgroundColor = Common.mainColor
+    b.setImage(UIImage(systemName: Common.SFSymbolKey.plus.rawValue), for: .normal)
+    b.tintColor = .white
+    b.addTarget(self, action: #selector(floatingButtonDidTap), for: .touchUpInside)
 
+    return b
+  }()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .cyan
-    deleteUserInfo(id: 0)
-//    saveUserInfo(id: 123, name: "요한", age: 123)
+    locationManager.delegate = self
+    
+    //    deleteUserInfo(id: 0)
+    //    saveUserInfo(id: 1, name: "devyhan", age: 123)
     getUserInfo()
+    checkUserLocationAuth()
+    
+    setUI()
+  }
+}
+
+// MARK: - UI
+
+extension ViewController {
+  fileprivate func setUI() {
+    let guid = view.safeAreaLayoutGuide
+    view.backgroundColor = .white
+    
+    floatingButton.frame = CGRect(
+      x: view.bounds.width - view.frame.width / 2 - 30,
+      y: view.bounds.height - 90,
+      width: 60,
+      height: 60
+    )
+    floatingButton.layer.cornerRadius = floatingButton.bounds.width / 2
+    
+    // Layout
+    
+    view.bringSubviewToFront(floatingButton)
+    [mainCollectionView, floatingButton].forEach {
+      view.addSubview($0)
+    }
+    
+    // Constraint
+    
+    mainCollectionView.snp.makeConstraints {
+      $0.top.trailing.leading.bottom.equalTo(guid)
+    }
+    
+    setNavigation()
+    setCollectionView()
   }
   
-  fileprivate func getUserInfo() {
-    let userInfo: [UserInfo] = CoreDataManager.shared.getUsers()
-    let userId: [Int64] = userInfo.map { $0.id }
-    let userName: [String] = userInfo.map { $0.name ?? "nil" }
+  fileprivate func setNavigation() {
+    navigationItem.title = "Title"
     
-    print("getUserId :", userId)
-    print("getUserInfo :", userName)
+    let navBar = self.navigationController?.navigationBar
+    navBar?.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+    navBar?.shadowImage = UIImage()
+    navBar?.isTranslucent = true
+    navBar?.backgroundColor = UIColor.clear
+  }
+  
+  fileprivate func setCollectionView() {
+    mainCollectionView.dataSource = self
+    mainCollectionView.delegate = self
+    
+    layout.sectionInset = .init(top: 15, left: 0, bottom: 15, right: 0)
+    layout.minimumLineSpacing = 15
+    layout.itemSize = CGSize(width: view.frame.width - 30, height: view.frame.height - 700)
+  }
+}
+
+// MARK: - Action
+
+extension ViewController {
+  @objc fileprivate func floatingButtonDidTap() {
+    print("floatingButtonDidTap")
+//    saveUserInfo(id: 1, name: "devyhan", age: 123)
+    deleteUserInfo(id: 1)
+    getUserInfo()
+    mainCollectionView.reloadData()
+  }
+}
+
+
+// MARK: - CoreData
+
+extension ViewController {
+  fileprivate func getUserInfo() {
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    userId = userInfo.map { $0.id }
+    userName = userInfo.map { $0.name ?? "nil" }
+    
+    print("getUserId :", userId as Any)
+    print("getUserInfo :", userName as Any)
   }
   
   fileprivate func saveUserInfo(id: Int64, name: String, age: Int64) {
-    CoreDataManager.shared.saveUser(
+    CoreDataManager.coreDataShared.saveUser(
       id: id,
       name: name,
       age: age,
@@ -38,9 +144,64 @@ class ViewController: UIViewController {
   }
   
   fileprivate func deleteUserInfo(id: Int64) {
-    CoreDataManager.shared.deleteUser(id: id) { (onSuccess) in
+    CoreDataManager.coreDataShared.deleteUser(id: id) { (onSuccess) in
       print("delete =", onSuccess)
     }
   }
   
+  fileprivate func editUserInfo() {
+    
+  }
+}
+
+// MARK: - MapKit
+
+extension ViewController {
+  fileprivate func checkUserLocationAuth() {
+    CoreLocationManager.coreLocationShared.checkAuthorizationStatus()
+  }
+  
+  fileprivate func geocodeAddressString(_ addressString: String) {
+    let geooder = CLGeocoder()
+    geooder.geocodeAddressString(addressString) { (placeMark, error) in
+      if error != nil {
+        return print(error!.localizedDescription)
+      }
+      guard let place = placeMark?.first else { return }
+      print(place)
+    }
+  }
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension ViewController: CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    switch status {
+    case .authorizedWhenInUse, .authorizedAlways:
+      print("Authorization")
+    default:
+      print("Unauthorized")
+    }
+  }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension ViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    userId?.count ?? 0
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
+    
+    return cell
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension ViewController: UICollectionViewDelegate {
+
 }

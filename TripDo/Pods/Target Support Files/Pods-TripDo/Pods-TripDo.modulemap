@@ -1,0 +1,6 @@
+framework module Pods_TripDo {
+  umbrella header "Pods-TripDo-umbrella.h"
+
+  export *
+  module * { export * }
+}

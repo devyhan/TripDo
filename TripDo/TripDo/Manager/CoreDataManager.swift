@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class CoreDataManager {
-  static let shared: CoreDataManager = CoreDataManager()
+  static let coreDataShared: CoreDataManager = CoreDataManager()
   
   let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
   lazy var context = appDelegate?.persistentContainer.viewContext
@@ -44,6 +44,7 @@ class CoreDataManager {
       = NSEntityDescription.entity(forEntityName: modelName, in: context) {
       
       if let user: UserInfo = NSManagedObject(entity: entity, insertInto: context) as? UserInfo {
+        user.id = id
         user.name = name
         user.age = age
         
