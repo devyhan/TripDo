@@ -14,6 +14,7 @@ class ViewController: UIViewController {
   
   let locationManager = CLLocationManager()
   let layout = UICollectionViewFlowLayout()
+  let transition = ButtonTransitionAnimation()
   
   var userId: [Int64]?
   
@@ -39,13 +40,15 @@ class ViewController: UIViewController {
     b.setImage(UIImage(systemName: Common.SFSymbolKey.plus.rawValue), for: .normal)
     b.tintColor = .white
     b.addTarget(self, action: #selector(floatingButtonDidTap), for: .touchUpInside)
-
+    
     return b
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     locationManager.delegate = self
+    mainCollectionView.delegate = self
+    
     
     //    deleteUserInfo(id: 0)
     //    saveUserInfo(id: 1, name: "devyhan", age: 123)
@@ -64,8 +67,8 @@ extension ViewController {
     view.backgroundColor = .white
     
     floatingButton.frame = CGRect(
-      x: view.bounds.width - view.frame.width / 2 - 30,
-      y: view.bounds.height - 90,
+      x: view.center.x - 30,
+      y: view.bounds.height - 120,
       width: 60,
       height: 60
     )
@@ -113,10 +116,17 @@ extension ViewController {
 extension ViewController {
   @objc fileprivate func floatingButtonDidTap() {
     print("floatingButtonDidTap")
-//    saveUserInfo(id: 1, name: "devyhan", age: 123)
-    deleteUserInfo(id: 1)
+    saveUserInfo(id: 1, name: "안준영", age: 66)
+    //    deleteUserInfo(id: 1)
     getUserInfo()
     mainCollectionView.reloadData()
+    
+    //    let secondVC = WriteViewController()
+    //    secondVC.modalPresentationStyle = .custom
+    //    secondVC.transitioningDelegate = self
+    
+    //    animationController(forPresented: secondVC, presenting: self, source: secondVC)
+    //    present(secondVC, animated: true, completion: nil)
   }
 }
 
@@ -203,5 +213,44 @@ extension ViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension ViewController: UICollectionViewDelegate {
+  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+      self.floatingButton.alpha = 0
+    }, completion: nil)
+  }
+  
+  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    if (!decelerate) {
+      floatingButtonAnimation()
+    }
+  }
+  
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    floatingButtonAnimation()
+  }
+  
+  func floatingButtonAnimation() {
+    UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut, animations: {
+      self.floatingButton.alpha = 1
+    }, completion: nil)
+  }
+}
 
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension ViewController: UIViewControllerTransitioningDelegate {
+  func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    transition.transitionMode = .dismiss
+    transition.startingPoint = floatingButton.center
+    transition.circleColor = floatingButton.backgroundColor!
+    
+    return transition
+  }
+  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    transition.transitionMode = .present
+    transition.startingPoint = floatingButton.center
+    transition.circleColor = floatingButton.backgroundColor!
+    
+    return transition
+  }
 }

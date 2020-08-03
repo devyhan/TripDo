@@ -27,6 +27,7 @@ struct Common {
   enum SFSymbolKey: String {
     case house = "house.fill"
     case plus = "plus"
+    case multiply = "multiply"
   }
   
 }

@@ -21,6 +21,8 @@
 		7E7D495224D562F200701581 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495124D562F200701581 /* Common.swift */; };
 		7E7D495524D5676000701581 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495424D5676000701581 /* Extension.swift */; };
 		7E7D495724D5759500701581 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495624D5759500701581 /* MainCollectionViewCell.swift */; };
+		7E7D495924D5B6FD00701581 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495824D5B6FD00701581 /* WriteViewController.swift */; };
+		7E7D495B24D5CEED00701581 /* ButtonTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495A24D5CEED00701581 /* ButtonTransitionAnimation.swift */; };
 		E63926D9AE6469CEACE65EF3 /* Pods_TripDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F767790C61C67462B16C3D62 /* Pods_TripDo.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		7E7D495124D562F200701581 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		7E7D495424D5676000701581 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		7E7D495624D5759500701581 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
+		7E7D495824D5B6FD00701581 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		7E7D495A24D5CEED00701581 /* ButtonTransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTransitionAnimation.swift; sourceTree = "<group>"; };
 		C475CA7C09A9831E4D6B9BF4 /* Pods-TripDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripDo.release.xcconfig"; path = "Target Support Files/Pods-TripDo/Pods-TripDo.release.xcconfig"; sourceTree = "<group>"; };
 		F767790C61C67462B16C3D62 /* Pods_TripDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -105,6 +109,7 @@
 				7E77798024D3B06800F79259 /* CoreData */,
 				7E77798424D3CBF200F79259 /* Manager */,
 				7E77798D24D53EEC00F79259 /* Support */,
+				7E7D495A24D5CEED00701581 /* ButtonTransitionAnimation.swift */,
 			);
 			path = TripDo;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				7E77796A24D3AD9300F79259 /* ViewController.swift */,
+				7E7D495824D5B6FD00701581 /* WriteViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -300,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E7D495524D5676000701581 /* Extension.swift in Sources */,
+				7E7D495924D5B6FD00701581 /* WriteViewController.swift in Sources */,
 				7E7D495224D562F200701581 /* Common.swift in Sources */,
 				7E77798A24D4F7A500F79259 /* UserInfo+CoreDataProperties.swift in Sources */,
 				7E77796B24D3AD9300F79259 /* ViewController.swift in Sources */,
@@ -307,6 +314,7 @@
 				7E77797F24D3B05A00F79259 /* UserInfo.xcdatamodeld in Sources */,
 				7E77798624D3CC2C00F79259 /* CoreDataManager.swift in Sources */,
 				7E7D495724D5759500701581 /* MainCollectionViewCell.swift in Sources */,
+				7E7D495B24D5CEED00701581 /* ButtonTransitionAnimation.swift in Sources */,
 				7E77798C24D50CFC00F79259 /* CoreLocationManager.swift in Sources */,
 				7E77796724D3AD9300F79259 /* AppDelegate.swift in Sources */,
 			);
