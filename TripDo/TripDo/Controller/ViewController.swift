@@ -14,11 +14,11 @@ class ViewController: UIViewController {
   
   let locationManager = CLLocationManager()
   let layout = UICollectionViewFlowLayout()
-  let transition = ButtonTransitionAnimation()
   
   var userId: [Int64]?
-  
   var userName: [String]?
+  var currentIndex: CGFloat = 0
+  var isOneStepPaging = true
   
   fileprivate let mkMapView: MKMapView = {
     let mkMV = MKMapView()
@@ -26,12 +26,50 @@ class ViewController: UIViewController {
     return mkMV
   }()
   
+  fileprivate let titleLabel: UILabel = {
+    let l = UILabel()
+    let style = [NSAttributedString.Key.kern: 5, NSMutableAttributedString.Key.baselineOffset: -20]
+    let attributeString = NSMutableAttributedString(string: "TripDo", attributes: style)
+    l.attributedText = attributeString
+    l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+    l.textColor = Common.subColor
+  
+    return l
+  }()
+  
+  fileprivate let subTitleLabel: UILabel = {
+    let l = UILabel()
+    l.text = "여행의 시작,\n여행의 일정관리와 기록까지."
+    l.font = UIFont.preferredFont(forTextStyle: .title2)
+    l.numberOfLines = .zero
+    l.textColor = Common.subColor
+    
+    return l
+  }()
+  
+  fileprivate lazy var stackView: UIStackView = {
+    let sv = UIStackView(arrangedSubviews: [titleLabel, subTitleLabel])
+    sv.axis = .vertical
+    sv.spacing = 0
+    
+    return sv
+  }()
+  
   fileprivate lazy var mainCollectionView: UICollectionView = {
     let cv = UICollectionView(frame: view.frame, collectionViewLayout: layout)
     cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
-    cv.backgroundColor = .white
+    cv.backgroundColor = Common.mainColor
+    cv.showsHorizontalScrollIndicator = false
     
     return cv
+  }()
+  
+  fileprivate let testView: UIView = {
+    let v = UIView()
+    v.backgroundColor = .cyan
+    v.isHidden = true
+    
+    return v
   }()
   
   fileprivate let floatingButton: UIButton = {
@@ -40,6 +78,7 @@ class ViewController: UIViewController {
     b.setImage(UIImage(systemName: Common.SFSymbolKey.plus.rawValue), for: .normal)
     b.tintColor = .white
     b.addTarget(self, action: #selector(floatingButtonDidTap), for: .touchUpInside)
+    Common.shadowMaker(view: b)
     
     return b
   }()
@@ -49,13 +88,19 @@ class ViewController: UIViewController {
     locationManager.delegate = self
     mainCollectionView.delegate = self
     
-    
     //    deleteUserInfo(id: 0)
     //    saveUserInfo(id: 1, name: "devyhan", age: 123)
     getUserInfo()
     checkUserLocationAuth()
     
     setUI()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    print("viewWillApear")
+    mainCollectionView.reloadData()
+    getUserInfo()
   }
 }
 
@@ -64,10 +109,10 @@ class ViewController: UIViewController {
 extension ViewController {
   fileprivate func setUI() {
     let guid = view.safeAreaLayoutGuide
-    view.backgroundColor = .white
+    view.backgroundColor = Common.mainColor
     
     floatingButton.frame = CGRect(
-      x: view.center.x - 30,
+      x: view.bounds.maxX - 100,
       y: view.bounds.height - 120,
       width: 60,
       height: 60
@@ -77,14 +122,28 @@ extension ViewController {
     // Layout
     
     view.bringSubviewToFront(floatingButton)
-    [mainCollectionView, floatingButton].forEach {
+    [testView, stackView, mainCollectionView, floatingButton].forEach {
       view.addSubview($0)
     }
     
     // Constraint
     
+    stackView.snp.makeConstraints {
+      $0.top.equalTo(guid).offset(-20)
+      $0.trailing.equalTo(guid).offset(-40)
+      $0.bottom.equalTo(mainCollectionView.snp.top).offset(-20)
+      $0.leading.equalTo(guid).offset(40)
+      $0.height.equalTo(view.frame.height / 4.5)
+    }
+    
+    testView.snp.makeConstraints {
+      $0.top.equalTo(stackView.snp.bottom)
+      $0.trailing.leading.bottom.equalTo(guid)
+    }
+    
     mainCollectionView.snp.makeConstraints {
-      $0.top.trailing.leading.bottom.equalTo(guid)
+      $0.top.equalTo(stackView.snp.bottom)
+      $0.trailing.leading.bottom.equalTo(guid)
     }
     
     setNavigation()
@@ -92,8 +151,6 @@ extension ViewController {
   }
   
   fileprivate func setNavigation() {
-    navigationItem.title = "Title"
-    
     let navBar = self.navigationController?.navigationBar
     navBar?.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     navBar?.shadowImage = UIImage()
@@ -103,11 +160,14 @@ extension ViewController {
   
   fileprivate func setCollectionView() {
     mainCollectionView.dataSource = self
-    mainCollectionView.delegate = self
+    mainCollectionView.decelerationRate = UIScrollView.DecelerationRate.fast
+//    mainCollectionView.delegate = self
+//    mainCollectionView.isPagingEnabled = true
     
-    layout.sectionInset = .init(top: 15, left: 0, bottom: 15, right: 0)
-    layout.minimumLineSpacing = 15
-    layout.itemSize = CGSize(width: view.frame.width - 30, height: view.frame.height - 700)
+    layout.sectionInset = .init(top: 15, left: 40, bottom: 15, right: 40)
+    layout.minimumLineSpacing = 0
+    layout.scrollDirection = .horizontal
+    
   }
 }
 
@@ -116,17 +176,14 @@ extension ViewController {
 extension ViewController {
   @objc fileprivate func floatingButtonDidTap() {
     print("floatingButtonDidTap")
-    saveUserInfo(id: 1, name: "안준영", age: 66)
-    //    deleteUserInfo(id: 1)
+//    saveUserInfo(id: 1, name: "안준영", age: 66)
+//    deleteUserInfo(id: 1)
     getUserInfo()
+    
+    let vc = WriteViewController()
+    vc.modalPresentationStyle = .fullScreen
+    navigationController?.pushViewController(vc, animated: true)
     mainCollectionView.reloadData()
-    
-    //    let secondVC = WriteViewController()
-    //    secondVC.modalPresentationStyle = .custom
-    //    secondVC.transitioningDelegate = self
-    
-    //    animationController(forPresented: secondVC, presenting: self, source: secondVC)
-    //    present(secondVC, animated: true, completion: nil)
   }
 }
 
@@ -213,44 +270,69 @@ extension ViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension ViewController: UICollectionViewDelegate {
-  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-    UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
-      self.floatingButton.alpha = 0
-    }, completion: nil)
-  }
-  
-  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    if (!decelerate) {
-      floatingButtonAnimation()
-    }
-  }
-  
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    floatingButtonAnimation()
-  }
-  
-  func floatingButtonAnimation() {
-    UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut, animations: {
-      self.floatingButton.alpha = 1
-    }, completion: nil)
+  func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+  {
+    
+      // item의 사이즈와 item 간의 간격 사이즈를 구해서 하나의 item 크기로 설정.
+      let layout = self.mainCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+    let cellWidthIncludingSpacing = layout.itemSize.width * 6 + layout.minimumInteritemSpacing
+    
+    print("cellWidthIncludingSpacing", cellWidthIncludingSpacing)
+   
+      // targetContentOff을 이용하여 x좌표가 얼마나 이동했는지 확인
+      // 이동한 x좌표 값과 item의 크기를 비교하여 몇 페이징이 될 것인지 값 설정
+      var offset = targetContentOffset.pointee
+    print("offset", offset)
+    print("contentInsetLeft", scrollView.contentInset.left)
+      let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+      var roundedIndex = round(index)
+      
+      // scrollView, targetContentOffset의 좌표 값으로 스크롤 방향을 알 수 있다.
+      // index를 반올림하여 사용하면 item의 절반 사이즈만큼 스크롤을 해야 페이징이 된다.
+      // 스크로로 방향을 체크하여 올림,내림을 사용하면 좀 더 자연스러운 페이징 효과를 낼 수 있다.
+      if scrollView.contentOffset.x > targetContentOffset.pointee.x {
+          roundedIndex = floor(index)
+      } else if scrollView.contentOffset.x < targetContentOffset.pointee.x {
+          roundedIndex = ceil(index)
+      } else {
+          roundedIndex = round(index)
+      }
+      
+      if isOneStepPaging {
+          if currentIndex > roundedIndex {
+              currentIndex -= 1
+              roundedIndex = currentIndex
+          } else if currentIndex < roundedIndex {
+              currentIndex += 1
+              roundedIndex = currentIndex
+          }
+      }
+      
+      // 위 코드를 통해 페이징 될 좌표값을 targetContentOffset에 대입하면 된다.
+      offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
+      targetContentOffset.pointee = offset
   }
 }
 
-// MARK: - UIViewControllerTransitioningDelegate
+// MARK: - MARK Title
 
-extension ViewController: UIViewControllerTransitioningDelegate {
-  func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    transition.transitionMode = .dismiss
-    transition.startingPoint = floatingButton.center
-    transition.circleColor = floatingButton.backgroundColor!
-    
-    return transition
+extension ViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    layout.sectionInset
   }
-  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    transition.transitionMode = .present
-    transition.startingPoint = floatingButton.center
-    transition.circleColor = floatingButton.backgroundColor!
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    15
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    0
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let width = collectionView.frame.width - layout.sectionInset.left - layout.sectionInset.right
+    let height = collectionView.frame.height - layout.sectionInset.top - layout.sectionInset.bottom
     
-    return transition
+    return CGSize(width: width, height: height)
   }
 }
