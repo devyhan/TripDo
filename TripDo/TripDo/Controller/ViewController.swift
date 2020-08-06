@@ -179,7 +179,7 @@ extension ViewController {
     print("floatingButtonDidTap")
     getUserInfo()
     
-    let vc = WriteViewController()
+    let vc = StartDateViewController()
     vc.modalPresentationStyle = .fullScreen
     navigationController?.pushViewController(vc, animated: true)
     mainCollectionView.reloadData()

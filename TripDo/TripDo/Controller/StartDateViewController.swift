@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class WriteViewController: UIViewController {
+class StartDateViewController: UIViewController {
   
   fileprivate let layout = UICollectionViewFlowLayout()
   
@@ -131,7 +131,7 @@ class WriteViewController: UIViewController {
 
 // MARK: - UI
 
-extension WriteViewController {
+extension StartDateViewController {
   fileprivate func setUI() {
     let guid = view.safeAreaLayoutGuide
     calenderCollectionView.dataSource = self
@@ -214,7 +214,7 @@ extension WriteViewController {
 
 // MARK: - Action
 
-extension WriteViewController {
+extension StartDateViewController {
   @objc fileprivate func dismissButtonDidTap() {
     print("dismissButtonDidTap")
     self.navigationController?.popViewController(animated: true)
@@ -295,7 +295,7 @@ extension WriteViewController {
 
 // MARK: - CoreData
 
-extension WriteViewController {
+extension StartDateViewController {
   fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
@@ -316,7 +316,7 @@ extension WriteViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension WriteViewController: UICollectionViewDataSource  {
+extension StartDateViewController: UICollectionViewDataSource  {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch direction{
     case 0:
@@ -372,7 +372,7 @@ extension WriteViewController: UICollectionViewDataSource  {
 
 // MARK: - UICollectionViewDelegate
 
-extension WriteViewController: UICollectionViewDelegateFlowLayout {
+extension StartDateViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
     layout.sectionInset
   }
@@ -407,7 +407,7 @@ extension WriteViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Calender
 
-extension WriteViewController {
+extension StartDateViewController {
   func GetStartDateDayPosition() {
     switch direction {
     case 0:
