@@ -26,6 +26,20 @@ struct Common {
     alpha: 1
   )
   
+  static let edgeColor: UIColor = UIColor(
+    red: 226 / 255,
+    green: 174 / 255,
+    blue: 078 / 255,
+    alpha: 1
+  )
+  
+  static let pinColor: UIColor = UIColor(
+    red: 113 / 255,
+    green: 56 / 255,
+    blue: 56 / 255,
+    alpha: 1
+  )
+  
   enum NavigationTitle: String {
     case map = "Map"
     case home = "Home"
@@ -37,6 +51,7 @@ struct Common {
     case plus = "plus"
     case cancle = "multiply"
     case next = "chevron.right"
+    case back = "chevron.left"
   }
   
   static func shadowMaker(view: UIView) {
