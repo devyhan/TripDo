@@ -13,7 +13,7 @@ class WriteViewController: UIViewController {
   
   fileprivate let layout = UICollectionViewFlowLayout()
   
-  fileprivate let months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+  fileprivate let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
   fileprivate let daysOfMonth = ["일", "월", "화", "수", "목", "금", "토"]
   fileprivate var daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   fileprivate var currentMonth = String()
@@ -25,6 +25,7 @@ class WriteViewController: UIViewController {
   fileprivate var leapYearCounter = 2
   fileprivate var dayCounter = 0
   fileprivate var nowDate = 0
+  fileprivate var getDate = String()
   
   fileprivate let titleLabel: UILabel = {
     let l = UILabel()
@@ -118,7 +119,7 @@ class WriteViewController: UIViewController {
     nowDate = Int(dateFormatter.string(from: Date()))!
     
     currentMonth = months[month]
-    monthLabel.text = "\(year)년 \(currentMonth)"
+    monthLabel.text = "\(year)년 \(currentMonth)월"
     if weekday == 0 {
       weekday = 7
     }
@@ -222,7 +223,7 @@ extension WriteViewController {
   
   @objc fileprivate func nextButtonDidTap() {
     print("nextButtonDidTap")
-    saveUserInfo(id: 1, name: "요한", age: 24)
+    saveUserInfo(id: 1, name: "요한", age: 24, startDate: getDate)
     self.navigationController?.popViewController(animated: true)
   }
   
@@ -246,7 +247,7 @@ extension WriteViewController {
       
       GetStartDateDayPosition()
       currentMonth = months[month]
-      monthLabel.text = "\(year)년 \(currentMonth)"
+      monthLabel.text = "\(year)년 \(currentMonth)월"
       calenderCollectionView.reloadData()
       
     default:
@@ -254,7 +255,7 @@ extension WriteViewController {
       GetStartDateDayPosition()
       month += 1
       currentMonth = months[month]
-      monthLabel.text = "\(year)년 \(currentMonth)"
+      monthLabel.text = "\(year)년 \(currentMonth)월"
       calenderCollectionView.reloadData()
     }
   }
@@ -278,7 +279,7 @@ extension WriteViewController {
       
       GetStartDateDayPosition()
       currentMonth = months[month]
-      monthLabel.text = "\(year)년 \(currentMonth)"
+      monthLabel.text = "\(year)년 \(currentMonth)월"
       calenderCollectionView.reloadData()
       
     default:
@@ -286,7 +287,7 @@ extension WriteViewController {
       month -= 1
       GetStartDateDayPosition()
       currentMonth = months[month]
-      monthLabel.text = "\(year)년 \(currentMonth)"
+      monthLabel.text = "\(year)년 \(currentMonth)월"
       calenderCollectionView.reloadData()
     }
   }
@@ -295,11 +296,12 @@ extension WriteViewController {
 // MARK: - CoreData
 
 extension WriteViewController {
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64) {
+  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
       name: name,
       age: age,
+      startDate: startDate,
       date: Date()) { (onSuccess) in
         print("saved =", onSuccess)
     }
@@ -389,11 +391,14 @@ extension WriteViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
     switch direction {
     case 0:
-      print("year: \(year), currentMonth: \(currentMonth), days: \(indexPath.row - numberOfEmptyBox)")
+      getDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      print(getDate)
     case 1:
-      print("year: \(year), currentMonth: \(currentMonth), days: \(indexPath.row - numberOfEmptyBox)")
+      getDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      print(getDate)
     case -1:
-      print("year: \(year), currentMonth: \(currentMonth), days: \(indexPath.row - numberOfEmptyBox)")
+      getDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      print(getDate)
     default:
       fatalError()
     }

@@ -17,6 +17,7 @@ class ViewController: UIViewController {
   
   var userId: [Int64]?
   var userName: [String]?
+  var userStartDate: [String]?
   var currentIndex: CGFloat = 0
   var isOneStepPaging = true
   
@@ -193,16 +194,19 @@ extension ViewController {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     userId = userInfo.map { $0.id }
     userName = userInfo.map { $0.name ?? "nil" }
+    userStartDate = userInfo.map { $0.startDate ?? "nil" }
     
     print("getUserId :", userId as Any)
     print("getUserInfo :", userName as Any)
+    print("getUserStartDate :", userStartDate as Any)
   }
   
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64) {
+  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
       name: name,
       age: age,
+      startDate: startDate,
       date: Date()) { (onSuccess) in
         print("saved =", onSuccess)
     }
@@ -260,6 +264,8 @@ extension ViewController: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
+    
+    cell.getTripNameString = userStartDate?[indexPath.row]
     
     return cell
   }

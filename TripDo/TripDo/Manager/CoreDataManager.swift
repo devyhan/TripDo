@@ -38,7 +38,7 @@ class CoreDataManager {
   }
   
   func saveUser(id: Int64, name: String,
-                age: Int64, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
+                age: Int64, startDate: String, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
     if let context = context,
       let entity: NSEntityDescription
       = NSEntityDescription.entity(forEntityName: modelName, in: context) {
@@ -47,6 +47,7 @@ class CoreDataManager {
         user.id = id
         user.name = name
         user.age = age
+        user.startDate = startDate
         
         contextSave { success in
           onSuccess(success)
