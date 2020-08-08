@@ -1,15 +1,15 @@
 //
-//  WriteViewController.swift
+//  EndDateViewController.swift
 //  TripDo
 //
-//  Created by 요한 on 2020/08/01.
+//  Created by 요한 on 2020/08/07.
 //  Copyright © 2020 요한. All rights reserved.
 //
 
 import UIKit
 import SnapKit
 
-class StartDateViewController: UIViewController {
+class EndDateViewController: UIViewController {
   
   let userDefaults = UserDefaults.standard
   
@@ -26,14 +26,12 @@ class StartDateViewController: UIViewController {
   fileprivate var positionIndex = 0
   fileprivate var leapYearCounter = 2
   fileprivate var dayCounter = 0
-  fileprivate var nowDate = String()
-  fileprivate var getStartDate = String()
-  
-  fileprivate var selectionArray = [String]()
+  fileprivate var nowDate = 0
+  fileprivate var getEndtDate = String()
   
   fileprivate let titleLabel: UILabel = {
     let l = UILabel()
-    l.text = "이제,\n여행의 시작날짜를\n입력해 주세요."
+    l.text = "마지막으로,\n여행의 종료날짜를\n입력해 주세요."
     l.font = UIFont.preferredFont(forTextStyle: .title1)
     l.numberOfLines = .zero
     l.textColor = Common.subColor
@@ -94,7 +92,7 @@ class StartDateViewController: UIViewController {
   fileprivate let backButton: UIButton = {
     let b = UIButton()
     b.backgroundColor = Common.subColor
-    b.setImage(UIImage(systemName: Common.SFSymbolKey.back.rawValue), for: .normal)
+    b.setImage(UIImage(systemName: Common.SFSymbolKey.cancle.rawValue), for: .normal)
     b.tintColor = Common.mainColor
     b.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
     Common.shadowMaker(view: b)
@@ -110,9 +108,6 @@ class StartDateViewController: UIViewController {
     b.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
     Common.shadowMaker(view: b)
     
-    b.isEnabled = false
-    b.alpha = 0.5
-    
     return b
   }()
   
@@ -121,8 +116,8 @@ class StartDateViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "M"
-    nowDate = dateFormatter.string(from: Date())
+    dateFormatter.dateFormat = "d"
+    nowDate = Int(dateFormatter.string(from: Date()))!
     
     currentMonth = months[month]
     monthLabel.text = "\(year)년 \(currentMonth)월"
@@ -137,12 +132,11 @@ class StartDateViewController: UIViewController {
 
 // MARK: - UI
 
-extension StartDateViewController {
+extension EndDateViewController {
   fileprivate func setUI() {
     let guid = view.safeAreaLayoutGuide
     calenderCollectionView.dataSource = self
     calenderCollectionView.delegate = self
-    calenderCollectionView.allowsMultipleSelection = true
     view.backgroundColor = Common.mainColor
     navigationItem.hidesBackButton = true
     
@@ -162,8 +156,6 @@ extension StartDateViewController {
     )
     nextButton.layer.cornerRadius = nextButton.bounds.height / 2
     
-    
-    print("currentDate: ", currentMonth)
     for i in 0...daysOfMonth.count - 1 {
       setWeekLable(text: daysOfMonth[i])
       if i == 1 {
@@ -223,25 +215,25 @@ extension StartDateViewController {
 
 // MARK: - Action
 
-extension StartDateViewController {
+extension EndDateViewController {
   @objc fileprivate func backButtonDidTap() {
     print("dismissButtonDidTap")
     self.navigationController?.popViewController(animated: true)
+    deleteUserInfo(id: 1)
   }
   
   @objc fileprivate func nextButtonDidTap() {
     guard let getName = userDefaults.string(forKey: Common.UserDefaultKey.name.rawValue) else { return }
-    guard let getStartDate = selectionArray.sorted().first else { return }
-    guard let getEndDate = selectionArray.sorted().last else { return }
+    guard let getStartDate = userDefaults.string(forKey: Common.UserDefaultKey.startDate.rawValue) else { return }
     
-    saveUserInfo(id: 1, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate)
+    saveUserInfo(id: 1, name: getName, age: 24, startDate: getStartDate, endDate: getEndtDate)
     self.navigationController?.popToRootViewController(animated: true)
     print("nextButtonDidTap")
   }
   
   @objc fileprivate func didTapYearNextButton() {
     switch currentMonth {
-    case "12":
+    case "12월":
       direction = 1
       month = 0
       year += 1
@@ -273,45 +265,63 @@ extension StartDateViewController {
   }
   
   @objc fileprivate func didTapYearBackButton() {
-    if currentMonth == nowDate {
-      showAlert(alertText: "과거 여행을 하려구 ?", alertMessage: "응, 안돼")
-    } else {
-      switch currentMonth {
-      case "1":
-        direction = -1
-        month = 11
-        year -= 1
-        
-        if leapYearCounter > 0 {
-          leapYearCounter -= 1
-        }
-        if leapYearCounter == 0 {
-          daysInMonths[1] = 29
-          leapYearCounter = 4
-        } else {
-          daysInMonths[1] = 28
-        }
-        
-        GetStartDateDayPosition()
-        currentMonth = months[month]
-        monthLabel.text = "\(year)년 \(currentMonth)월"
-        calenderCollectionView.reloadData()
-        
-      default:
-        direction = -1
-        month -= 1
-        GetStartDateDayPosition()
-        currentMonth = months[month]
-        monthLabel.text = "\(year)년 \(currentMonth)월"
-        calenderCollectionView.reloadData()
+    switch currentMonth {
+    case "1월":
+      direction = -1
+      month = 11
+      year -= 1
+      
+      if leapYearCounter > 0 {
+        leapYearCounter -= 1
       }
+      if leapYearCounter == 0 {
+        daysInMonths[1] = 29
+        leapYearCounter = 4
+      } else {
+        daysInMonths[1] = 28
+      }
+      
+      GetStartDateDayPosition()
+      currentMonth = months[month]
+      monthLabel.text = "\(year)년 \(currentMonth)월"
+      calenderCollectionView.reloadData()
+      
+    default:
+      direction = -1
+      month -= 1
+      GetStartDateDayPosition()
+      currentMonth = months[month]
+      monthLabel.text = "\(year)년 \(currentMonth)월"
+      calenderCollectionView.reloadData()
+    }
+  }
+}
+
+// MARK: - CoreData
+
+extension EndDateViewController {
+  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String) {
+    CoreDataManager.coreDataShared.saveUser(
+      id: id,
+      name: name,
+      age: age,
+      startDate: startDate,
+      endDate: endDate,
+      date: Date()) { (onSuccess) in
+        print("saved =", onSuccess)
+    }
+  }
+  
+  fileprivate func deleteUserInfo(id: Int64) {
+    CoreDataManager.coreDataShared.deleteUser(id: id) { (onSuccess) in
+      print("delete =", onSuccess)
     }
   }
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension StartDateViewController: UICollectionViewDataSource  {
+extension EndDateViewController: UICollectionViewDataSource  {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch direction{
     case 0:
@@ -349,14 +359,6 @@ extension StartDateViewController: UICollectionViewDataSource  {
       cell.isHidden = true
     }
     
-    if Int(cell.calenderDateLabel.text!)! < calendar.component(.day, from: date) && currentMonth == months[calendar.component(.month, from: date) - 1] {
-      cell.calenderDateLabel.alpha = 0.5
-      cell.isUserInteractionEnabled = false
-    } else {
-      cell.calenderDateLabel.alpha = 1
-      cell.isUserInteractionEnabled = true
-    }
-    
     switch indexPath.row {
     case 6, 7, 13, 14, 20, 21, 27, 28, 34, 35:
       if Int(cell.calenderDateLabel.text!)! > 0 {
@@ -365,20 +367,17 @@ extension StartDateViewController: UICollectionViewDataSource  {
     default:
       cell.calenderDateLabel.textColor = Common.subColor
     }
-    
     if currentMonth == months[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row - numberOfEmptyBox == day {
       cell.cycleView.isHidden = false
       cell.DrawCircle()
-      Common.shadowMaker(view: cell)
     }
-   
     return cell
   }
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension StartDateViewController: UICollectionViewDelegateFlowLayout {
+extension EndDateViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
     layout.sectionInset
   }
@@ -395,61 +394,25 @@ extension StartDateViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    print("0:", nowDate)
-    print("1:", indexPath.row)
-    print("2:", calendar.component(.day, from: date))
-    print("3:", currentMonth == months[calendar.component(.month, from: date) - 1])
-    
-    if selectionArray.count == 2 {
-      titleLabel.text = "이제,\n여행의 시작날짜를\n입력해 주세요."
-      selectionArray = []
-      collectionView.reloadData()
-      nextButton.isEnabled = false
-      nextButton.alpha = 0.5
-    }
-    
     switch direction {
     case 0:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
-      print(getStartDate)
-      selectionArray.append(getStartDate)
-      print("Array:", selectionArray.sorted())
+      getEndtDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      print(getEndtDate)
     case 1:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
-      print(getStartDate)
-      selectionArray.append(getStartDate)
-      print("Array:", selectionArray.sorted())
+      getEndtDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      print(getEndtDate)
     case -1:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
-      print(getStartDate)
-      selectionArray.append(getStartDate)
-      print("Array:", selectionArray.sorted())
+      getEndtDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      print(getEndtDate)
     default:
       fatalError()
-    }
-    print("4", selectionArray.count)
-    switch selectionArray.count - 1 {
-    case 0:
-      titleLabel.text = "이제,\n여행의 종료날짜를\n입력해 주세요."
-      nextButton.isEnabled = false
-      nextButton.alpha = 0.5
-    case 1:
-      titleLabel.text = "이제,\n여행 날짜설정이\n완료되었습니다."
-      print(selectionArray)
-      print("first: ",selectionArray.sorted().first!)
-      print("last: ",selectionArray.sorted().last!)
-      nextButton.isEnabled = true
-      nextButton.alpha = 1
-      showAlert(alertText: "여행 날자를 확인하세요.", alertMessage: "시작 날짜 : \(selectionArray.sorted().first!)\n종료 날짜 \(selectionArray.sorted().last!)")
-    default:
-      break;
     }
   }
 }
 
 // MARK: - Calender
 
-extension StartDateViewController {
+extension EndDateViewController {
   func GetStartDateDayPosition() {
     switch direction {
     case 0:
@@ -481,25 +444,4 @@ extension StartDateViewController {
   }
 }
 
-// MARK: - CoreData
-
-extension StartDateViewController {
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String) {
-    CoreDataManager.coreDataShared.saveUser(
-      id: id,
-      name: name,
-      age: age,
-      startDate: startDate,
-      endDate: endDate,
-      date: Date()) { (onSuccess) in
-        print("saved =", onSuccess)
-    }
-  }
-  
-  fileprivate func deleteUserInfo(id: Int64) {
-    CoreDataManager.coreDataShared.deleteUser(id: id) { (onSuccess) in
-      print("delete =", onSuccess)
-    }
-  }
-}
 

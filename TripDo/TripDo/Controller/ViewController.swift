@@ -18,8 +18,33 @@ class ViewController: UIViewController {
   var userId: [Int64]?
   var userName: [String]?
   var userStartDate: [String]?
+  var userEndDate: [String]?
   var currentIndex: CGFloat = 0
   var isOneStepPaging = true
+  
+  lazy var leftButton: UIBarButtonItem = {
+    let b = UIBarButtonItem(
+      image: UIImage(systemName: Common.SFSymbolKey.rightNavigation.rawValue),
+      style: .plain,
+      target: self,
+      action: #selector(buttonPressed(_:))
+    )
+    b.tag = 1
+    return b
+  }()
+  
+  lazy var rightButton: UIBarButtonItem = {
+    let b = UIBarButtonItem(
+      image: UIImage(systemName: Common.SFSymbolKey.rightNavigation.rawValue),
+      style: .plain,
+      target: self,
+      action: #selector(buttonPressed(_:))
+    )
+    b.tintColor = Common.subColor
+    b.tag = 2
+    
+    return b
+  }()
   
   fileprivate let mkMapView: MKMapView = {
     let mkMV = MKMapView()
@@ -83,6 +108,8 @@ class ViewController: UIViewController {
     
     return b
   }()
+  
+  // MARK: - LifeCycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -152,6 +179,8 @@ extension ViewController {
   }
   
   fileprivate func setNavigation() {
+    navigationItem.leftBarButtonItem = self.leftButton
+    navigationItem.rightBarButtonItem = self.rightButton
     let navBar = self.navigationController?.navigationBar
     navBar?.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
     navBar?.shadowImage = UIImage()
@@ -179,10 +208,23 @@ extension ViewController {
     print("floatingButtonDidTap")
     getUserInfo()
     
-    let vc = StartDateViewController()
+    let vc = NameViewController()
     vc.modalPresentationStyle = .fullScreen
     navigationController?.pushViewController(vc, animated: true)
     mainCollectionView.reloadData()
+  }
+  
+  @objc private func buttonPressed(_ sender: Any) {
+    if let button = sender as? UIBarButtonItem {
+      switch button.tag {
+      case 1:
+        print("left btn")
+      case 2:
+        print("right btn")
+      default:
+        print("error")
+      }
+    }
   }
 }
 
@@ -195,18 +237,21 @@ extension ViewController {
     userId = userInfo.map { $0.id }
     userName = userInfo.map { $0.name ?? "nil" }
     userStartDate = userInfo.map { $0.startDate ?? "nil" }
+    userEndDate = userInfo.map { $0.endDate ?? "nil" }
     
     print("getUserId :", userId as Any)
     print("getUserInfo :", userName as Any)
     print("getUserStartDate :", userStartDate as Any)
+    print("getUserEndDate :", userEndDate as Any)
   }
   
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String) {
+  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
       name: name,
       age: age,
       startDate: startDate,
+      endDate: endDate,
       date: Date()) { (onSuccess) in
         print("saved =", onSuccess)
     }
@@ -265,7 +310,8 @@ extension ViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
     
-    cell.getTripNameString = userStartDate?[indexPath.row]
+    cell.getTripNameString = userName?[indexPath.row]
+    cell.getTripStartDateString = userStartDate?[indexPath.row]
     
     return cell
   }
@@ -280,7 +326,6 @@ extension ViewController: UICollectionViewDelegate {
     // item의 사이즈와 item 간의 간격 사이즈를 구해서 하나의 item 크기로 설정.
     let layout = self.mainCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
     let cellWidthIncludingSpacing = view.frame.width - layout.sectionInset.left - layout.sectionInset.right + 15
-    print("layout.minimumInteritemSpacing", layout.minimumInteritemSpacing)
     // targetContentOff을 이용하여 x좌표가 얼마나 이동했는지 확인
     // 이동한 x좌표 값과 item의 크기를 비교하여 몇 페이징이 될 것인지 값 설정
     var offset = targetContentOffset.pointee

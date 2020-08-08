@@ -19,10 +19,11 @@ class CalenderCollectionViewCell: UICollectionViewCell {
         self.layer.cornerRadius = self.frame.width / 2
         self.layer.borderWidth = 4
         self.layer.borderColor = Common.pinColor.cgColor
-//        Common.shadowMaker(view: self)
+        self.layer.shadowOpacity = 0
       } else {
         backgroundColor = UIColor.clear
         self.layer.borderWidth = 0
+        self.layer.shadowOpacity = 0
       }
     }
   }
@@ -80,7 +81,6 @@ class CalenderCollectionViewCell: UICollectionViewCell {
   func DrawCircle() {
     cycleView.layer.backgroundColor = Common.mainColor.cgColor
     cycleView.layer.cornerRadius = self.frame.width / 2
-    Common.shadowMaker(view: self)
   }
   
   required init?(coder: NSCoder) {

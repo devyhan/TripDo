@@ -20,6 +20,12 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
   }
   
+  var getTripStartDateString: String? {
+    didSet {
+      tripStartDateLabel.text = getTripStartDateString
+    }
+  }
+  
   fileprivate let mkMapView: MKMapView = {
     let mkMV = MKMapView()
     mkMV.clipsToBounds = true
@@ -35,6 +41,11 @@ class MainCollectionViewCell: UICollectionViewCell {
     return l
   }()
   
+  fileprivate let tripStartDateLabel: UILabel = {
+    let l = UILabel()
+    
+    return l
+  }()
   
   // MARK: - LifeCycle
   
@@ -52,7 +63,7 @@ class MainCollectionViewCell: UICollectionViewCell {
   
   private func setUI() {
     // UI Code
-    [mkMapView, tripNameLabel].forEach {
+    [mkMapView, tripNameLabel, tripStartDateLabel].forEach {
       self.addSubview($0)
     }
     
@@ -63,6 +74,12 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     tripNameLabel.snp.makeConstraints {
       $0.top.equalTo(mkMapView.snp.bottom)
+      $0.trailing.equalTo(self)
+      $0.leading.equalTo(self)
+    }
+    
+    tripStartDateLabel.snp.makeConstraints {
+      $0.top.equalTo(tripNameLabel.snp.bottom)
       $0.trailing.equalTo(self)
       $0.leading.equalTo(self)
     }

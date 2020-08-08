@@ -10,6 +10,13 @@ import UIKit
 
 struct Common {
   
+  // UserDefault Key
+  
+  enum UserDefaultKey: String {
+    case name = "NameViewController"
+    case startDate = "StartDateViewController"
+  }
+  
   // App MainColor
   
   static let mainColor: UIColor = UIColor(
@@ -47,7 +54,7 @@ struct Common {
   }
   
   enum SFSymbolKey: String {
-    case house = "house.fill"
+    case rightNavigation = "ellipsis"
     case plus = "plus"
     case cancle = "multiply"
     case next = "chevron.right"

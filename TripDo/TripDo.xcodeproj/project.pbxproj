@@ -19,6 +19,7 @@
 		7E77798A24D4F7A500F79259 /* UserInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77798824D4F7A500F79259 /* UserInfo+CoreDataProperties.swift */; };
 		7E77798C24D50CFC00F79259 /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77798B24D50CFC00F79259 /* CoreLocationManager.swift */; };
 		7E77798F24D53F3500F79259 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E77798E24D53F3500F79259 /* GoogleService-Info.plist */; };
+		7E7C358024DBDEFE008D92B1 /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7C357F24DBDEFE008D92B1 /* NameViewController.swift */; };
 		7E7D495224D562F200701581 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495124D562F200701581 /* Common.swift */; };
 		7E7D495524D5676000701581 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495424D5676000701581 /* Extension.swift */; };
 		7E7D495724D5759500701581 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495624D5759500701581 /* MainCollectionViewCell.swift */; };
@@ -41,6 +42,7 @@
 		7E77798824D4F7A500F79259 /* UserInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7E77798B24D50CFC00F79259 /* CoreLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationManager.swift; sourceTree = "<group>"; };
 		7E77798E24D53F3500F79259 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7E7C357F24DBDEFE008D92B1 /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		7E7D494E24D5457400701581 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E7D495124D562F200701581 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		7E7D495424D5676000701581 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				7E77796A24D3AD9300F79259 /* ViewController.swift */,
+				7E7C357F24DBDEFE008D92B1 /* NameViewController.swift */,
 				7E7D495824D5B6FD00701581 /* StartDateViewController.swift */,
 			);
 			path = Controller;
@@ -317,6 +320,7 @@
 				7E77798924D4F7A500F79259 /* UserInfo+CoreDataClass.swift in Sources */,
 				7E77797F24D3B05A00F79259 /* UserInfo.xcdatamodeld in Sources */,
 				7E77798624D3CC2C00F79259 /* CoreDataManager.swift in Sources */,
+				7E7C358024DBDEFE008D92B1 /* NameViewController.swift in Sources */,
 				7E3B00A624D9C4EF00D2B369 /* CalendarVars.swift in Sources */,
 				7E7D495724D5759500701581 /* MainCollectionViewCell.swift in Sources */,
 				7E77798C24D50CFC00F79259 /* CoreLocationManager.swift in Sources */,
