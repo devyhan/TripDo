@@ -31,18 +31,25 @@ class MainCollectionViewCell: UICollectionViewCell {
     mkMV.clipsToBounds = true
     mkMV.layer.cornerRadius = 30
     mkMV.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    mkMV.isScrollEnabled = false
+    mkMV.isPitchEnabled = false
+    mkMV.isZoomEnabled = false
     
     return mkMV
   }()
   
-  fileprivate let tripNameLabel: UILabel = {
+  fileprivate let tripStartDateLabel: UILabel = {
     let l = UILabel()
+    l.textColor = Common.mainColor
+    l.font = UIFont.preferredFont(forTextStyle: .footnote)
     
     return l
   }()
   
-  fileprivate let tripStartDateLabel: UILabel = {
+  fileprivate let tripNameLabel: UILabel = {
     let l = UILabel()
+    l.textColor = Common.mainColor
+    l.font = UIFont.preferredFont(forTextStyle: .title1)
     
     return l
   }()
@@ -62,7 +69,7 @@ class MainCollectionViewCell: UICollectionViewCell {
   // MARK: - Layout
   
   private func setUI() {
-    // UI Code
+  
     [mkMapView, tripNameLabel, tripStartDateLabel].forEach {
       self.addSubview($0)
     }
@@ -72,18 +79,17 @@ class MainCollectionViewCell: UICollectionViewCell {
       $0.height.equalTo(self.frame.height / 1.3)
     }
     
-    tripNameLabel.snp.makeConstraints {
-      $0.top.equalTo(mkMapView.snp.bottom)
-      $0.trailing.equalTo(self)
-      $0.leading.equalTo(self)
-    }
-    
     tripStartDateLabel.snp.makeConstraints {
-      $0.top.equalTo(tripNameLabel.snp.bottom)
+      $0.top.equalTo(mkMapView.snp.bottom).offset(20)
       $0.trailing.equalTo(self)
-      $0.leading.equalTo(self)
+      $0.leading.equalTo(self).offset(20)
     }
     
+    tripNameLabel.snp.makeConstraints {
+      $0.top.equalTo(tripStartDateLabel.snp.bottom)
+      $0.trailing.equalTo(self)
+      $0.leading.equalTo(self).offset(20)
+    }
   }
 
   required init?(coder: NSCoder) {

@@ -226,6 +226,7 @@ extension StartDateViewController {
 extension StartDateViewController {
   @objc fileprivate func backButtonDidTap() {
     print("dismissButtonDidTap")
+    deleteUserInfo(id: 1)
     self.navigationController?.popViewController(animated: true)
   }
   

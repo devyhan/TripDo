@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import MapKit
 import SnapKit
 
 class ViewController: UIViewController {
-  
-  let locationManager = CLLocationManager()
+
   let layout = UICollectionViewFlowLayout()
   
   var userId: [Int64]?
@@ -44,12 +42,6 @@ class ViewController: UIViewController {
     b.tag = 2
     
     return b
-  }()
-  
-  fileprivate let mkMapView: MKMapView = {
-    let mkMV = MKMapView()
-    
-    return mkMV
   }()
   
   fileprivate let titleLabel: UILabel = {
@@ -113,13 +105,11 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    locationManager.delegate = self
     mainCollectionView.delegate = self
     
     //    deleteUserInfo(id: 0)
     //    saveUserInfo(id: 1, name: "devyhan", age: 123)
     getUserInfo()
-    checkUserLocationAuth()
     
     setUI()
   }
@@ -208,9 +198,9 @@ extension ViewController {
     print("floatingButtonDidTap")
     getUserInfo()
     
-    let vc = NameViewController()
-    vc.modalPresentationStyle = .fullScreen
-    navigationController?.pushViewController(vc, animated: true)
+    let nameVC = NameViewController()
+    nameVC.modalPresentationStyle = .fullScreen
+    navigationController?.pushViewController(nameVC, animated: true)
     mainCollectionView.reloadData()
   }
   
@@ -220,7 +210,9 @@ extension ViewController {
       case 1:
         print("left btn")
       case 2:
-        print("right btn")
+        let settingVC = SettingViewController()
+        settingVC.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(settingVC, animated: true)
       default:
         print("error")
       }
@@ -268,38 +260,6 @@ extension ViewController {
   }
 }
 
-// MARK: - MapKit
-
-extension ViewController {
-  fileprivate func checkUserLocationAuth() {
-    CoreLocationManager.coreLocationShared.checkAuthorizationStatus()
-  }
-  
-  fileprivate func geocodeAddressString(_ addressString: String) {
-    let geooder = CLGeocoder()
-    geooder.geocodeAddressString(addressString) { (placeMark, error) in
-      if error != nil {
-        return print(error!.localizedDescription)
-      }
-      guard let place = placeMark?.first else { return }
-      print(place)
-    }
-  }
-}
-
-// MARK: - CLLocationManagerDelegate
-
-extension ViewController: CLLocationManagerDelegate {
-  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-    switch status {
-    case .authorizedWhenInUse, .authorizedAlways:
-      print("Authorization")
-    default:
-      print("Unauthorized")
-    }
-  }
-}
-
 // MARK: - UICollectionViewDataSource
 
 extension ViewController: UICollectionViewDataSource {
@@ -310,8 +270,8 @@ extension ViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
     
-    cell.getTripNameString = userName?[indexPath.row]
-    cell.getTripStartDateString = userStartDate?[indexPath.row]
+    cell.getTripNameString = userName![indexPath.row]
+    cell.getTripStartDateString = "\(userStartDate![indexPath.row]) ~ \(userEndDate![indexPath.row])"
     
     return cell
   }
@@ -357,6 +317,14 @@ extension ViewController: UICollectionViewDelegate {
     // 위 코드를 통해 페이징 될 좌표값을 targetContentOffset에 대입하면 된다.
     offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
     targetContentOffset.pointee = offset
+  }
+
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    print("didSelectItemAt")
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    print("didUnhighlightItemAt")
   }
 }
 
