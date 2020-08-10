@@ -414,17 +414,17 @@ extension StartDateViewController: UICollectionViewDelegateFlowLayout {
       getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
       print(getStartDate)
       selectionArray.append(getStartDate)
-      print("Array:", selectionArray.sorted())
+      print("0 Array:", selectionArray.sorted())
     case 1:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - nextNumberOfEmptyBox)"
       print(getStartDate)
       selectionArray.append(getStartDate)
-      print("Array:", selectionArray.sorted())
+      print("1 Array:", selectionArray.sorted())
     case -1:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - previousNumberOfEmptyBox)"
       print(getStartDate)
       selectionArray.append(getStartDate)
-      print("Array:", selectionArray.sorted())
+      print("-1 Array:", selectionArray.sorted())
     default:
       fatalError()
     }

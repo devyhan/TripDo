@@ -113,7 +113,7 @@ extension NameViewController {
       $0.centerY.equalTo(guid).offset(-view.frame.height / 6)
       $0.trailing.equalTo(guid).offset(-40)
       $0.leading.equalTo(guid).offset(40)
-      $0.height.equalTo(50)
+      $0.height.equalTo(70)
     }
   }
 }
@@ -131,7 +131,6 @@ extension NameViewController {
     guard let name = tripNameTextField.text else { return }
     //    saveUserInfo(id: 1, name: "요한", age: 24, startDate: getDate)
     let vc = StartDateViewController()
-    vc.modalPresentationStyle = .fullScreen
     navigationController?.pushViewController(vc, animated: true)
     userDefalts.set(name, forKey: Common.UserDefaultKey.name.rawValue)
   }
