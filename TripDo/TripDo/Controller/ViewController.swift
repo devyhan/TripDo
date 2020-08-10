@@ -309,8 +309,12 @@ extension ViewController: UICollectionViewDelegate {
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("didSelectItemAt")
-    let cardVC = CardViewController()
-    navigationController?.pushViewController(cardVC, animated: true)
+    
+    let detailVC = DetailViewController()
+    detailVC.modalPresentationStyle = .fullScreen
+    detailVC.cellIndexPath = indexPath.row
+    present(detailVC, animated: false)
+//    navigationController?.pushViewController(cardVC, animated: true)
   }
   
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {

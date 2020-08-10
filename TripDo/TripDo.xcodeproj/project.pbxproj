@@ -25,7 +25,9 @@
 		7E7D495524D5676000701581 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495424D5676000701581 /* Extension.swift */; };
 		7E7D495724D5759500701581 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495624D5759500701581 /* MainCollectionViewCell.swift */; };
 		7E7D495924D5B6FD00701581 /* StartDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D495824D5B6FD00701581 /* StartDateViewController.swift */; };
-		7E90AB3C24E0E7BC0092AF93 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB3B24E0E7BC0092AF93 /* CardViewController.swift */; };
+		7E90AB3C24E0E7BC0092AF93 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB3B24E0E7BC0092AF93 /* DetailViewController.swift */; };
+		7E90AB3E24E10DE20092AF93 /* DetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB3D24E10DE20092AF93 /* DetailHeaderView.swift */; };
+		7E90AB4024E113F50092AF93 /* DetailHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB3F24E113F50092AF93 /* DetailHeaderLayout.swift */; };
 		7ECBAE2C24D97EAD001A6388 /* CalenderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECBAE2B24D97EAD001A6388 /* CalenderCollectionViewCell.swift */; };
 		E63926D9AE6469CEACE65EF3 /* Pods_TripDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F767790C61C67462B16C3D62 /* Pods_TripDo.framework */; };
 /* End PBXBuildFile section */
@@ -51,7 +53,9 @@
 		7E7D495424D5676000701581 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		7E7D495624D5759500701581 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		7E7D495824D5B6FD00701581 /* StartDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartDateViewController.swift; sourceTree = "<group>"; };
-		7E90AB3B24E0E7BC0092AF93 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		7E90AB3B24E0E7BC0092AF93 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		7E90AB3D24E10DE20092AF93 /* DetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeaderView.swift; sourceTree = "<group>"; };
+		7E90AB3F24E113F50092AF93 /* DetailHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHeaderLayout.swift; sourceTree = "<group>"; };
 		7ECBAE2B24D97EAD001A6388 /* CalenderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCollectionViewCell.swift; sourceTree = "<group>"; };
 		C475CA7C09A9831E4D6B9BF4 /* Pods-TripDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripDo.release.xcconfig"; path = "Target Support Files/Pods-TripDo/Pods-TripDo.release.xcconfig"; sourceTree = "<group>"; };
 		F767790C61C67462B16C3D62 /* Pods_TripDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,7 +150,7 @@
 				7E7C357F24DBDEFE008D92B1 /* NameViewController.swift */,
 				7E7D495824D5B6FD00701581 /* StartDateViewController.swift */,
 				7E7C358324DE6AF8008D92B1 /* SettingViewController.swift */,
-				7E90AB3B24E0E7BC0092AF93 /* CardViewController.swift */,
+				7E90AB3B24E0E7BC0092AF93 /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -156,6 +160,8 @@
 			children = (
 				7E7D495624D5759500701581 /* MainCollectionViewCell.swift */,
 				7ECBAE2B24D97EAD001A6388 /* CalenderCollectionViewCell.swift */,
+				7E90AB3D24E10DE20092AF93 /* DetailHeaderView.swift */,
+				7E90AB3F24E113F50092AF93 /* DetailHeaderLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				7E7D495924D5B6FD00701581 /* StartDateViewController.swift in Sources */,
 				7E7D495224D562F200701581 /* Common.swift in Sources */,
 				7E77798A24D4F7A500F79259 /* UserInfo+CoreDataProperties.swift in Sources */,
+				7E90AB3E24E10DE20092AF93 /* DetailHeaderView.swift in Sources */,
 				7E7C358424DE6AF8008D92B1 /* SettingViewController.swift in Sources */,
 				7E77796B24D3AD9300F79259 /* ViewController.swift in Sources */,
 				7E77798924D4F7A500F79259 /* UserInfo+CoreDataClass.swift in Sources */,
@@ -329,8 +336,9 @@
 				7E77798624D3CC2C00F79259 /* CoreDataManager.swift in Sources */,
 				7E7C358024DBDEFE008D92B1 /* NameViewController.swift in Sources */,
 				7E3B00A624D9C4EF00D2B369 /* CalendarVars.swift in Sources */,
-				7E90AB3C24E0E7BC0092AF93 /* CardViewController.swift in Sources */,
+				7E90AB3C24E0E7BC0092AF93 /* DetailViewController.swift in Sources */,
 				7E7D495724D5759500701581 /* MainCollectionViewCell.swift in Sources */,
+				7E90AB4024E113F50092AF93 /* DetailHeaderLayout.swift in Sources */,
 				7E77798C24D50CFC00F79259 /* CoreLocationManager.swift in Sources */,
 				7E77796724D3AD9300F79259 /* AppDelegate.swift in Sources */,
 			);

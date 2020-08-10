@@ -27,15 +27,15 @@ class MainCollectionViewCell: UICollectionViewCell {
   }
   
   fileprivate let mkMapView: MKMapView = {
-    let mkMV = MKMapView()
-    mkMV.clipsToBounds = true
-    mkMV.layer.cornerRadius = 30
-    mkMV.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-    mkMV.isScrollEnabled = false
-    mkMV.isPitchEnabled = false
-    mkMV.isZoomEnabled = false
+    let mv = MKMapView()
+    mv.clipsToBounds = true
+    mv.layer.cornerRadius = 30
+    mv.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    mv.isScrollEnabled = false
+    mv.isPitchEnabled = false
+    mv.isZoomEnabled = false
     
-    return mkMV
+    return mv
   }()
   
   fileprivate let tripStartDateLabel: UILabel = {
