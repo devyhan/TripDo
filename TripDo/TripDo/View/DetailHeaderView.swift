@@ -38,6 +38,7 @@ class DetailHeaderView: UICollectionReusableView {
   fileprivate let titleLabel: UILabel = {
     let l = UILabel()
     l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+    l.textColor = Common.mainColor
     
     return l
   }()
@@ -45,6 +46,7 @@ class DetailHeaderView: UICollectionReusableView {
   fileprivate let dateLabel: UILabel = {
     let l = UILabel()
     l.font = UIFont.preferredFont(forTextStyle: .footnote)
+    l.textColor = Common.mainColor
     
     return l
   }()
