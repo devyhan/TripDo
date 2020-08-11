@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
   
   fileprivate lazy var collectionView: UICollectionView = {
     let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-    cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+    cv.register(DetailCellView.self, forCellWithReuseIdentifier: DetailCellView.identifier)
     cv.register(DetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DetailHeaderView.identifire)
     cv.backgroundColor = Common.subColor
     
@@ -92,8 +92,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-    cell.backgroundColor = .white
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCellView.identifier, for: indexPath)
     
     return cell
   }
@@ -115,6 +114,16 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     
     return .init(width: view.frame.width, height: view.frame.height / 1.85)
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension DetailViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    print("눌렀다")
+    let locationVC = LocationViewController()
+    present(locationVC, animated: true)
   }
 }
 

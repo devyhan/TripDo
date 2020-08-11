@@ -59,6 +59,10 @@ struct Common {
     case cancle = "multiply"
     case next = "chevron.right"
     case back = "chevron.left"
+    case uncheck = "circle"
+    case check = "largecircle.fill.circle"
+    case search = "magnifyingglass"
+    case reload = "arrow.counterclockwise"
   }
   
   static func shadowMaker(view: UIView) {
