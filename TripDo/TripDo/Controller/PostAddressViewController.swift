@@ -98,6 +98,7 @@ extension PostAddressViewController: WKScriptMessageHandler, WKNavigationDelegat
     }
     
     delegate?.postString(post)
+    delegate?.addressString(address)
     dismiss(animated: true, completion: nil)
   }
   

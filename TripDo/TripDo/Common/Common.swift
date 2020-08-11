@@ -63,6 +63,7 @@ struct Common {
     case check = "largecircle.fill.circle"
     case search = "magnifyingglass"
     case reload = "arrow.counterclockwise"
+    case checkMark = "checkmark"
   }
   
   static func shadowMaker(view: UIView) {

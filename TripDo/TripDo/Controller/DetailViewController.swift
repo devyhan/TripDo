@@ -51,7 +51,7 @@ class DetailViewController: UIViewController {
     getUserInfo()
     setUI()
   }
-
+  
   fileprivate func setUI() {
     let guid = view.safeAreaLayoutGuide
     
@@ -88,7 +88,17 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    2
+    guard let cellIndexPath = cellIndexPath else { return 0 }
+    
+    let format = DateFormatter()
+    format.dateFormat = "yyyy-M-dd"
+    
+    guard let startTime = format.date(from: userStartDate![cellIndexPath]) else { return 0 }
+    guard let endTime = format.date(from: userEndDate![cellIndexPath]) else { return 0 }
+    
+    let timeInterval = Double(endTime.timeIntervalSince(startTime))
+    
+    return Int(floor(timeInterval/86400) + 1)
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -123,6 +133,7 @@ extension DetailViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("눌렀다")
     let locationVC = LocationViewController()
+    locationVC.modalPresentationStyle = .fullScreen
     present(locationVC, animated: true)
   }
 }

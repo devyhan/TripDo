@@ -169,7 +169,7 @@ extension ViewController {
   }
   
   fileprivate func setNavigation() {
-    navigationItem.leftBarButtonItem = self.leftButton
+//    navigationItem.leftBarButtonItem = self.leftButton
     navigationItem.rightBarButtonItem = self.rightButton
     let navBar = self.navigationController?.navigationBar
     navBar?.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
