@@ -18,12 +18,14 @@ protocol PostAddressDelegate: class {
 class LocationViewController: UIViewController {
   
   var lastAddress = ""
+  var center: CLLocationCoordinate2D?
   
   fileprivate let mapView: MKMapView = {
     let mv = MKMapView()
     mv.isScrollEnabled = false
     mv.isPitchEnabled = false
     mv.isZoomEnabled = false
+    mv.isRotateEnabled = false
     
     return mv
   }()
@@ -127,19 +129,18 @@ extension LocationViewController: PostAddressDelegate {
   }
   
   func postString(_ data: String) {
-    
+
     lastAddress = data
     
     let geoCoder = CLGeocoder()
     geoCoder.geocodeAddressString(data) { (placemarks, error) in
-      print("\n---------- [ Geocode Address ] ----------\n")
       if let error = error {
         return print(error.localizedDescription)
       }
       guard let placemark = placemarks?.first,
         let coordinate = placemark.location?.coordinate
         else { return }
-      
+      self.center = coordinate
       let span = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
       let region = MKCoordinateRegion(center: coordinate, span: span)
       self.mapView.setRegion(region, animated: true)
@@ -154,9 +155,10 @@ extension LocationViewController: PostAddressDelegate {
 
 extension LocationViewController: MKMapViewDelegate {
   func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-    let center = mapView.centerCoordinate
-    addAnnotation(at: center, with: lastAddress)
-    addSquareOverlay(at: center)
+    if center != nil {
+      addAnnotation(at: center!, with: lastAddress)
+      addSquareOverlay(at: center!)
+    }
   }
   
   func addAnnotation(at center: CLLocationCoordinate2D, with title: String) {
@@ -169,7 +171,7 @@ extension LocationViewController: MKMapViewDelegate {
   
   func addSquareOverlay(at center: CLLocationCoordinate2D) {
     // 44000m = 44km
-    let circle = MKCircle(center: center, radius: 440)
+    let circle = MKCircle(center: center, radius: 880)
     mapView.addOverlay(circle)
   }
   
