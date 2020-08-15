@@ -15,7 +15,8 @@ class CoreDataManager {
   let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
   lazy var context = appDelegate?.persistentContainer.viewContext
   
-  let modelName: String = "UserInfo"
+  let userModelName: String = "UserInfo"
+  let taskModelName: String = "Task"
   
   func getUsers(ascending: Bool = false) -> [UserInfo] {
     var models: [UserInfo] = [UserInfo]()
@@ -23,7 +24,7 @@ class CoreDataManager {
     if let context = context {
       let idSort: NSSortDescriptor = NSSortDescriptor(key: "id", ascending: ascending)
       let fetchRequest: NSFetchRequest<NSManagedObject>
-        = NSFetchRequest<NSManagedObject>(entityName: modelName)
+        = NSFetchRequest<NSManagedObject>(entityName: userModelName)
       fetchRequest.sortDescriptors = [idSort]
       
       do {
@@ -31,17 +32,36 @@ class CoreDataManager {
           models = fetchResult
         }
       } catch let error as NSError {
-        print("Could not fetch🥺: \(error), \(error.userInfo)")
+        print("Could not fetch GetUsers😇: \(error), \(error.userInfo)")
+      }
+    }
+    return models
+  }
+  
+  func getTasks(ascending: Bool = false) -> [Task] {
+    var models: [Task] = [Task]()
+    
+    if let context = context {
+      let idSort: NSSortDescriptor = NSSortDescriptor(key: "taskId", ascending: ascending)
+      let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest<NSManagedObject>(entityName: taskModelName)
+      fetchRequest.sortDescriptors = [idSort]
+      
+      do {
+        if let fetchResult: [Task] = try context.fetch(fetchRequest) as? [Task] {
+          models = fetchResult
+        }
+      } catch let error as NSError {
+        print("Could not fetch GetTasks😇: \(error), \(error.userInfo)")
       }
     }
     return models
   }
   
   func saveUser(id: Int64, name: String,
-                age: Int64, startDate: String, endDate: String, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
+                age: Int64, startDate: String, endDate: String, task: NSSet, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
     if let context = context,
       let entity: NSEntityDescription
-      = NSEntityDescription.entity(forEntityName: modelName, in: context) {
+      = NSEntityDescription.entity(forEntityName: userModelName, in: context) {
       
       if let user: UserInfo = NSManagedObject(entity: entity, insertInto: context) as? UserInfo {
         user.id = id
@@ -49,6 +69,24 @@ class CoreDataManager {
         user.age = age
         user.startDate = startDate
         user.endDate = endDate
+        user.task = task
+        
+        contextSave { success in
+          onSuccess(success)
+        }
+      }
+    }
+  }
+  
+  func saveTask(taskId: Int64, address: String, post: String, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
+    if let context = context,
+      let entity: NSEntityDescription
+      = NSEntityDescription.entity(forEntityName: taskModelName, in: context) {
+      
+      if let task: Task = NSManagedObject(entity: entity, insertInto: context) as? Task {
+        task.taskId = taskId
+        task.address = address
+        task.post = post
         
         contextSave { success in
           onSuccess(success)
@@ -58,7 +96,7 @@ class CoreDataManager {
   }
   
   func deleteUser(id: Int64, onSuccess: @escaping ((Bool) -> Void)) {
-    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(id: id)
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = userFilteredRequest(id: id)
     
     do {
       if let results: [UserInfo] = try context?.fetch(fetchRequest) as? [UserInfo] {
@@ -75,13 +113,39 @@ class CoreDataManager {
       onSuccess(success)
     }
   }
+  
+  func deleteTask(taskId: Int64, onSuccess: @escaping ((Bool) -> Void)) {
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskFilteredRequest(taskId: taskId)
+    
+    do {
+      if let results: [Task] = try context?.fetch(fetchRequest) as? [Task] {
+        if results.count != 0 {
+          context?.delete(results[0])
+        }
+      }
+    } catch let error as NSError {
+      print("Could not fatch🥺: \(error), \(error.userInfo)")
+      onSuccess(false)
+    }
+    
+    contextSave { success in
+      onSuccess(success)
+    }
+  }
 }
 
 extension CoreDataManager {
-  fileprivate func filteredRequest(id: Int64) -> NSFetchRequest<NSFetchRequestResult> {
+  fileprivate func userFilteredRequest(id: Int64) -> NSFetchRequest<NSFetchRequestResult> {
     let fetchRequest: NSFetchRequest<NSFetchRequestResult>
-      = NSFetchRequest<NSFetchRequestResult>(entityName: modelName)
+      = NSFetchRequest<NSFetchRequestResult>(entityName: userModelName)
     fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+    return fetchRequest
+  }
+  
+  fileprivate func taskFilteredRequest(taskId: Int64) -> NSFetchRequest<NSFetchRequestResult> {
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult>
+      = NSFetchRequest<NSFetchRequestResult>(entityName: taskModelName)
+    fetchRequest.predicate = NSPredicate(format: "taskId = %@", NSNumber(value: taskId))
     return fetchRequest
   }
   

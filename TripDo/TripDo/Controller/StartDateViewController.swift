@@ -226,7 +226,8 @@ extension StartDateViewController {
 extension StartDateViewController {
   @objc fileprivate func backButtonDidTap() {
     print("dismissButtonDidTap")
-    deleteUserInfo(id: 1)
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    deleteUserInfo(id: Int64(userInfo.count) - 1)
     self.navigationController?.popViewController(animated: true)
   }
   
@@ -235,7 +236,23 @@ extension StartDateViewController {
     guard let getStartDate = selectionArray.sorted().first else { return }
     guard let getEndDate = selectionArray.sorted().last else { return }
     
-    saveUserInfo(id: 1, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate)
+    // Time Interval
+    let format = DateFormatter()
+    format.dateFormat = "yyyy-M-dd"
+    guard let startDate = format.date(from: getStartDate) else { return }
+    guard let endDate = format.date(from: getEndDate) else { return }
+    let timeInterval = Double(endDate.timeIntervalSince(startDate))
+    let taskCount = Int(floor(timeInterval/86400) + 1)
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    print("============", 1...taskCount)
+    
+    for _ in 1...taskCount {
+      saveTask(taskId: Int64(userInfo.count), address: "", post: "")
+    }
+    
+    saveUserInfo(id: Int64(userInfo.count), name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
+    
     self.navigationController?.popToRootViewController(animated: true)
     print("nextButtonDidTap")
   }
@@ -485,13 +502,24 @@ extension StartDateViewController {
 // MARK: - CoreData
 
 extension StartDateViewController {
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String) {
+  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String, task: [Any]) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
       name: name,
       age: age,
       startDate: startDate,
       endDate: endDate,
+      task: NSSet.init(array: task),
+      date: Date()) { (onSuccess) in
+        print("saved =", onSuccess)
+    }
+  }
+  
+  fileprivate func saveTask(taskId: Int64, address: String, post: String) {
+    CoreDataManager.coreDataShared.saveTask(
+      taskId: taskId,
+      address: address,
+      post: post,
       date: Date()) { (onSuccess) in
         print("saved =", onSuccess)
     }

@@ -17,6 +17,8 @@ class DetailViewController: UIViewController {
   var userEndDate: [String]?
   var cellIndexPath: Int?
   
+  var userTask: [Any]?
+  
   fileprivate let flowLayout: DetailHeaderLayout = {
     let fl = DetailHeaderLayout()
     fl.sectionInset = .init(top: 16, left: 16, bottom: 16, right: 16)
@@ -88,17 +90,19 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    guard let cellIndexPath = cellIndexPath else { return 0 }
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    userTask = userInfo.map { $0.task ?? [] }
+    let taskArray: [Int64] = task.map { $0.taskId }
+    let count = taskArray.filter({
+      print("************\n", $0)
+      return $0 == userInfo[cellIndexPath!].id
+    })
     
-    let format = DateFormatter()
-    format.dateFormat = "yyyy-M-dd"
+    print("userInfo:", (userId?.count ?? 0) - 1)
+    print("cellIndexPath:", userInfo[cellIndexPath!].id)
     
-    guard let startTime = format.date(from: userStartDate![cellIndexPath]) else { return 0 }
-    guard let endTime = format.date(from: userEndDate![cellIndexPath]) else { return 0 }
-    
-    let timeInterval = Double(endTime.timeIntervalSince(startTime))
-    
-    return Int(floor(timeInterval/86400) + 1)
+    return count.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
