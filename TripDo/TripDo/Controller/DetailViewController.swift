@@ -22,6 +22,7 @@ class DetailViewController: UIViewController {
   var taskId: [Int64]?
   var taskPost: [String]?
   var taskAddress: [String]?
+  var taskCheck: [Bool]?
   
   fileprivate let flowLayout: DetailHeaderLayout = {
     let fl = DetailHeaderLayout()
@@ -119,12 +120,24 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCellView.identifier, for: indexPath) as! DetailCellView
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+
+    let taskTemp = task.filter({
+      $0.taskId == userInfo[cellIndexPath!].id
+    })
     
     cell.countString = "\(indexPath.row + 1)일차"
-    cell.buttonCheck = task[indexPath.row].check
-    print("=====================// task\n")
+    cell.buttonCheck = taskCheck![indexPath.row]
+  
+    print("cellIndexPath:", cellIndexPath)
 
+    print("taskId ==============", taskTemp.map { $0.taskId } )
+    print("cellId ==============", taskTemp.map { $0.taskCellId } )
+    print("check ==============", taskTemp.map { $0.check } )
+    print("address ==============", taskTemp.map { $0.address } )
+    print("post ==============", taskTemp.map { $0.post } )
+    
     return cell
   }
   
@@ -152,7 +165,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 
 extension DetailViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-  let task: [Task] = CoreDataManager.coreDataShared.getTasks()
 //    let locationVC = LocationViewController()
 //    locationVC.modalPresentationStyle = .fullScreen
 //    locationVC.cellIndexPath = indexPath.row
@@ -160,9 +172,12 @@ extension DetailViewController: UICollectionViewDelegate {
       
 // 미완성
     let cellInitialVC = CellInitialViewController()
+    
     cellInitialVC.cellIndexPath = cellIndexPath
     cellInitialVC.viewIndexPath = indexPath.row
-    present(cellInitialVC, animated: true)
+    
+    cellInitialVC.modalPresentationStyle = .fullScreen
+    present(cellInitialVC, animated: false)
   }
 }
 
@@ -172,6 +187,9 @@ extension DetailViewController {
   fileprivate func getUserInfo() {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+    print("******************** \n", task.filter({
+      $0.taskId == 2
+    }))
     
     // get UserInfo
     userId = userInfo.map { $0.id }
@@ -183,6 +201,7 @@ extension DetailViewController {
     taskId = task.map { $0.taskId }
     taskAddress = task.map { $0.address ?? "nil" }
     taskPost = task.map { $0.post ?? "nil" }
+    taskCheck = task.map { $0.check }
     
     print("getUserId :", userId as Any)
     print("getUserInfo :", userName as Any)
@@ -195,5 +214,8 @@ extension DetailViewController {
     print("taskId :", taskId as Any)
     print("taskAddress :", taskAddress as Any)
     print("taskPost :", taskPost as Any)
+    print("taskCheck :", taskCheck as Any)
   }
+  
+  
 }

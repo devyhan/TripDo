@@ -50,6 +50,17 @@ class CellInitialViewController: UIViewController {
     return sc
   }()
   
+  fileprivate let floatingButton: UIButton = {
+    let b = UIButton()
+    b.backgroundColor = Common.subColor
+    b.setImage(UIImage(systemName: Common.SFSymbolKey.cancle.rawValue), for: .normal)
+    b.tintColor = Common.mainColor
+    b.addTarget(self, action: #selector(floatingButtonDidTap), for: .touchUpInside)
+    Common.shadowMaker(view: b)
+    
+    return b
+  }()
+  
   // MARK: - LifeCycle
   
   override func viewDidLoad() {
@@ -71,6 +82,8 @@ class CellInitialViewController: UIViewController {
   // MARK: - UI
   
   fileprivate func setUI() {
+    let guid = view.safeAreaLayoutGuide
+    
     segCon.frame = CGRect(
       x: view.center.x - 60,
       y: view.bounds.height - 160,
@@ -78,20 +91,28 @@ class CellInitialViewController: UIViewController {
       height: 30
     )
     
-    [preViewLabel, preView, segCon].forEach {
+    floatingButton.frame = CGRect(
+      x: view.bounds.maxX - 100,
+      y: view.bounds.height - 120,
+      width: 60,
+      height: 60
+    )
+    floatingButton.layer.cornerRadius = floatingButton.bounds.width / 2
+    
+    [preViewLabel, preView, segCon, floatingButton].forEach {
       view.addSubview($0)
     }
     
     preViewLabel.snp.makeConstraints {
-      $0.top.equalTo(20)
-      $0.trailing.equalTo(view)
-      $0.leading.equalTo(20)
+      $0.top.equalTo(guid).offset(20)
+      $0.trailing.equalTo(guid)
+      $0.leading.equalTo(guid).offset(20)
     }
     
     preView.snp.makeConstraints {
       $0.top.equalTo(preViewLabel.snp.bottom)
-      $0.trailing.equalTo(view)
-      $0.leading.equalTo(view)
+      $0.trailing.equalTo(guid)
+      $0.leading.equalTo(guid)
       $0.height.equalTo(view.frame.height / 3)
     }
   }
@@ -100,31 +121,40 @@ class CellInitialViewController: UIViewController {
   
   @objc func segconChanged(segcon: UISegmentedControl) {
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    print("userInfo[cellIndexPath!].id", userInfo[cellIndexPath!].id)
+    
     switch segcon.selectedSegmentIndex {
     case 0:
       print("true")
       CoreDataManager.coreDataShared.updateTask(
-        taskId: task[cellIndexPath!].taskId,
+        taskId: userInfo[cellIndexPath!].id,
         taskCellId: task[viewIndexPath!].taskCellId,
-        address: "",
+        address: "123",
         post: task[viewIndexPath!].post ?? "",
         check: true) { (onSuccess) in
-          print("Task Update =", onSuccess)
+//          print("Task Update =", onSuccess)
           print("check: ", task[self.viewIndexPath!].check)
-          print("taskId: ", task[self.cellIndexPath!].taskId)
+          print(task[self.cellIndexPath!].taskId)
+          print(task[self.viewIndexPath!].taskCellId)
       }
     default:
       print("false")
       CoreDataManager.coreDataShared.updateTask(
-        taskId: task[cellIndexPath!].taskId,
+        taskId: userInfo[cellIndexPath!].id,
         taskCellId: task[viewIndexPath!].taskCellId,
-        address: "dlasdfasdfasdf",
+        address: "",
         post: task[viewIndexPath!].post ?? "",
         check: false) { (onSuccess) in
-          print("Task Update =", onSuccess)
+//          print("Task Update =", onSuccess)
           print("check: ", task[self.viewIndexPath!].check)
-          print("taskId: ", task.map { $0.taskId } )
       }
     }
+  }
+  
+  @objc fileprivate func floatingButtonDidTap() {
+    print("floatingButtonDidTap")
+    
+    dismiss(animated: false)
   }
 }

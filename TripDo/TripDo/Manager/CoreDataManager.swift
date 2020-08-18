@@ -137,18 +137,22 @@ class CoreDataManager {
   
   func updateTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool, onSuccess: @escaping ((Bool) -> Void)) {
 
-    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskCellFilteredRequest(taskCellId: taskCellId)
-    print(fetchRequest.predicate!)
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskFilteredRequest(taskId: taskId)
+    
     do {
       if let results: [Task] = try context?.fetch(fetchRequest) as? [Task] {
-        if results.count != 0 {
-          let task = results[0] as NSManagedObject
-          task.setValue(address, forKey: "address")
-          task.setValue(post, forKey: "post")
-          task.setValue(check, forKey: "check")
-          print("print task ========= \n ", task)
-          contextSave { success in
-            onSuccess(success)
+        for i in 0...results.count - 1 {
+          if results[i].taskCellId == taskCellId {
+                    if results.count != 0 {
+              let task = results[i] as NSManagedObject
+              task.setValue(address, forKey: "address")
+              task.setValue(post, forKey: "post")
+              task.setValue(check, forKey: "check")
+              print("print task ========= \n ", results[i].taskCellId == taskCellId)
+              contextSave { success in
+                onSuccess(success)
+              }
+            }
           }
         }
       }

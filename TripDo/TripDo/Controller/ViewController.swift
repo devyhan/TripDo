@@ -308,7 +308,7 @@ extension ViewController: UICollectionViewDelegate {
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("didSelectItemAt", indexPath)
+    print("didSelectItemAt", indexPath.row)
     
     let detailVC = DetailViewController()
     detailVC.modalPresentationStyle = .fullScreen
