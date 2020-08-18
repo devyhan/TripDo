@@ -78,15 +78,17 @@ class CoreDataManager {
     }
   }
   
-  func saveTask(taskId: Int64, address: String, post: String, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
+  func saveTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
     if let context = context,
       let entity: NSEntityDescription
       = NSEntityDescription.entity(forEntityName: taskModelName, in: context) {
       
       if let task: Task = NSManagedObject(entity: entity, insertInto: context) as? Task {
         task.taskId = taskId
+        task.taskCellId = taskCellId
         task.address = address
         task.post = post
+        task.check = check
         
         contextSave { success in
           onSuccess(success)
@@ -132,6 +134,29 @@ class CoreDataManager {
       onSuccess(success)
     }
   }
+  
+  func updateTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool, onSuccess: @escaping ((Bool) -> Void)) {
+
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskCellFilteredRequest(taskCellId: taskCellId)
+    print(fetchRequest.predicate!)
+    do {
+      if let results: [Task] = try context?.fetch(fetchRequest) as? [Task] {
+        if results.count != 0 {
+          let task = results[0] as NSManagedObject
+          task.setValue(address, forKey: "address")
+          task.setValue(post, forKey: "post")
+          task.setValue(check, forKey: "check")
+          print("print task ========= \n ", task)
+          contextSave { success in
+            onSuccess(success)
+          }
+        }
+      }
+    } catch let error as NSError {
+      print("Could not fatch🥺: \(error), \(error.userInfo)")
+      onSuccess(false)
+    }
+  }
 }
 
 extension CoreDataManager {
@@ -146,6 +171,13 @@ extension CoreDataManager {
     let fetchRequest: NSFetchRequest<NSFetchRequestResult>
       = NSFetchRequest<NSFetchRequestResult>(entityName: taskModelName)
     fetchRequest.predicate = NSPredicate(format: "taskId = %@", NSNumber(value: taskId))
+    return fetchRequest
+  }
+  
+  fileprivate func taskCellFilteredRequest(taskCellId: Int64) -> NSFetchRequest<NSFetchRequestResult> {
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult>
+      = NSFetchRequest<NSFetchRequestResult>(entityName: taskModelName)
+    fetchRequest.predicate = NSPredicate(format: "taskCellId = %@", NSNumber(value: taskCellId))
     return fetchRequest
   }
   

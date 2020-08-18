@@ -2,7 +2,9 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="check" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="post" optional="YES" attributeType="String"/>
+        <attribute name="taskCellId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="taskId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="userInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" inverseName="task" inverseEntity="UserInfo"/>
     </entity>
@@ -15,7 +17,7 @@
         <relationship name="task" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="userInfo" inverseEntity="Task"/>
     </entity>
     <elements>
-        <element name="Task" positionX="-45" positionY="36" width="128" height="103"/>
+        <element name="Task" positionX="-45" positionY="36" width="128" height="133"/>
         <element name="UserInfo" positionX="-249.078125" positionY="-130.72265625" width="128" height="133"/>
     </elements>
 </model>

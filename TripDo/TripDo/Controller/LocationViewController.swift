@@ -18,6 +18,7 @@ protocol PostAddressDelegate: class {
 class LocationViewController: UIViewController {
   
   var lastAddress = ""
+  var cellIndexPath: Int?
   
   fileprivate let mapView: MKMapView = {
     let mv = MKMapView()
@@ -143,7 +144,6 @@ extension LocationViewController: PostAddressDelegate {
       let region = MKCoordinateRegion(center: coordinate, span: span)
       self.mapView.setRegion(region, animated: true)
     }
-    
     floatingCheckButton.isEnabled = true
     floatingCheckButton.alpha = 1
   }
@@ -154,8 +154,10 @@ extension LocationViewController: PostAddressDelegate {
 extension LocationViewController: MKMapViewDelegate {
   func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
     let center = mapView.centerCoordinate
-    addAnnotation(at: center, with: lastAddress)
-    addSquareOverlay(at: center)
+    if lastAddress != "" {
+      addAnnotation(at: center, with: lastAddress)
+      addSquareOverlay(at: center)
+    }
   }
   
   func addAnnotation(at center: CLLocationCoordinate2D, with title: String) {
@@ -179,5 +181,21 @@ extension LocationViewController: MKMapViewDelegate {
     renderer.lineWidth = 3
     
     return renderer
+  }
+}
+
+// MARK: - CoreData
+
+extension LocationViewController {
+  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool) {
+    CoreDataManager.coreDataShared.saveTask(
+      taskId: taskId,
+      taskCellId: taskCellId,
+      address: address,
+      post: post,
+      check: check,
+      date: Date()) { (onSuccess) in
+        print("savedTask =", onSuccess)
+    }
   }
 }

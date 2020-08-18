@@ -1,7 +1,6 @@
 
 import Foundation
 
-
 let date = Date()
 let calendar = Calendar.current
 

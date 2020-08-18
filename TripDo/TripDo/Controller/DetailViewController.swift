@@ -11,13 +11,17 @@ import SnapKit
 
 class DetailViewController: UIViewController {
   
+  var cellIndexPath: Int?
+  
   var userId: [Int64]?
   var userName: [String]?
   var userStartDate: [String]?
   var userEndDate: [String]?
-  var cellIndexPath: Int?
-  
   var userTask: [Any]?
+  
+  var taskId: [Int64]?
+  var taskPost: [String]?
+  var taskAddress: [String]?
   
   fileprivate let flowLayout: DetailHeaderLayout = {
     let fl = DetailHeaderLayout()
@@ -46,12 +50,22 @@ class DetailViewController: UIViewController {
     return b
   }()
   
+  // MARK: - LifeCycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = Common.subColor
     
     getUserInfo()
     setUI()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    
+    print("DetailViewController - viewWillAppear")
+    collectionView.reloadData()
+    getUserInfo()
   }
   
   fileprivate func setUI() {
@@ -95,20 +109,22 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     userTask = userInfo.map { $0.task ?? [] }
     let taskArray: [Int64] = task.map { $0.taskId }
     let count = taskArray.filter({
-      print("************\n", $0)
-      return $0 == userInfo[cellIndexPath!].id
+      $0 == userInfo[cellIndexPath!].id
     })
     
-    print("userInfo:", (userId?.count ?? 0) - 1)
-    print("cellIndexPath:", userInfo[cellIndexPath!].id)
+    print("========count", count)
     
     return count.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCellView.identifier, for: indexPath) as! DetailCellView
-    cell.countString = "\(indexPath.row + 1)일차"
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     
+    cell.countString = "\(indexPath.row + 1)일차"
+    cell.buttonCheck = task[indexPath.row].check
+    print("=====================// task\n")
+
     return cell
   }
   
@@ -136,10 +152,17 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 
 extension DetailViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("눌렀다")
-    let locationVC = LocationViewController()
-    locationVC.modalPresentationStyle = .fullScreen
-    present(locationVC, animated: true)
+  let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+//    let locationVC = LocationViewController()
+//    locationVC.modalPresentationStyle = .fullScreen
+//    locationVC.cellIndexPath = indexPath.row
+//    present(locationVC, animated: true)
+      
+// 미완성
+    let cellInitialVC = CellInitialViewController()
+    cellInitialVC.cellIndexPath = cellIndexPath
+    cellInitialVC.viewIndexPath = indexPath.row
+    present(cellInitialVC, animated: true)
   }
 }
 
@@ -148,14 +171,29 @@ extension DetailViewController: UICollectionViewDelegate {
 extension DetailViewController {
   fileprivate func getUserInfo() {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+    
+    // get UserInfo
     userId = userInfo.map { $0.id }
     userName = userInfo.map { $0.name ?? "nil" }
     userStartDate = userInfo.map { $0.startDate ?? "nil" }
     userEndDate = userInfo.map { $0.endDate ?? "nil" }
     
+    // get Task
+    taskId = task.map { $0.taskId }
+    taskAddress = task.map { $0.address ?? "nil" }
+    taskPost = task.map { $0.post ?? "nil" }
+    
     print("getUserId :", userId as Any)
     print("getUserInfo :", userName as Any)
     print("getUserStartDate :", userStartDate as Any)
     print("getUserEndDate :", userEndDate as Any)
+    
+    // =================================================
+    print("========================================")
+    
+    print("taskId :", taskId as Any)
+    print("taskAddress :", taskAddress as Any)
+    print("taskPost :", taskPost as Any)
   }
 }

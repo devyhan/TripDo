@@ -18,6 +18,15 @@ class DetailCellView: UICollectionViewCell {
     }
   }
   
+  var buttonCheck: Bool? {
+    didSet {
+      if buttonCheck == true {
+          checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal)
+      }
+      checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
+    }
+  }
+  
   fileprivate let checkView: UIView = {
     let v = UIView()
     
@@ -26,7 +35,6 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let checkButton: UIButton = {
     let b = UIButton()
-    b.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal)
     b.addTarget(self, action: #selector(didTabButtons), for: .touchUpInside)
     b.tintColor = Common.mainColor
     

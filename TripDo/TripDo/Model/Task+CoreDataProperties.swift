@@ -17,7 +17,9 @@ extension Task {
     }
 
     @NSManaged public var taskId: Int64
+    @NSManaged public var taskCellId: Int64
     @NSManaged public var post: String?
+    @NSManaged public var check: Bool
     @NSManaged public var address: String?
     @NSManaged public var userInfo: UserInfo?
 

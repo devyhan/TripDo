@@ -245,10 +245,10 @@ extension StartDateViewController {
     let taskCount = Int(floor(timeInterval/86400) + 1)
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
-    print("============", 1...taskCount)
     
-    for _ in 1...taskCount {
-      saveTask(taskId: Int64(userInfo.count), address: "", post: "")
+    for i in 1...taskCount {
+      saveTask(taskId: Int64(userInfo.count), taskCellId: Int64(i), address: "", post: "", check: false)
+      print("=====================// StartDateViewController i\n", i)
     }
     
     saveUserInfo(id: Int64(userInfo.count), name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
@@ -292,7 +292,7 @@ extension StartDateViewController {
   
   @objc fileprivate func didTapYearBackButton() {
     if currentMonth == nowDate {
-      showAlert(alertText: "과거 여행을 하려구 ?", alertMessage: "응, 안돼")
+      showAlert(alertText: "error", alertMessage: "과거로의 여행은 불가능 합니다.")
     } else {
       switch currentMonth {
       case "1":
@@ -511,23 +511,25 @@ extension StartDateViewController {
       endDate: endDate,
       task: NSSet.init(array: task),
       date: Date()) { (onSuccess) in
-        print("saved =", onSuccess)
+        print("savedUser =", onSuccess)
     }
   }
   
-  fileprivate func saveTask(taskId: Int64, address: String, post: String) {
+  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool) {
     CoreDataManager.coreDataShared.saveTask(
       taskId: taskId,
+      taskCellId: taskCellId,
       address: address,
       post: post,
+      check: check,
       date: Date()) { (onSuccess) in
-        print("saved =", onSuccess)
+        print("savedTask =", onSuccess)
     }
   }
   
   fileprivate func deleteUserInfo(id: Int64) {
     CoreDataManager.coreDataShared.deleteUser(id: id) { (onSuccess) in
-      print("delete =", onSuccess)
+      print("deleteUser =", onSuccess)
     }
   }
 }

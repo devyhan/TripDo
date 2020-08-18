@@ -17,7 +17,6 @@ class ViewController: UIViewController {
   var userName: [String]?
   var userStartDate: [String]?
   var userEndDate: [String]?
-  var userTask: [Any]?
   var currentIndex: CGFloat = 0
   var isOneStepPaging = true
   
@@ -107,11 +106,6 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     mainCollectionView.delegate = self
-    
-    
-    CoreDataManager.coreDataShared.deleteTask(taskId: 3) { (onSuccess) in
-         print("delete =", onSuccess)
-    }
     //    deleteUserInfo(id: 0)
     //    saveUserInfo(id: 1, name: "devyhan", age: 123)
     getUserInfo()
@@ -229,23 +223,15 @@ extension ViewController {
 extension ViewController {
   fileprivate func getUserInfo() {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
-    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     userId = userInfo.map { $0.id }
     userName = userInfo.map { $0.name ?? "nil" }
     userStartDate = userInfo.map { $0.startDate ?? "nil" }
     userEndDate = userInfo.map { $0.endDate ?? "nil" }
-    userTask = userInfo.map { $0.task ?? [] }
     
     print("getUserId :", userId as Any)
     print("getUserInfo :", userName as Any)
     print("getUserStartDate :", userStartDate as Any)
     print("getUserEndDate :", userEndDate as Any)
-    
-    print("getUserTask :", userTask?.count)
-    let testArray: [Int64] = task.map { $0.taskId }
-    print("=============\nTask\n",  testArray.filter({
-      $0 == 0
-    }))
   }
   
   fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String, task: NSSet) {
@@ -327,7 +313,6 @@ extension ViewController: UICollectionViewDelegate {
     let detailVC = DetailViewController()
     detailVC.modalPresentationStyle = .fullScreen
     detailVC.cellIndexPath = indexPath.row
-    print("index=========", indexPath)
     present(detailVC, animated: false)
 //    navigationController?.pushViewController(cardVC, animated: true)
   }

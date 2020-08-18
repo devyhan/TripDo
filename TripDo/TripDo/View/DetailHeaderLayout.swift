@@ -16,8 +16,6 @@ class DetailHeaderLayout: UICollectionViewFlowLayout {
       if $0.representedElementKind == UICollectionView.elementKindSectionHeader && $0.indexPath.section == 0 {
         guard let collectionView = collectionView else { return }
         let contentOffsetY = collectionView.contentOffset.y
-        let contentOffsetX = collectionView.contentOffset.x
-        print(contentOffsetX)
         if contentOffsetY > 0 {
           return
         }

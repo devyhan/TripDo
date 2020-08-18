@@ -34,8 +34,20 @@
 		7E90AB8F24E657640092AF93 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB8B24E657640092AF93 /* Task+CoreDataClass.swift */; };
 		7E90AB9024E657640092AF93 /* UserInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB8A24E657640092AF93 /* UserInfo+CoreDataClass.swift */; };
 		7ECBAE2C24D97EAD001A6388 /* CalenderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECBAE2B24D97EAD001A6388 /* CalenderCollectionViewCell.swift */; };
+		7EE940F124E8BCE4001DC7B2 /* TripDoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE940F024E8BCE4001DC7B2 /* TripDoUITests.swift */; };
+		7EE940F924EAC69F001DC7B2 /* CellInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE940F824EAC69F001DC7B2 /* CellInitialViewController.swift */; };
 		E63926D9AE6469CEACE65EF3 /* Pods_TripDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F767790C61C67462B16C3D62 /* Pods_TripDo.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7EE940F324E8BCE4001DC7B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7E77795B24D3AD9300F79259 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E77796224D3AD9300F79259;
+			remoteInfo = TripDo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		48BDEBB8F97A9BE4C0ED665B /* Pods-TripDo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripDo.debug.xcconfig"; path = "Target Support Files/Pods-TripDo/Pods-TripDo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -67,6 +79,10 @@
 		7E90AB8B24E657640092AF93 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Task+CoreDataClass.swift"; path = "/Users/YHAN/Documents/dev/project/TripDo/TripDo/Model/Task+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		7E90AB8C24E657640092AF93 /* UserInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UserInfo+CoreDataProperties.swift"; path = "/Users/YHAN/Documents/dev/project/TripDo/TripDo/Model/UserInfo+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		7ECBAE2B24D97EAD001A6388 /* CalenderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCollectionViewCell.swift; sourceTree = "<group>"; };
+		7EE940EE24E8BCE4001DC7B2 /* TripDoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripDoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EE940F024E8BCE4001DC7B2 /* TripDoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDoUITests.swift; sourceTree = "<group>"; };
+		7EE940F224E8BCE4001DC7B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7EE940F824EAC69F001DC7B2 /* CellInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellInitialViewController.swift; sourceTree = "<group>"; };
 		C475CA7C09A9831E4D6B9BF4 /* Pods-TripDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripDo.release.xcconfig"; path = "Target Support Files/Pods-TripDo/Pods-TripDo.release.xcconfig"; sourceTree = "<group>"; };
 		F767790C61C67462B16C3D62 /* Pods_TripDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -78,6 +94,13 @@
 			files = (
 				7E77797C24D3AEBF00F79259 /* SnapKit in Frameworks */,
 				E63926D9AE6469CEACE65EF3 /* Pods_TripDo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE940EB24E8BCE4001DC7B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				7E77796524D3AD9300F79259 /* TripDo */,
+				7EE940EF24E8BCE4001DC7B2 /* TripDoUITests */,
 				7E77796424D3AD9300F79259 /* Products */,
 				7815AE32A6D3EAF443991D8F /* Pods */,
 				15745645005FD870109B6471 /* Frameworks */,
@@ -115,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				7E77796324D3AD9300F79259 /* TripDo.app */,
+				7EE940EE24E8BCE4001DC7B2 /* TripDoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,6 +190,7 @@
 				7E90AB3B24E0E7BC0092AF93 /* DetailViewController.swift */,
 				7E90AB4324E1A35E0092AF93 /* LocationViewController.swift */,
 				7E90AB4524E283B20092AF93 /* PostAddressViewController.swift */,
+				7EE940F824EAC69F001DC7B2 /* CellInitialViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -217,6 +243,15 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		7EE940EF24E8BCE4001DC7B2 /* TripDoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7EE940F024E8BCE4001DC7B2 /* TripDoUITests.swift */,
+				7EE940F224E8BCE4001DC7B2 /* Info.plist */,
+			);
+			path = TripDoUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -242,6 +277,24 @@
 			productReference = 7E77796324D3AD9300F79259 /* TripDo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		7EE940ED24E8BCE4001DC7B2 /* TripDoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EE940F724E8BCE4001DC7B2 /* Build configuration list for PBXNativeTarget "TripDoUITests" */;
+			buildPhases = (
+				7EE940EA24E8BCE4001DC7B2 /* Sources */,
+				7EE940EB24E8BCE4001DC7B2 /* Frameworks */,
+				7EE940EC24E8BCE4001DC7B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7EE940F424E8BCE4001DC7B2 /* PBXTargetDependency */,
+			);
+			name = TripDoUITests;
+			productName = TripDoUITests;
+			productReference = 7EE940EE24E8BCE4001DC7B2 /* TripDoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -254,6 +307,10 @@
 				TargetAttributes = {
 					7E77796224D3AD9300F79259 = {
 						CreatedOnToolsVersion = 11.6;
+					};
+					7EE940ED24E8BCE4001DC7B2 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 7E77796224D3AD9300F79259;
 					};
 				};
 			};
@@ -274,6 +331,7 @@
 			projectRoot = "";
 			targets = (
 				7E77796224D3AD9300F79259 /* TripDo */,
+				7EE940ED24E8BCE4001DC7B2 /* TripDoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -286,6 +344,13 @@
 				7E77797324D3AD9400F79259 /* LaunchScreen.storyboard in Resources */,
 				7E77798F24D53F3500F79259 /* GoogleService-Info.plist in Resources */,
 				7E77797024D3AD9400F79259 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EE940EC24E8BCE4001DC7B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +406,7 @@
 				7ECBAE2C24D97EAD001A6388 /* CalenderCollectionViewCell.swift in Sources */,
 				7E7D495524D5676000701581 /* Extension.swift in Sources */,
 				7E7D495924D5B6FD00701581 /* StartDateViewController.swift in Sources */,
+				7EE940F924EAC69F001DC7B2 /* CellInitialViewController.swift in Sources */,
 				7E7D495224D562F200701581 /* Common.swift in Sources */,
 				7E90AB3E24E10DE20092AF93 /* DetailHeaderView.swift in Sources */,
 				7E7C358424DE6AF8008D92B1 /* SettingViewController.swift in Sources */,
@@ -364,7 +430,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7EE940EA24E8BCE4001DC7B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EE940F124E8BCE4001DC7B2 /* TripDoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7EE940F424E8BCE4001DC7B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E77796224D3AD9300F79259 /* TripDo */;
+			targetProxy = 7EE940F324E8BCE4001DC7B2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7E77797124D3AD9400F79259 /* LaunchScreen.storyboard */ = {
@@ -532,6 +614,44 @@
 			};
 			name = Release;
 		};
+		7EE940F524E8BCE4001DC7B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X6LA4P7TFP;
+				INFOPLIST_FILE = TripDoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.devyhan93.TripDoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TripDo;
+			};
+			name = Debug;
+		};
+		7EE940F624E8BCE4001DC7B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X6LA4P7TFP;
+				INFOPLIST_FILE = TripDoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.devyhan93.TripDoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TripDo;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -549,6 +669,15 @@
 			buildConfigurations = (
 				7E77797824D3AD9400F79259 /* Debug */,
 				7E77797924D3AD9400F79259 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7EE940F724E8BCE4001DC7B2 /* Build configuration list for PBXNativeTarget "TripDoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EE940F524E8BCE4001DC7B2 /* Debug */,
+				7EE940F624E8BCE4001DC7B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
