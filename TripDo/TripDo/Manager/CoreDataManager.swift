@@ -136,14 +136,14 @@ class CoreDataManager {
   }
   
   func updateTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool, onSuccess: @escaping ((Bool) -> Void)) {
-
+    
     let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskFilteredRequest(taskId: taskId)
     
     do {
       if let results: [Task] = try context?.fetch(fetchRequest) as? [Task] {
         for i in 0...results.count - 1 {
           if results[i].taskCellId == taskCellId {
-                    if results.count != 0 {
+            if results.count != 0 {
               let task = results[i] as NSManagedObject
               task.setValue(address, forKey: "address")
               task.setValue(post, forKey: "post")
@@ -175,13 +175,6 @@ extension CoreDataManager {
     let fetchRequest: NSFetchRequest<NSFetchRequestResult>
       = NSFetchRequest<NSFetchRequestResult>(entityName: taskModelName)
     fetchRequest.predicate = NSPredicate(format: "taskId = %@", NSNumber(value: taskId))
-    return fetchRequest
-  }
-  
-  fileprivate func taskCellFilteredRequest(taskCellId: Int64) -> NSFetchRequest<NSFetchRequestResult> {
-    let fetchRequest: NSFetchRequest<NSFetchRequestResult>
-      = NSFetchRequest<NSFetchRequestResult>(entityName: taskModelName)
-    fetchRequest.predicate = NSPredicate(format: "taskCellId = %@", NSNumber(value: taskCellId))
     return fetchRequest
   }
   

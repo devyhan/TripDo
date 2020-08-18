@@ -20,10 +20,9 @@ class DetailCellView: UICollectionViewCell {
   
   var buttonCheck: Bool? {
     didSet {
-      if buttonCheck == true {
-          checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal)
-      }
-      checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
+      buttonCheck == true ?
+        checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal):
+        checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
     }
   }
   

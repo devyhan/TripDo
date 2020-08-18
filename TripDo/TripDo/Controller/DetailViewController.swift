@@ -126,11 +126,12 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let taskTemp = task.filter({
       $0.taskId == userInfo[cellIndexPath!].id
     })
+    let checktemp = taskTemp.map { $0.check }
+    
+    print("taskTemp:", checktemp[0] )
     
     cell.countString = "\(indexPath.row + 1)일차"
-    cell.buttonCheck = taskCheck![indexPath.row]
-  
-    print("cellIndexPath:", cellIndexPath)
+    cell.buttonCheck = checktemp[indexPath.row]
 
     print("taskId ==============", taskTemp.map { $0.taskId } )
     print("cellId ==============", taskTemp.map { $0.taskCellId } )
