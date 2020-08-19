@@ -126,18 +126,24 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let taskTemp = task.filter({
       $0.taskId == userInfo[cellIndexPath!].id
     })
-    let checktemp = taskTemp.map { $0.check }
     
-    print("taskTemp:", checktemp[0] )
+    let checkTemp = taskTemp.map { $0.check }
+    let titleTemp = taskTemp.map { $0.address }
+    
+    print("taskTemp:", checkTemp[0] )
     
     cell.countString = "\(indexPath.row + 1)일차"
-    cell.buttonCheck = checktemp[indexPath.row]
+    
+    cell.addressString = titleTemp[indexPath.row]
+    cell.buttonCheck = checkTemp[indexPath.row]
 
     print("taskId ==============", taskTemp.map { $0.taskId } )
     print("cellId ==============", taskTemp.map { $0.taskCellId } )
     print("check ==============", taskTemp.map { $0.check } )
-    print("address ==============", taskTemp.map { $0.address } )
-    print("post ==============", taskTemp.map { $0.post } )
+    print("date ==============", taskTemp.map { $0.date! } )
+    print("title ==============", taskTemp.map { $0.title! } )
+    print("address ==============", taskTemp.map { $0.address! } )
+    print("post ==============", taskTemp.map { $0.post! } )
     
     return cell
   }
@@ -188,9 +194,6 @@ extension DetailViewController {
   fileprivate func getUserInfo() {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
-    print("******************** \n", task.filter({
-      $0.taskId == 2
-    }))
     
     // get UserInfo
     userId = userInfo.map { $0.id }
@@ -209,7 +212,6 @@ extension DetailViewController {
     print("getUserStartDate :", userStartDate as Any)
     print("getUserEndDate :", userEndDate as Any)
     
-    // =================================================
     print("========================================")
     
     print("taskId :", taskId as Any)
@@ -217,6 +219,4 @@ extension DetailViewController {
     print("taskPost :", taskPost as Any)
     print("taskCheck :", taskCheck as Any)
   }
-  
-  
 }

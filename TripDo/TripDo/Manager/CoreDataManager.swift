@@ -78,7 +78,7 @@ class CoreDataManager {
     }
   }
   
-  func saveTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
+  func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String, onSuccess: @escaping ((Bool) -> Void)) {
     if let context = context,
       let entity: NSEntityDescription
       = NSEntityDescription.entity(forEntityName: taskModelName, in: context) {
@@ -86,9 +86,11 @@ class CoreDataManager {
       if let task: Task = NSManagedObject(entity: entity, insertInto: context) as? Task {
         task.taskId = taskId
         task.taskCellId = taskCellId
-        task.address = address
-        task.post = post
         task.check = check
+        task.date = date
+        task.title = title
+        task.post = post
+        task.address = address
         
         contextSave { success in
           onSuccess(success)

@@ -24,7 +24,7 @@ class CellInitialViewController: UIViewController {
     }
   }
   
-  let array: [String] = ["미완료", "완료"]
+  let array: [String] = ["완료", "미완료"]
   
   fileprivate let preViewLabel: UILabel = {
     let l = UILabel()
@@ -45,6 +45,7 @@ class CellInitialViewController: UIViewController {
     let sc: UISegmentedControl = UISegmentedControl(items: array)
     sc.backgroundColor = Common.mainColor.withAlphaComponent(0.7)
     sc.selectedSegmentTintColor = Common.subColor
+//    sc.selectedSegmentIndex = 1
     sc.addTarget(self, action: #selector(segconChanged(segcon:)), for: UIControl.Event.valueChanged)
     
     return sc
@@ -122,7 +123,6 @@ class CellInitialViewController: UIViewController {
   @objc func segconChanged(segcon: UISegmentedControl) {
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
-    print("userInfo[cellIndexPath!].id", userInfo[cellIndexPath!].id)
     
     switch segcon.selectedSegmentIndex {
     case 0:
@@ -130,23 +130,19 @@ class CellInitialViewController: UIViewController {
       CoreDataManager.coreDataShared.updateTask(
         taskId: userInfo[cellIndexPath!].id,
         taskCellId: task[viewIndexPath!].taskCellId,
-        address: "123",
+        address: task[viewIndexPath!].address ?? "",
         post: task[viewIndexPath!].post ?? "",
         check: true) { (onSuccess) in
-//          print("Task Update =", onSuccess)
           print("check: ", task[self.viewIndexPath!].check)
-          print(task[self.cellIndexPath!].taskId)
-          print(task[self.viewIndexPath!].taskCellId)
       }
     default:
       print("false")
       CoreDataManager.coreDataShared.updateTask(
         taskId: userInfo[cellIndexPath!].id,
         taskCellId: task[viewIndexPath!].taskCellId,
-        address: "",
+        address: task[viewIndexPath!].address ?? "",
         post: task[viewIndexPath!].post ?? "",
         check: false) { (onSuccess) in
-//          print("Task Update =", onSuccess)
           print("check: ", task[self.viewIndexPath!].check)
       }
     }

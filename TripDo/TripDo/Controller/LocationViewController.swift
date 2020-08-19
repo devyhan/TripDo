@@ -187,14 +187,15 @@ extension LocationViewController: MKMapViewDelegate {
 // MARK: - CoreData
 
 extension LocationViewController {
-  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool) {
+  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String) {
     CoreDataManager.coreDataShared.saveTask(
       taskId: taskId,
       taskCellId: taskCellId,
-      address: address,
-      post: post,
       check: check,
-      date: Date()) { (onSuccess) in
+      date: date,
+      title: title,
+      post: post,
+      address: address) { (onSuccess) in
         print("savedTask =", onSuccess)
     }
   }

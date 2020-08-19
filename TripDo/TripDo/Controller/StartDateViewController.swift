@@ -242,13 +242,15 @@ extension StartDateViewController {
     guard let startDate = format.date(from: getStartDate) else { return }
     guard let endDate = format.date(from: getEndDate) else { return }
     let timeInterval = Double(endDate.timeIntervalSince(startDate))
-    let taskCount = Int(floor(timeInterval/86400) + 1)
+    let taskCount = Int(floor(timeInterval / 86400) + 1)
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
-    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()    
     
     for i in 1...taskCount {
-      saveTask(taskId: Int64(userInfo.count), taskCellId: Int64(i), address: "", post: "", check: false)
-      print("=====================// StartDateViewController i\n", i)
+      let dateFormat = DateFormatter()
+      dateFormat.dateFormat = "M월 dd일"
+      let date = dateFormat.string(from: Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + Double(86400 * (i - 1))))
+      saveTask(taskId: Int64(userInfo.count), taskCellId: Int64(i), check: false, date: date, title: "", post: "", address: "")
     }
     
     saveUserInfo(id: Int64(userInfo.count), name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
@@ -515,14 +517,15 @@ extension StartDateViewController {
     }
   }
   
-  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool) {
+  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String) {
     CoreDataManager.coreDataShared.saveTask(
       taskId: taskId,
       taskCellId: taskCellId,
-      address: address,
-      post: post,
       check: check,
-      date: Date()) { (onSuccess) in
+      date: date,
+      title: title,
+      post: post,
+      address: address) { (onSuccess) in
         print("savedTask =", onSuccess)
     }
   }

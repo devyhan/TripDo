@@ -26,6 +26,18 @@ class DetailCellView: UICollectionViewCell {
     }
   }
   
+  var dateString: String? {
+    didSet {
+      dateLabel.text = dateString
+    }
+  }
+  
+  var addressString: String? {
+    didSet {
+      addressLabel.text = addressString
+    }
+  }
+  
   fileprivate let checkView: UIView = {
     let v = UIView()
     
@@ -50,7 +62,7 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let dateLabel: UILabel = {
     let l = UILabel()
-    l.text = "8월 24일"
+    l.text = "초기 설정이 필요합니다"
     l.font = UIFont.preferredFont(forTextStyle: .footnote)
     l.textColor = Common.mainColor
     
@@ -59,7 +71,7 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let titleLabel: UILabel = {
     let l = UILabel()
-    l.text = "임실 치즈 테마파크"
+    l.text = "제목에 대한 초기 설정이 필요합니다"
     l.font = UIFont.preferredFont(forTextStyle: .title2)
     l.textColor = Common.mainColor
     
@@ -68,7 +80,7 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let addressLabel: UILabel = {
     let l = UILabel()
-    l.text = "전라북도 임실군 성수면 도인2길 50"
+    l.text = "주소에 대한 초기 설정이 필요합니다"
     l.font = UIFont.preferredFont(forTextStyle: .body)
     l.textColor = Common.mainColor.withAlphaComponent(0.7)
     
