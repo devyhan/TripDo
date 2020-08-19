@@ -129,11 +129,12 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     
     let checkTemp = taskTemp.map { $0.check }
     let titleTemp = taskTemp.map { $0.address }
+    let dateTemp = taskTemp.map { $0.date }
     
     print("taskTemp:", checkTemp[0] )
     
     cell.countString = "\(indexPath.row + 1)일차"
-    
+    cell.dateString = dateTemp[indexPath.row]
     cell.addressString = titleTemp[indexPath.row]
     cell.buttonCheck = checkTemp[indexPath.row]
 
