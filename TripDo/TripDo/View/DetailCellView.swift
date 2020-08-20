@@ -34,6 +34,12 @@ class DetailCellView: UICollectionViewCell {
     }
   }
   
+  var titleString: String? {
+    didSet {
+      titleLabel.text = titleString
+    }
+  }
+  
   var addressString: String? {
     didSet {
       addressLabel.text = addressString
@@ -64,7 +70,6 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let dateLabel: UILabel = {
     let l = UILabel()
-    l.text = "초기 설정이 필요합니다"
     l.font = UIFont.preferredFont(forTextStyle: .footnote)
     l.textColor = Common.mainColor
     
@@ -73,7 +78,6 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let titleLabel: UILabel = {
     let l = UILabel()
-    l.text = "제목에 대한 초기 설정이 필요합니다"
     l.font = UIFont.preferredFont(forTextStyle: .title2)
     l.textColor = Common.mainColor
     
@@ -82,7 +86,6 @@ class DetailCellView: UICollectionViewCell {
   
   fileprivate let addressLabel: UILabel = {
     let l = UILabel()
-    l.text = "주소에 대한 초기 설정이 필요합니다"
     l.font = UIFont.preferredFont(forTextStyle: .body)
     l.textColor = Common.mainColor.withAlphaComponent(0.7)
     
@@ -109,6 +112,7 @@ class DetailCellView: UICollectionViewCell {
   // MARK: - Layout
   
   private func setUI() {
+    
     [checkView, dateLabel, stackView].forEach {
       self.addSubview($0)
     }

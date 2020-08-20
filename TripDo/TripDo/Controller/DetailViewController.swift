@@ -126,12 +126,14 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     })
     
     let checkTemp = taskTemp.map { $0.check }
-    let titleTemp = taskTemp.map { $0.address }
+    let titleTemp = taskTemp.map { $0.title }
+    let addressTemp = taskTemp.map { $0.address }
     let dateTemp = taskTemp.map { $0.date }
     
     cell.countString = "\(indexPath.row + 1)일차"
     cell.dateString = dateTemp[indexPath.row]
-    cell.addressString = titleTemp[indexPath.row]
+    cell.titleString = titleTemp[indexPath.row]
+    cell.addressString = addressTemp[indexPath.row]
     cell.checkButtonBool = checkTemp[indexPath.row]
     cell.checkButtonToggle = {
       switch checkTemp[indexPath.row] {
@@ -142,6 +144,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         CoreDataManager.coreDataShared.updateTask(
           taskId: userInfo[self.cellIndexPath!].id,
           taskCellId: task[indexPath.row].taskCellId,
+          title: "",
           address: task[indexPath.row].address ?? "",
           post: task[indexPath.row].post ?? "",
           check: false) { (onSuccess) in
@@ -154,6 +157,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         CoreDataManager.coreDataShared.updateTask(
           taskId: userInfo[self.cellIndexPath!].id,
           taskCellId: task[indexPath.row].taskCellId,
+          title: "",
           address: task[indexPath.row].address ?? "",
           post: task[indexPath.row].post ?? "",
           check: true) { (onSuccess) in

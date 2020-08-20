@@ -17,11 +17,10 @@ protocol PostAddressDelegate: class {
 
 class LocationViewController: UIViewController {
   
-  var lastAddress = ""
   var cellIndexPath: Int?
   var taskIndexPath: Int?
   var addressString: String?
-  var postString: String?
+  var postString = ""
   
   fileprivate let mapView: MKMapView = {
     let mv = MKMapView()
@@ -67,14 +66,44 @@ class LocationViewController: UIViewController {
     return b
   }()
   
+  fileprivate let tripNameTextField: UITextField = {
+    let tf = UITextField()
+    tf.layer.cornerRadius = 14
+    tf.backgroundColor = Common.mainColor
+    Common.shadowMaker(view: tf)
+    
+    tf.attributedPlaceholder = NSAttributedString(string: "ex) 첫번째 행선지", attributes: [NSAttributedString.Key.foregroundColor: Common.subColor.withAlphaComponent(0.5)])
+    tf.textColor = Common.subColor
+    tf.tintColor = Common.edgeColor
+    tf.font = UIFont.preferredFont(forTextStyle: .title2)
+    tf.addLeftPadding()
+    
+    tf.isHidden = true
+    
+    return tf
+  }()
+  
+  // MARK: - LifeCycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    hideKeyboard()
     setUI()
   }
   
+  // MARK: - UI
+  
   fileprivate func setUI() {
     mapView.delegate = self
+    tripNameTextField.delegate = self
+    
+    tripNameTextField.frame = CGRect(
+      x: view.bounds.minX + 40,
+      y: view.bounds.minY + 150,
+      width: view.frame.width - 80,
+      height: 70
+    )
     
     floatingCheckButton.frame = CGRect(
       x: view.bounds.maxX - 100,
@@ -93,14 +122,14 @@ class LocationViewController: UIViewController {
     floatingSearchButton.layer.cornerRadius = floatingSearchButton.bounds.height / 2
     
     floatingCloseButton.frame = CGRect(
-      x: view.bounds.maxX - 50,
-      y: view.bounds.minY + 50,
+      x: view.bounds.maxX - 70,
+      y: view.bounds.minY + 70,
       width: 30,
       height: 30
     )
     floatingCloseButton.layer.cornerRadius = floatingCloseButton.bounds.width / 2
     
-    [mapView, floatingCheckButton, floatingSearchButton, floatingCloseButton].forEach {
+    [mapView, floatingCheckButton, floatingSearchButton, floatingCloseButton, tripNameTextField].forEach {
       view.addSubview($0)
     }
     mapView.snp.makeConstraints {
@@ -117,14 +146,17 @@ class LocationViewController: UIViewController {
       vc.delegate = self
       present(UINavigationController(rootViewController: vc), animated: true)
     case floatingCheckButton:
+      guard let name = tripNameTextField.text else { return }
+      
       print("floatingCheckButton")
       let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
       let task: [Task] = CoreDataManager.coreDataShared.getTasks()
       CoreDataManager.coreDataShared.updateTask(
         taskId: userInfo[cellIndexPath!].id,
         taskCellId: task[taskIndexPath!].taskCellId,
+        title: name,
         address: addressString ?? "",
-        post: postString ?? "",
+        post: postString,
         check: false) { (onSuccess) in
           print("updateTask =", onSuccess)
       }
@@ -145,7 +177,6 @@ extension LocationViewController: PostAddressDelegate {
   
   func postString(_ data: String) {
     postString = data
-    lastAddress = data
     
     let geoCoder = CLGeocoder()
     geoCoder.geocodeAddressString(data) { (placemarks, error) in
@@ -160,8 +191,6 @@ extension LocationViewController: PostAddressDelegate {
       let region = MKCoordinateRegion(center: coordinate, span: span)
       self.mapView.setRegion(region, animated: true)
     }
-    floatingCheckButton.isEnabled = true
-    floatingCheckButton.alpha = 1
   }
 }
 
@@ -170,23 +199,33 @@ extension LocationViewController: PostAddressDelegate {
 extension LocationViewController: MKMapViewDelegate {
   func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
     let center = mapView.centerCoordinate
-    if lastAddress != "" {
-      addAnnotation(at: center, with: lastAddress)
+    if postString != "" {
+      addAnnotation(at: center, with: postString)
       addSquareOverlay(at: center)
+      tripNameTextField.isHidden = false
     }
+  }
+  
+  func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+      let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: addressString)
+    annotationView.glyphTintColor = Common.subColor
+    annotationView.markerTintColor = Common.mainColor
+    
+    return annotationView
   }
   
   func addAnnotation(at center: CLLocationCoordinate2D, with title: String) {
     let pin = MKPointAnnotation()
+
     mapView.addAnnotation(pin)
-//    pin.title = "\(mapView.annotations.count)번째 행선지"
+    pin.title = addressString
     pin.subtitle = title
     pin.coordinate = center
   }
   
   func addSquareOverlay(at center: CLLocationCoordinate2D) {
     // 44000m = 44km
-    let circle = MKCircle(center: center, radius: 440)
+    let circle = MKCircle(center: center, radius: 880)
     mapView.addOverlay(circle)
   }
   
@@ -197,6 +236,30 @@ extension LocationViewController: MKMapViewDelegate {
     renderer.lineWidth = 3
     
     return renderer
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension LocationViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    view.endEditing(true)
+    return true
+  }
+  
+  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    guard let text = textField.text else { return false }
+    print("End:", text.count)
+    switch text.count {
+    case 0:
+      floatingCheckButton.isEnabled = false
+      floatingCheckButton.alpha = 0.5
+    default:
+      floatingCheckButton.isEnabled = true
+      floatingCheckButton.alpha = 1
+    }
+    
+    return true
   }
 }
 

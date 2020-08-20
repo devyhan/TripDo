@@ -250,7 +250,7 @@ extension StartDateViewController {
       let dateFormat = DateFormatter()
       dateFormat.dateFormat = "M월 dd일"
       let date = dateFormat.string(from: Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + Double(86400 * (i - 1))))
-      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "", post: "", address: "")
+      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "여행의 세부 설정이 필요합니다", post: "", address: "")
     }
     
     saveUserInfo(id: idTemp, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)

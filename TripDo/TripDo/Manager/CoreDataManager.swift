@@ -137,7 +137,7 @@ class CoreDataManager {
     }
   }
   
-  func updateTask(taskId: Int64, taskCellId: Int64, address: String, post: String, check: Bool, onSuccess: @escaping ((Bool) -> Void)) {
+  func updateTask(taskId: Int64, taskCellId: Int64, title: String, address: String, post: String, check: Bool, onSuccess: @escaping ((Bool) -> Void)) {
     
     let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskFilteredRequest(taskId: taskId)
     
@@ -147,6 +147,7 @@ class CoreDataManager {
           if results[i].taskCellId == taskCellId {
             if results.count != 0 {
               let task = results[i] as NSManagedObject
+              task.setValue(title, forKey: "title")
               task.setValue(address, forKey: "address")
               task.setValue(post, forKey: "post")
               task.setValue(check, forKey: "check")
