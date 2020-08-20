@@ -272,9 +272,6 @@ extension ViewController: UICollectionViewDataSource {
     cell.getTripNameString = userName![indexPath.row]
     cell.getTripStartDateString = "\(userStartDate![indexPath.row]) ~ \(userEndDate![indexPath.row])"
     cell.closeButtonAction = {
-      print(indexPath.row)
-      print(userInfo.map { $0.id })
-      
       let alert = UIAlertController(title: "기록을 제거합니다", message: "저장한 기록을 삭제하시겠습니까 ?", preferredStyle: UIAlertController.Style.alert)
       let okAction = UIAlertAction(title: "확인", style: .default) { (UIAlertAction) in
         self.deleteUserInfo(id: userInfo[indexPath.row].id)

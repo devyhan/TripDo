@@ -35,7 +35,6 @@
 		7E90AB9024E657640092AF93 /* UserInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E90AB8A24E657640092AF93 /* UserInfo+CoreDataClass.swift */; };
 		7ECBAE2C24D97EAD001A6388 /* CalenderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECBAE2B24D97EAD001A6388 /* CalenderCollectionViewCell.swift */; };
 		7EE940F124E8BCE4001DC7B2 /* TripDoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE940F024E8BCE4001DC7B2 /* TripDoUITests.swift */; };
-		7EE940F924EAC69F001DC7B2 /* CellInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE940F824EAC69F001DC7B2 /* CellInitialViewController.swift */; };
 		E63926D9AE6469CEACE65EF3 /* Pods_TripDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F767790C61C67462B16C3D62 /* Pods_TripDo.framework */; };
 /* End PBXBuildFile section */
 
@@ -82,7 +81,6 @@
 		7EE940EE24E8BCE4001DC7B2 /* TripDoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripDoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EE940F024E8BCE4001DC7B2 /* TripDoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDoUITests.swift; sourceTree = "<group>"; };
 		7EE940F224E8BCE4001DC7B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7EE940F824EAC69F001DC7B2 /* CellInitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellInitialViewController.swift; sourceTree = "<group>"; };
 		C475CA7C09A9831E4D6B9BF4 /* Pods-TripDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripDo.release.xcconfig"; path = "Target Support Files/Pods-TripDo/Pods-TripDo.release.xcconfig"; sourceTree = "<group>"; };
 		F767790C61C67462B16C3D62 /* Pods_TripDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TripDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -190,7 +188,6 @@
 				7E90AB3B24E0E7BC0092AF93 /* DetailViewController.swift */,
 				7E90AB4324E1A35E0092AF93 /* LocationViewController.swift */,
 				7E90AB4524E283B20092AF93 /* PostAddressViewController.swift */,
-				7EE940F824EAC69F001DC7B2 /* CellInitialViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -406,7 +403,6 @@
 				7ECBAE2C24D97EAD001A6388 /* CalenderCollectionViewCell.swift in Sources */,
 				7E7D495524D5676000701581 /* Extension.swift in Sources */,
 				7E7D495924D5B6FD00701581 /* StartDateViewController.swift in Sources */,
-				7EE940F924EAC69F001DC7B2 /* CellInitialViewController.swift in Sources */,
 				7E7D495224D562F200701581 /* Common.swift in Sources */,
 				7E90AB3E24E10DE20092AF93 /* DetailHeaderView.swift in Sources */,
 				7E7C358424DE6AF8008D92B1 /* SettingViewController.swift in Sources */,

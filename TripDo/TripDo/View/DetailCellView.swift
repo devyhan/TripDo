@@ -12,15 +12,17 @@ import SnapKit
 class DetailCellView: UICollectionViewCell {
   static let identifier = "DetailCellView"
   
+  var checkButtonToggle: (() -> ())?
+  
   var countString: String? {
     didSet {
       countLabel.text = countString
     }
   }
   
-  var buttonCheck: Bool? {
+  var checkButtonBool: Bool? {
     didSet {
-      buttonCheck == true ?
+      checkButtonBool == true ?
         checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal):
         checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
     }
@@ -44,7 +46,7 @@ class DetailCellView: UICollectionViewCell {
     return v
   }()
   
-  fileprivate let checkButton: UIButton = {
+  lazy var checkButton: UIButton = {
     let b = UIButton()
     b.addTarget(self, action: #selector(didTabButtons), for: .touchUpInside)
     b.tintColor = Common.mainColor
@@ -147,6 +149,7 @@ class DetailCellView: UICollectionViewCell {
   
   @objc fileprivate func didTabButtons() {
     print("didTabButton")
+    checkButtonToggle?()
   }
   
   required init?(coder: NSCoder) {

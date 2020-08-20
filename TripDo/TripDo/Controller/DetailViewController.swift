@@ -131,13 +131,40 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let titleTemp = taskTemp.map { $0.address }
     let dateTemp = taskTemp.map { $0.date }
     
-    print("indexPaht.row ===:", indexPath.row)
-    
     cell.countString = "\(indexPath.row + 1)일차"
     cell.dateString = dateTemp[indexPath.row]
     cell.addressString = titleTemp[indexPath.row]
-    cell.buttonCheck = checkTemp[indexPath.row]
+    cell.checkButtonBool = checkTemp[indexPath.row]
+    cell.checkButtonToggle = {
+      switch checkTemp[indexPath.row] {
+      case true:
+        cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal)
+        self.viewWillAppear(true)
+        print("true")
+        CoreDataManager.coreDataShared.updateTask(
+          taskId: userInfo[self.cellIndexPath!].id,
+          taskCellId: task[indexPath.row].taskCellId,
+          address: task[indexPath.row].address ?? "",
+          post: task[indexPath.row].post ?? "",
+          check: false) { (onSuccess) in
 
+        }
+      default:
+        cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
+        self.viewWillAppear(true)
+        print("false")
+        CoreDataManager.coreDataShared.updateTask(
+          taskId: userInfo[self.cellIndexPath!].id,
+          taskCellId: task[indexPath.row].taskCellId,
+          address: task[indexPath.row].address ?? "",
+          post: task[indexPath.row].post ?? "",
+          check: true) { (onSuccess) in
+
+        }
+      }
+    }
+
+    print("indexPaht.row ===:", indexPath.row)
     print("taskId ==============", taskTemp.map { $0.taskId } )
     print("cellId ==============", taskTemp.map { $0.taskCellId } )
     print("check ==============", taskTemp.map { $0.check } )
@@ -173,21 +200,10 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 
 extension DetailViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    let locationVC = LocationViewController()
-//    locationVC.modalPresentationStyle = .fullScreen
-//    locationVC.cellIndexPath = indexPath.row
-//    present(locationVC, animated: true)
-      
-// 미완성
-    let cellInitialVC = CellInitialViewController()
-    
-    cellInitialVC.cellIndexPath = cellIndexPath
-    cellInitialVC.viewIndexPath = indexPath.row
-    
-    print("====================didSelectItem\n", cellIndexPath)
-    print("====================didSelectItem\n", indexPath.row)
-    cellInitialVC.modalPresentationStyle = .fullScreen
-    present(cellInitialVC, animated: false)
+    let locationVC = LocationViewController()
+    locationVC.modalPresentationStyle = .fullScreen
+    locationVC.cellIndexPath = indexPath.row
+    present(locationVC, animated: true)
   }
 }
 
