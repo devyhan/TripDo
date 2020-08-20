@@ -131,7 +131,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let titleTemp = taskTemp.map { $0.address }
     let dateTemp = taskTemp.map { $0.date }
     
-    print("taskTemp:", checkTemp[0] )
+    print("indexPaht.row ===:", indexPath.row)
     
     cell.countString = "\(indexPath.row + 1)일차"
     cell.dateString = dateTemp[indexPath.row]
@@ -184,6 +184,8 @@ extension DetailViewController: UICollectionViewDelegate {
     cellInitialVC.cellIndexPath = cellIndexPath
     cellInitialVC.viewIndexPath = indexPath.row
     
+    print("====================didSelectItem\n", cellIndexPath)
+    print("====================didSelectItem\n", indexPath.row)
     cellInitialVC.modalPresentationStyle = .fullScreen
     present(cellInitialVC, animated: false)
   }

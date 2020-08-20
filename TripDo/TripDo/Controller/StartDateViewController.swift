@@ -244,16 +244,16 @@ extension StartDateViewController {
     let timeInterval = Double(endDate.timeIntervalSince(startDate))
     let taskCount = Int(floor(timeInterval / 86400) + 1)
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
-    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()    
+    let idTemp = Int64(Date().timeIntervalSince1970)
     
     for i in 1...taskCount {
       let dateFormat = DateFormatter()
       dateFormat.dateFormat = "M월 dd일"
       let date = dateFormat.string(from: Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + Double(86400 * (i - 1))))
-      saveTask(taskId: Int64(userInfo.count), taskCellId: Int64(i), check: false, date: date, title: "", post: "", address: "")
+      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "", post: "", address: "")
     }
     
-    saveUserInfo(id: Int64(userInfo.count), name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
+    saveUserInfo(id: idTemp, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
     
     self.navigationController?.popToRootViewController(animated: true)
     print("nextButtonDidTap")

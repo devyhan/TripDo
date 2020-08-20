@@ -14,6 +14,8 @@ class MainCollectionViewCell: UICollectionViewCell {
 
   static let identifier = "MainCollectionViewCell"
 
+  var closeButtonAction: (() -> ())?
+  
   var getTripNameString: String? {
     didSet {
       tripNameLabel.text = getTripNameString
@@ -54,6 +56,15 @@ class MainCollectionViewCell: UICollectionViewCell {
     return l
   }()
   
+  lazy var floatingCloseButton: UIButton = {
+    let b = UIButton()
+    b.setImage(UIImage(systemName: Common.SFSymbolKey.cancle.rawValue), for: .normal)
+    b.tintColor = Common.mainColor
+    b.addTarget(self, action: #selector(btnCloseTapped), for: .touchUpInside)
+    
+    return b
+  }()
+  
   // MARK: - LifeCycle
   
   override init(frame: CGRect) {
@@ -74,6 +85,13 @@ class MainCollectionViewCell: UICollectionViewCell {
       self.addSubview($0)
     }
     
+    mkMapView.addSubview(floatingCloseButton)
+    
+    floatingCloseButton.snp.makeConstraints {
+      $0.top.equalTo(mkMapView.snp.top).offset(20)
+      $0.trailing.equalTo(mkMapView.snp.trailing).offset(-20)
+    }
+    
     mkMapView.snp.makeConstraints {
       $0.top.trailing.leading.equalTo(self)
       $0.height.equalTo(self.frame.height / 1.3)
@@ -90,6 +108,11 @@ class MainCollectionViewCell: UICollectionViewCell {
       $0.trailing.equalTo(self)
       $0.leading.equalTo(self).offset(20)
     }
+  }
+  
+  @objc fileprivate func btnCloseTapped(_ sender: Any) {
+    print("floatingButtonDidTap")
+    closeButtonAction?()
   }
 
   required init?(coder: NSCoder) {

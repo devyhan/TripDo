@@ -134,6 +134,7 @@ class CellInitialViewController: UIViewController {
         post: task[viewIndexPath!].post ?? "",
         check: true) { (onSuccess) in
           print("check: ", task[self.viewIndexPath!].check)
+          print("task[viewIndexPath!].taskCellId,", task[self.viewIndexPath!].taskCellId)
       }
     default:
       print("false")
@@ -144,6 +145,7 @@ class CellInitialViewController: UIViewController {
         post: task[viewIndexPath!].post ?? "",
         check: false) { (onSuccess) in
           print("check: ", task[self.viewIndexPath!].check)
+          print("task[viewIndexPath!].taskCellId,", task[self.viewIndexPath!].taskCellId)
       }
     }
   }

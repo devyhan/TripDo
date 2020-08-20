@@ -267,9 +267,16 @@ extension ViewController: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     
     cell.getTripNameString = userName![indexPath.row]
     cell.getTripStartDateString = "\(userStartDate![indexPath.row]) ~ \(userEndDate![indexPath.row])"
+    cell.closeButtonAction = {
+      print(indexPath.row)
+      print(userInfo.map { $0.id })
+      self.deleteUserInfo(id: userInfo[indexPath.row].id)
+      self.mainCollectionView.reloadData()
+    }
     
     return cell
   }
