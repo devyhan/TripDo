@@ -19,6 +19,9 @@ class LocationViewController: UIViewController {
   
   var lastAddress = ""
   var cellIndexPath: Int?
+  var taskIndexPath: Int?
+  var addressString: String?
+  var postString: String?
   
   fileprivate let mapView: MKMapView = {
     let mv = MKMapView()
@@ -105,8 +108,9 @@ class LocationViewController: UIViewController {
     }
   }
   
+  // MARK: - Action
+  
   @objc fileprivate func floatingButtonDidTap(_ sender: UIButton) {
-    
     switch sender {
     case floatingSearchButton:
       let vc = PostAddressViewController()
@@ -114,6 +118,17 @@ class LocationViewController: UIViewController {
       present(UINavigationController(rootViewController: vc), animated: true)
     case floatingCheckButton:
       print("floatingCheckButton")
+      let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+      let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+      CoreDataManager.coreDataShared.updateTask(
+        taskId: userInfo[cellIndexPath!].id,
+        taskCellId: task[taskIndexPath!].taskCellId,
+        address: addressString ?? "",
+        post: postString ?? "",
+        check: false) { (onSuccess) in
+          print("updateTask =", onSuccess)
+      }
+      dismiss(animated: true)
     default:
       dismiss(animated: true)
     }
@@ -125,10 +140,11 @@ class LocationViewController: UIViewController {
 extension LocationViewController: PostAddressDelegate {
   func addressString(_ data: String) {
     print("address:", data)
+    addressString = data
   }
   
   func postString(_ data: String) {
-    
+    postString = data
     lastAddress = data
     
     let geoCoder = CLGeocoder()

@@ -63,8 +63,8 @@ class DetailViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(true)
-    
     print("DetailViewController - viewWillAppear")
+    
     collectionView.reloadData()
     getUserInfo()
   }
@@ -113,8 +113,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
       $0 == userInfo[cellIndexPath!].id
     })
     
-    print("========count", count)
-    
     return count.count
   }
   
@@ -147,7 +145,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           address: task[indexPath.row].address ?? "",
           post: task[indexPath.row].post ?? "",
           check: false) { (onSuccess) in
-
+            print("updateTask =", onSuccess)
         }
       default:
         cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
@@ -159,19 +157,18 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           address: task[indexPath.row].address ?? "",
           post: task[indexPath.row].post ?? "",
           check: true) { (onSuccess) in
-
+            print("updateTask =", onSuccess)
         }
       }
     }
-
-    print("indexPaht.row ===:", indexPath.row)
-    print("taskId ==============", taskTemp.map { $0.taskId } )
-    print("cellId ==============", taskTemp.map { $0.taskCellId } )
-    print("check ==============", taskTemp.map { $0.check } )
-    print("date ==============", taskTemp.map { $0.date! } )
-    print("title ==============", taskTemp.map { $0.title! } )
-    print("address ==============", taskTemp.map { $0.address! } )
-    print("post ==============", taskTemp.map { $0.post! } )
+    print("Task cell Update log 👀")
+    print("taskId =", taskTemp.map { $0.taskId } )
+    print("cellId =", taskTemp.map { $0.taskCellId } )
+    print("check =", taskTemp.map { $0.check } )
+    print("date =", taskTemp.map { $0.date! } )
+    print("title =", taskTemp.map { $0.title! } )
+    print("address =", taskTemp.map { $0.address! } )
+    print("post =", taskTemp.map { $0.post! } )
     
     return cell
   }
@@ -202,7 +199,8 @@ extension DetailViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let locationVC = LocationViewController()
     locationVC.modalPresentationStyle = .fullScreen
-    locationVC.cellIndexPath = indexPath.row
+    locationVC.taskIndexPath = indexPath.row
+    locationVC.cellIndexPath = cellIndexPath
     present(locationVC, animated: true)
   }
 }
@@ -225,17 +223,5 @@ extension DetailViewController {
     taskAddress = task.map { $0.address ?? "nil" }
     taskPost = task.map { $0.post ?? "nil" }
     taskCheck = task.map { $0.check }
-    
-    print("getUserId :", userId as Any)
-    print("getUserInfo :", userName as Any)
-    print("getUserStartDate :", userStartDate as Any)
-    print("getUserEndDate :", userEndDate as Any)
-    
-    print("========================================")
-    
-    print("taskId :", taskId as Any)
-    print("taskAddress :", taskAddress as Any)
-    print("taskPost :", taskPost as Any)
-    print("taskCheck :", taskCheck as Any)
   }
 }
