@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-
+  
   let layout = UICollectionViewFlowLayout()
   
   var userId: [Int64]?
@@ -168,7 +168,7 @@ extension ViewController {
   }
   
   fileprivate func setNavigation() {
-//    navigationItem.leftBarButtonItem = self.leftButton
+    //    navigationItem.leftBarButtonItem = self.leftButton
     navigationItem.rightBarButtonItem = self.rightButton
     let navBar = self.navigationController?.navigationBar
     navBar?.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -274,8 +274,16 @@ extension ViewController: UICollectionViewDataSource {
     cell.closeButtonAction = {
       print(indexPath.row)
       print(userInfo.map { $0.id })
-      self.deleteUserInfo(id: userInfo[indexPath.row].id)
-      self.mainCollectionView.reloadData()
+      
+      let alert = UIAlertController(title: "기록을 제거합니다", message: "저장한 기록을 삭제하시겠습니까 ?", preferredStyle: UIAlertController.Style.alert)
+      let okAction = UIAlertAction(title: "확인", style: .default) { (UIAlertAction) in
+        self.deleteUserInfo(id: userInfo[indexPath.row].id)
+        self.viewWillAppear(true)
+      }
+      let cancel = UIAlertAction(title: "취소", style: .destructive, handler : nil)
+      alert.addAction(cancel)
+      alert.addAction(okAction)
+      self.present(alert, animated: true)
     }
     
     return cell
@@ -313,7 +321,7 @@ extension ViewController: UICollectionViewDelegate {
     offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
     targetContentOffset.pointee = offset
   }
-
+  
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("didSelectItemAt", indexPath.row)
     
@@ -321,7 +329,7 @@ extension ViewController: UICollectionViewDelegate {
     detailVC.modalPresentationStyle = .fullScreen
     detailVC.cellIndexPath = indexPath.row
     present(detailVC, animated: false)
-//    navigationController?.pushViewController(cardVC, animated: true)
+    //    navigationController?.pushViewController(cardVC, animated: true)
   }
   
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
