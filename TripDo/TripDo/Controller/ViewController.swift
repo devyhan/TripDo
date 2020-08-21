@@ -322,11 +322,13 @@ extension ViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("didSelectItemAt", indexPath.row)
     
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    
     let detailVC = DetailViewController()
     detailVC.modalPresentationStyle = .fullScreen
     detailVC.cellIndexPath = indexPath.row
     present(detailVC, animated: false)
-    //    navigationController?.pushViewController(cardVC, animated: true)
+    print("🤧", userInfo[indexPath.row].id)
   }
   
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {

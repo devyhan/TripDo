@@ -234,6 +234,7 @@ extension LocationViewController: MKMapViewDelegate {
     let renderer = MKCircleRenderer(circle: circle)
     renderer.strokeColor = Common.mainColor
     renderer.lineWidth = 3
+    renderer.alpha = 0.8
     
     return renderer
   }

@@ -13,6 +13,6 @@ class SettingViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    view.backgroundColor = .cyan
+    view.backgroundColor = Common.mainColor
   }
 }

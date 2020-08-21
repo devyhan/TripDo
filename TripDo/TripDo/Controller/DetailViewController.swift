@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 import SnapKit
 
 class DetailViewController: UIViewController {
@@ -144,8 +145,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         CoreDataManager.coreDataShared.updateTask(
           taskId: userInfo[self.cellIndexPath!].id,
           taskCellId: task[indexPath.row].taskCellId,
-          title: "",
-          address: task[indexPath.row].address ?? "",
+          title: titleTemp[indexPath.row] ?? "",
+          address: addressTemp[indexPath.row] ?? "",
           post: task[indexPath.row].post ?? "",
           check: false) { (onSuccess) in
             print("updateTask =", onSuccess)
@@ -157,8 +158,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         CoreDataManager.coreDataShared.updateTask(
           taskId: userInfo[self.cellIndexPath!].id,
           taskCellId: task[indexPath.row].taskCellId,
-          title: "",
-          address: task[indexPath.row].address ?? "",
+          title: titleTemp[indexPath.row] ?? "",
+          address: addressTemp[indexPath.row] ?? "",
           post: task[indexPath.row].post ?? "",
           check: true) { (onSuccess) in
             print("updateTask =", onSuccess)
@@ -173,7 +174,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     print("title =", taskTemp.map { $0.title! } )
     print("address =", taskTemp.map { $0.address! } )
     print("post =", taskTemp.map { $0.post! } )
-    
+    print("test =", task[indexPath.row].title ?? "")
+    print("test =", taskTemp)
     return cell
   }
   
@@ -185,6 +187,14 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DetailHeaderView.identifire, for: indexPath) as! DetailHeaderView
     guard let cellIndexPath = cellIndexPath else { return header }
+    let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+
+    let taskTemp = task.filter({
+      $0.taskId == userInfo[cellIndexPath].id
+    })
+    
+    header.getPost = taskTemp.map { $0.post! }
     header.getDate = "\(userStartDate![cellIndexPath]) ~ \(userEndDate![cellIndexPath])"
     header.getTitle = userName?[cellIndexPath]
     
