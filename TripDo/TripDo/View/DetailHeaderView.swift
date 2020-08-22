@@ -14,6 +14,7 @@ class DetailHeaderView: UICollectionReusableView {
   
   static let identifire = "DetailHeaderView"
   
+  var didInputAddress = false
   var getTitle: String? {
     didSet {
       titleLabel.text = getTitle
@@ -26,25 +27,25 @@ class DetailHeaderView: UICollectionReusableView {
     }
   }
   
-  var compactPost: [String]?
-  
   var getPost: [String]? {
     didSet {
-      print("get Post Array :", getPost!.compactMap { print("CompactMap:", $0) })
-      getPost?.compactMap {
-        if $0 != nil {
-          compactPost?.append($0)
-          print("compactPost :", compactPost)
+      getPost!.forEach {
+        print("👶🏼", $0)
+        findLocationByAddress(address: $0) { (CLLocation) in
+          print("😜", CLLocation ?? "")
         }
       }
     }
   }
   
-  let mapView: MKMapView = {
+  var locationArray: [CLLocationCoordinate2D]?
+  
+  lazy var mapView: MKMapView = {
     let mv = MKMapView()
     mv.isScrollEnabled = false
     mv.isPitchEnabled = false
     mv.isZoomEnabled = false
+    mv.isRotateEnabled = false
     
     return mv
   }()
@@ -104,10 +105,12 @@ class DetailHeaderView: UICollectionReusableView {
 }
 
 extension DetailHeaderView: MKMapViewDelegate {
-  func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-    let center = mapView.centerCoordinate
-    addAnnotation(at: center, with: "qwe")
-    addSquareOverlay(at: center)
+  func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+     print("\n---------- [ mapViewDidFinishLoadingMap ] ----------\n")
+
+    let annotations = self.mapView.annotations
+
+    self.mapView.showAnnotations(annotations, animated: false)
   }
   
   func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -121,18 +124,8 @@ extension DetailHeaderView: MKMapViewDelegate {
   func addAnnotation(at center: CLLocationCoordinate2D, with title: String) {
     let pin = MKPointAnnotation()
     mapView.addAnnotation(pin)
-    pin.title = "\(mapView.annotations.count)번째 행선지"
     pin.subtitle = title
     pin.coordinate = center
-  }
-  
-  func addSquareOverlay(at center: CLLocationCoordinate2D) {
-    let squareSize = 0.005
-    var point1 = center; point1.latitude += squareSize; point1.longitude -= squareSize
-    var point2 = center; point2.latitude += squareSize; point2.longitude += squareSize
-    var point3 = center; point3.latitude -= squareSize; point3.longitude += squareSize
-    var point4 = center; point4.latitude -= squareSize; point4.longitude -= squareSize
-    addPolylineOverlay(at: [point1, point2, point3, point4, point1])
   }
   
   func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
@@ -140,13 +133,35 @@ extension DetailHeaderView: MKMapViewDelegate {
     mapView.addOverlay(polyline)
   }
   
+  func addSquareOverlay(at center: CLLocationCoordinate2D) {
+    let circle = MKCircle(center: center, radius: 880)
+    mapView.addOverlay(circle)
+  }
+  
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-    let polyline = overlay as! MKPolyline
-    let renderer = MKPolylineRenderer(polyline: polyline)
+    let circle = overlay as! MKCircle
+    let renderer = MKCircleRenderer(circle: circle)
+    renderer.strokeColor = Common.mainColor
     renderer.lineWidth = 1
-    renderer.strokeColor = .red
     renderer.alpha = 0.8
     
     return renderer
+  }
+  
+  func findLocationByAddress(address: String, completion: @escaping((CLLocation?) -> ())) {
+    let geoCoder = CLGeocoder()
+    geoCoder.geocodeAddressString(address) { (placemarks, error) in
+      print("\n---------- [ Geocode Address ] ----------\n")
+      if let error = error {
+        return print(error.localizedDescription)
+      }
+      guard let placemark = placemarks?.first,
+        let coordinate = placemark.location?.coordinate
+        else { return }
+      
+      self.addAnnotation(at: coordinate, with: address)
+      self.locationArray?.append(coordinate)
+      print("🙏", coordinate)
+    }
   }
 }

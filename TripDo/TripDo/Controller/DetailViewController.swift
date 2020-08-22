@@ -121,7 +121,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCellView.identifier, for: indexPath) as! DetailCellView
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
-
+    
     let taskTemp = task.filter({
       $0.taskId == userInfo[cellIndexPath!].id
     })
@@ -129,6 +129,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let checkTemp = taskTemp.map { $0.check }
     let titleTemp = taskTemp.map { $0.title }
     let addressTemp = taskTemp.map { $0.address }
+    let postTemp = taskTemp.map { $0.post }
     let dateTemp = taskTemp.map { $0.date }
     
     cell.countString = "\(indexPath.row + 1)일차"
@@ -147,7 +148,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           taskCellId: task[indexPath.row].taskCellId,
           title: titleTemp[indexPath.row] ?? "",
           address: addressTemp[indexPath.row] ?? "",
-          post: task[indexPath.row].post ?? "",
+          post: postTemp[indexPath.row] ?? "",
           check: false) { (onSuccess) in
             print("updateTask =", onSuccess)
         }
@@ -160,7 +161,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           taskCellId: task[indexPath.row].taskCellId,
           title: titleTemp[indexPath.row] ?? "",
           address: addressTemp[indexPath.row] ?? "",
-          post: task[indexPath.row].post ?? "",
+          post: postTemp[indexPath.row] ?? "",
           check: true) { (onSuccess) in
             print("updateTask =", onSuccess)
         }
@@ -174,8 +175,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     print("title =", taskTemp.map { $0.title! } )
     print("address =", taskTemp.map { $0.address! } )
     print("post =", taskTemp.map { $0.post! } )
-    print("test =", task[indexPath.row].title ?? "")
-    print("test =", taskTemp)
+    
     return cell
   }
   
@@ -189,7 +189,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     guard let cellIndexPath = cellIndexPath else { return header }
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
-
+    
     let taskTemp = task.filter({
       $0.taskId == userInfo[cellIndexPath].id
     })
@@ -197,6 +197,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     header.getPost = taskTemp.map { $0.post! }
     header.getDate = "\(userStartDate![cellIndexPath]) ~ \(userEndDate![cellIndexPath])"
     header.getTitle = userName?[cellIndexPath]
+    
     
     return header
   }
