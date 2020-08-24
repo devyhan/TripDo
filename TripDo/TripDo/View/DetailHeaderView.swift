@@ -30,10 +30,12 @@ class DetailHeaderView: UICollectionReusableView {
   var getPost: [String]? {
     didSet {
       getPost!.forEach {
-        findLocationByAddress(address: $0) {
-          self.addAnnotation(at: $0, with: "")
-          let annotations = self.mapView.annotations
-          self.mapView.showAnnotations(annotations, animated: false)
+        if $0 != "" {
+          findLocationByAddress(address: $0) {
+            self.addAnnotation(at: $0, with: "")
+            let annotations = self.mapView.annotations
+            self.mapView.showAnnotations(annotations, animated: false)
+          }
         }
       }
     }
@@ -65,6 +67,15 @@ class DetailHeaderView: UICollectionReusableView {
     return l
   }()
   
+  fileprivate let errorLabel: UILabel = {
+    let l = UILabel()
+    l.text = "네트워크 연결상태를 확인해 주세요."
+    l.font = UIFont.preferredFont(forTextStyle: .footnote)
+    l.textColor = Common.mainColor
+    
+    return l
+  }()
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     
@@ -83,8 +94,6 @@ class DetailHeaderView: UICollectionReusableView {
     mapView.snp.makeConstraints {
       $0.top.trailing.leading.equalTo(self)
     }
-    
-    
     
     dateLabel.snp.makeConstraints {
       $0.top.equalTo(mapView.snp.bottom).offset(20)
@@ -147,6 +156,7 @@ extension DetailHeaderView: MKMapViewDelegate {
   
   func findLocationByAddress(address: String, completion: @escaping((CLLocationCoordinate2D) -> Void)) {
     let geoCoder = CLGeocoder()
+    print("😛", address)
     geoCoder.geocodeAddressString(address) { (placemarks, error) in
       if let error = error {
         self.setBlurEffect()
@@ -172,6 +182,11 @@ extension DetailHeaderView {
     mapView.addSubview(visualEffectView)
     visualEffectView.snp.makeConstraints {
       $0.top.trailing.bottom.leading.equalTo(mapView)
+    }
+    
+    mapView.addSubview(errorLabel)
+    errorLabel.snp.makeConstraints {
+      $0.centerX.centerY.equalTo(mapView)
     }
   }
 }
