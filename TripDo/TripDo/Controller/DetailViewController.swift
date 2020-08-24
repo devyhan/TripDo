@@ -198,6 +198,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     header.getAddress = taskTemp.map { $0.address! }
     header.getDate = "\(userStartDate![cellIndexPath]) ~ \(userEndDate![cellIndexPath])"
     header.getTitle = userName?[cellIndexPath]
+    header.getTaskTitle = taskTemp.map { $0.title! }
     
     
     return header

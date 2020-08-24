@@ -13,6 +13,7 @@ import SnapKit
 class DetailHeaderView: UICollectionReusableView {
   
   static let identifire = "DetailHeaderView"
+  let semaphore = DispatchSemaphore(value: 0)
   
   var didInputAddress = false
   var getTitle: String? {
@@ -29,19 +30,21 @@ class DetailHeaderView: UICollectionReusableView {
   
   var getPost: [String]? {
     didSet {
-      print("🥇", getPost)
+//      print("🥇", getPost)
       getPost!.forEach {
-        if $0 != "" {
-          findLocationByAddress(address: $0) {_ in
-            let annotations = self.mapView.annotations
-            self.mapView.showAnnotations(annotations, animated: false)
+          if $0 != "" {
+            findLocationByAddress(address: $0) {_ in
+              let annotations = self.mapView.annotations
+              self.mapView.showAnnotations(annotations, animated: false)
+//              self.addPolylineOverlay(at: self.locationArray)
+            }
           }
-        }
       }
     }
   }
-  
+  var getTaskTitle: [String]?
   var getAddress: [String]?
+//  var locationArray: [CLLocationCoordinate2D] = []
   
   fileprivate lazy var mapView: MKMapView = {
     let mv = MKMapView()
@@ -144,24 +147,20 @@ extension DetailHeaderView: MKMapViewDelegate {
     return annotationView
   }
   
-  func addAnnotation(at center: CLLocationCoordinate2D, with title: String, subTitle: String) {
+  func addAnnotation(at center: CLLocationCoordinate2D, with title: Int, subTitle: String) {
     let pin = MKPointAnnotation()
     
     mapView.addAnnotation(pin)
-    pin.title = title
+    pin.title = "\(title + 1)일차, \(getTaskTitle![title])"
     pin.subtitle = subTitle
     pin.coordinate = center
   }
   
-  func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
-    let polyline = MKPolyline(coordinates: points, count: points.count)
-    mapView.addOverlay(polyline)
-  }
-  
-  func addSquareOverlay(at center: CLLocationCoordinate2D) {
-    let circle = MKCircle(center: center, radius: 880)
-    mapView.addOverlay(circle)
-  }
+//  func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
+//
+//    let polyline = MKPolyline(coordinates: points, count: points.count)
+//    mapView.addOverlay(polyline)
+//  }
   
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     if let polyline = overlay as? MKPolyline {
@@ -178,7 +177,9 @@ extension DetailHeaderView: MKMapViewDelegate {
   func findLocationByAddress(address: String, completion: @escaping((CLLocationCoordinate2D) -> Void)) {
     let geoCoder = CLGeocoder()
     print("😛", address)
+    
     geoCoder.geocodeAddressString(address) { (placemarks, error) in
+
       if let error = error {
         self.setBlurEffect()
         return print(error.localizedDescription)
@@ -191,12 +192,16 @@ extension DetailHeaderView: MKMapViewDelegate {
       if let days = self.getPost?.firstIndex(where: {
         $0 == name
       }) {
-        self.addAnnotation(at: coordinate, with: "\(days + 1)일차", subTitle: self.getAddress![days])
+        self.addAnnotation(at: coordinate, with: days, subTitle: self.getAddress![days])
+//        self.locationArray.append(CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
+//        print("\(days)번째")
       }
+
+//      print("👊", self.locationArray)
       
-      print("placemarks", placemark)
       print("🙏", coordinate)
       completion(coordinate)
+      
     }
   }
 }

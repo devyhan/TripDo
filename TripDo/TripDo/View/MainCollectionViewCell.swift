@@ -36,6 +36,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     mv.isScrollEnabled = false
     mv.isPitchEnabled = false
     mv.isZoomEnabled = false
+    mv.isRotateEnabled = false
     
     return mv
   }()
