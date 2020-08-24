@@ -187,11 +187,11 @@ extension DetailHeaderView: MKMapViewDelegate {
         let coordinate = placemark.location?.coordinate,
         let name = placemark.name
         else { return }
-
+      
       if let days = self.getPost?.firstIndex(where: {
         $0 == name
       }) {
-        self.addAnnotation(at: coordinate, with: "\(days + 1)일차", subTitle: name)
+        self.addAnnotation(at: coordinate, with: "\(days + 1)일차", subTitle: self.getAddress![days])
       }
       
       print("placemarks", placemark)
