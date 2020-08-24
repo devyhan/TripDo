@@ -67,13 +67,32 @@ class DetailHeaderView: UICollectionReusableView {
     return l
   }()
   
+  fileprivate let imageView: UIImageView = {
+    let iv = UIImageView()
+    iv.image = UIImage(systemName: Common.SFSymbolKey.disableNetWork.rawValue)
+    iv.tintColor = Common.mainColor
+    iv.contentMode = .scaleAspectFit
+    iv.alpha = 0.7
+    
+    return iv
+  }()
+  
   fileprivate let errorLabel: UILabel = {
     let l = UILabel()
     l.text = "네트워크 연결상태를 확인해 주세요."
     l.font = UIFont.preferredFont(forTextStyle: .footnote)
     l.textColor = Common.mainColor
+    l.textAlignment = .center
     
     return l
+  }()
+  
+  fileprivate lazy var stackView: UIStackView = {
+    let sv = UIStackView(arrangedSubviews: [imageView, errorLabel])
+    sv.axis = .vertical
+    sv.spacing = 30
+    
+    return sv
   }()
   
   override init(frame: CGRect) {
@@ -179,14 +198,23 @@ extension DetailHeaderView {
     let blurEffect = UIBlurEffect(style: .regular)
     let visualEffectView = UIVisualEffectView(effect: blurEffect)
     
-    mapView.addSubview(visualEffectView)
+    // addViews
+    [visualEffectView, stackView].forEach {
+      mapView.addSubview($0)
+    }
+    
+    // addConstants
     visualEffectView.snp.makeConstraints {
       $0.top.trailing.bottom.leading.equalTo(mapView)
     }
     
-    mapView.addSubview(errorLabel)
-    errorLabel.snp.makeConstraints {
-      $0.centerX.centerY.equalTo(mapView)
+    imageView.snp.makeConstraints {
+      $0.height.equalTo(mapView.frame.width / 10)
+    }
+    
+    stackView.snp.makeConstraints {
+      $0.centerY.centerX.equalTo(mapView)
+      $0.width.equalTo(mapView.frame.width)
     }
   }
 }
