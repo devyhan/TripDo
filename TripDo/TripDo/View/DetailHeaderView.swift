@@ -30,21 +30,23 @@ class DetailHeaderView: UICollectionReusableView {
   
   var getPost: [String]? {
     didSet {
-//      print("🥇", getPost)
+      //      print("🥇", getPost)
       getPost!.forEach {
-          if $0 != "" {
-            findLocationByAddress(address: $0) {_ in
-              let annotations = self.mapView.annotations
-              self.mapView.showAnnotations(annotations, animated: false)
-//              self.addPolylineOverlay(at: self.locationArray)
-            }
+        if $0 != "" && self.mapView.annotations.count <= self.getPost!.count - 1{
+          findLocationByAddress(address: $0) {_ in
+            print("❤️", self.mapView.annotations.count <= self.getPost!.count)
+            
+            let annotations = self.mapView.annotations
+            self.mapView.showAnnotations(annotations, animated: false)
+            //              self.addPolylineOverlay(at: self.locationArray)
           }
+        }
       }
     }
   }
   var getTaskTitle: [String]?
   var getAddress: [String]?
-//  var locationArray: [CLLocationCoordinate2D] = []
+  //  var locationArray: [CLLocationCoordinate2D] = []
   
   fileprivate lazy var mapView: MKMapView = {
     let mv = MKMapView()
@@ -156,11 +158,11 @@ extension DetailHeaderView: MKMapViewDelegate {
     pin.coordinate = center
   }
   
-//  func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
-//
-//    let polyline = MKPolyline(coordinates: points, count: points.count)
-//    mapView.addOverlay(polyline)
-//  }
+  //  func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
+  //
+  //    let polyline = MKPolyline(coordinates: points, count: points.count)
+  //    mapView.addOverlay(polyline)
+  //  }
   
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     if let polyline = overlay as? MKPolyline {
@@ -179,7 +181,7 @@ extension DetailHeaderView: MKMapViewDelegate {
     print("😛", address)
     
     geoCoder.geocodeAddressString(address) { (placemarks, error) in
-
+      
       if let error = error {
         self.setBlurEffect()
         return print(error.localizedDescription)
@@ -192,12 +194,13 @@ extension DetailHeaderView: MKMapViewDelegate {
       if let days = self.getPost?.firstIndex(where: {
         $0 == name
       }) {
+        
         self.addAnnotation(at: coordinate, with: days, subTitle: self.getAddress![days])
-//        self.locationArray.append(CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
-//        print("\(days)번째")
+        //        self.locationArray.append(CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        //        print("\(days)번째")
       }
-
-//      print("👊", self.locationArray)
+      
+      //      print("👊", self.locationArray)
       
       print("🙏", coordinate)
       completion(coordinate)
