@@ -39,8 +39,6 @@ class DetailHeaderView: UICollectionReusableView {
     }
   }
   
-  var locationArray: [CLLocationCoordinate2D]?
-  
   fileprivate lazy var mapView: MKMapView = {
     let mv = MKMapView()
     mv.isScrollEnabled = false
@@ -86,6 +84,8 @@ class DetailHeaderView: UICollectionReusableView {
       $0.top.trailing.leading.equalTo(self)
     }
     
+    
+    
     dateLabel.snp.makeConstraints {
       $0.top.equalTo(mapView.snp.bottom).offset(20)
       $0.trailing.equalTo(self).offset(-20)
@@ -104,6 +104,8 @@ class DetailHeaderView: UICollectionReusableView {
     fatalError("init(coder:) has not been implemented")
   }
 }
+
+// MARK: - MKMapViewDelegate
 
 extension DetailHeaderView: MKMapViewDelegate {
   func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -132,20 +134,22 @@ extension DetailHeaderView: MKMapViewDelegate {
   }
   
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-    let circle = overlay as! MKCircle
-    let renderer = MKCircleRenderer(circle: circle)
-    renderer.strokeColor = Common.mainColor
-    renderer.lineWidth = 1
-    renderer.alpha = 0.8
-    
-    return renderer
+    if let polyline = overlay as? MKPolyline {
+      let renderer = MKPolylineRenderer(polyline: polyline)
+      renderer.lineWidth = 2
+      renderer.strokeColor = Common.mainColor
+      renderer.alpha = 0.8
+      
+      return renderer
+    }
+    return MKOverlayRenderer(overlay: overlay)
   }
   
   func findLocationByAddress(address: String, completion: @escaping((CLLocationCoordinate2D) -> Void)) {
     let geoCoder = CLGeocoder()
     geoCoder.geocodeAddressString(address) { (placemarks, error) in
-      print("\n---------- [ Geocode Address ] ----------\n")
       if let error = error {
+        self.setBlurEffect()
         return print(error.localizedDescription)
       }
       guard let placemark = placemarks?.first,
@@ -154,6 +158,20 @@ extension DetailHeaderView: MKMapViewDelegate {
       
       print("🙏", coordinate)
       completion(coordinate)
+    }
+  }
+}
+
+// MARK: - Blur effect view
+
+extension DetailHeaderView {
+  fileprivate func setBlurEffect() {
+    let blurEffect = UIBlurEffect(style: .regular)
+    let visualEffectView = UIVisualEffectView(effect: blurEffect)
+    
+    mapView.addSubview(visualEffectView)
+    visualEffectView.snp.makeConstraints {
+      $0.top.trailing.bottom.leading.equalTo(mapView)
     }
   }
 }
