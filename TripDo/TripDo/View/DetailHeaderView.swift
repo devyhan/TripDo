@@ -27,13 +27,12 @@ class DetailHeaderView: UICollectionReusableView {
     }
   }
   
-  var days = 0
   var getPost: [String]? {
     didSet {
+      print("🥇", getPost)
       getPost!.forEach {
         if $0 != "" {
-          findLocationByAddress(address: $0) {
-            self.addAnnotation(at: $0, with: "\(self.days)일차", days: self.days)
+          findLocationByAddress(address: $0) {_ in
             let annotations = self.mapView.annotations
             self.mapView.showAnnotations(annotations, animated: false)
           }
@@ -145,13 +144,12 @@ extension DetailHeaderView: MKMapViewDelegate {
     return annotationView
   }
   
-  func addAnnotation(at center: CLLocationCoordinate2D, with title: String, days: Int) {
-    guard let getAddress = getAddress else { return }
+  func addAnnotation(at center: CLLocationCoordinate2D, with title: String, subTitle: String) {
     let pin = MKPointAnnotation()
     
     mapView.addAnnotation(pin)
     pin.title = title
-    pin.subtitle = getAddress[days - 1]
+    pin.subtitle = subTitle
     pin.coordinate = center
   }
   
@@ -186,9 +184,17 @@ extension DetailHeaderView: MKMapViewDelegate {
         return print(error.localizedDescription)
       }
       guard let placemark = placemarks?.first,
-        let coordinate = placemark.location?.coordinate
+        let coordinate = placemark.location?.coordinate,
+        let name = placemark.name
         else { return }
-      self.days += 1
+
+      if let days = self.getPost?.firstIndex(where: {
+        $0 == name
+      }) {
+        self.addAnnotation(at: coordinate, with: "\(days + 1)일차", subTitle: name)
+      }
+      
+      print("placemarks", placemark)
       print("🙏", coordinate)
       completion(coordinate)
     }
