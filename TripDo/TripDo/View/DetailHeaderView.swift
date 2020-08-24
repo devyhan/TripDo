@@ -30,9 +30,10 @@ class DetailHeaderView: UICollectionReusableView {
   var getPost: [String]? {
     didSet {
       getPost!.forEach {
-        print("👶🏼", $0)
-        findLocationByAddress(address: $0) { (CLLocation) in
-          print("😜", CLLocation ?? "")
+        findLocationByAddress(address: $0) {
+          self.addAnnotation(at: $0, with: "")
+          let annotations = self.mapView.annotations
+          self.mapView.showAnnotations(annotations, animated: false)
         }
       }
     }
@@ -40,7 +41,7 @@ class DetailHeaderView: UICollectionReusableView {
   
   var locationArray: [CLLocationCoordinate2D]?
   
-  lazy var mapView: MKMapView = {
+  fileprivate lazy var mapView: MKMapView = {
     let mv = MKMapView()
     mv.isScrollEnabled = false
     mv.isPitchEnabled = false
@@ -105,14 +106,6 @@ class DetailHeaderView: UICollectionReusableView {
 }
 
 extension DetailHeaderView: MKMapViewDelegate {
-  func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-     print("\n---------- [ mapViewDidFinishLoadingMap ] ----------\n")
-
-    let annotations = self.mapView.annotations
-
-    self.mapView.showAnnotations(annotations, animated: false)
-  }
-  
   func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
     let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "")
     annotationView.glyphTintColor = Common.subColor
@@ -148,7 +141,7 @@ extension DetailHeaderView: MKMapViewDelegate {
     return renderer
   }
   
-  func findLocationByAddress(address: String, completion: @escaping((CLLocation?) -> ())) {
+  func findLocationByAddress(address: String, completion: @escaping((CLLocationCoordinate2D) -> Void)) {
     let geoCoder = CLGeocoder()
     geoCoder.geocodeAddressString(address) { (placemarks, error) in
       print("\n---------- [ Geocode Address ] ----------\n")
@@ -159,9 +152,8 @@ extension DetailHeaderView: MKMapViewDelegate {
         let coordinate = placemark.location?.coordinate
         else { return }
       
-      self.addAnnotation(at: coordinate, with: address)
-      self.locationArray?.append(coordinate)
       print("🙏", coordinate)
+      completion(coordinate)
     }
   }
 }

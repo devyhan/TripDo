@@ -177,7 +177,6 @@ extension LocationViewController: PostAddressDelegate {
   
   func postString(_ data: String) {
     postString = data
-    
     let geoCoder = CLGeocoder()
     geoCoder.geocodeAddressString(data) { (placemarks, error) in
       if let error = error {

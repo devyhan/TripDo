@@ -198,7 +198,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     header.getDate = "\(userStartDate![cellIndexPath]) ~ \(userEndDate![cellIndexPath])"
     header.getTitle = userName?[cellIndexPath]
     
-    
     return header
   }
   
@@ -211,6 +210,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 // MARK: - UICollectionViewDelegate
 
 extension DetailViewController: UICollectionViewDelegate {
+  
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let locationVC = LocationViewController()
     locationVC.modalPresentationStyle = .fullScreen
