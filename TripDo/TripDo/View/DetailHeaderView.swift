@@ -43,9 +43,6 @@ class DetailHeaderView: UICollectionReusableView {
   
   fileprivate lazy var mapView: MKMapView = {
     let mv = MKMapView()
-    mv.isScrollEnabled = false
-    mv.isPitchEnabled = false
-    mv.isZoomEnabled = false
     mv.isRotateEnabled = false
     
     return mv
@@ -140,6 +137,7 @@ extension DetailHeaderView: MKMapViewDelegate {
     let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "")
     annotationView.glyphTintColor = Common.subColor
     annotationView.markerTintColor = Common.mainColor
+    annotationView.displayPriority = .required
     
     return annotationView
   }
