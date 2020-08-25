@@ -14,6 +14,12 @@ class MainCollectionViewCell: UICollectionViewCell {
 
   static let identifier = "MainCollectionViewCell"
 
+  var taskString: String? {
+    didSet {
+      moreLabel.text = taskString
+    }
+  }
+  
   var closeButtonAction: (() -> ())?
   
   var getTripNameString: String? {

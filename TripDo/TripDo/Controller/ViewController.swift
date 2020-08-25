@@ -268,9 +268,12 @@ extension ViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     
     cell.getTripNameString = userName![indexPath.row]
     cell.getTripStartDateString = "\(userStartDate![indexPath.row]) ~ \(userEndDate![indexPath.row])"
+    
+    // delete button
     cell.closeButtonAction = {
       let alert = UIAlertController(title: "기록을 제거합니다", message: "저장한 기록을 삭제하시겠습니까 ?", preferredStyle: UIAlertController.Style.alert)
       let okAction = UIAlertAction(title: "확인", style: .default) { (UIAlertAction) in
@@ -282,6 +285,12 @@ extension ViewController: UICollectionViewDataSource {
       alert.addAction(okAction)
       self.present(alert, animated: true)
     }
+
+    // task count
+    let taskTemp = task.filter({
+      $0.taskId == userInfo[indexPath.row].id
+    })
+    cell.taskString = "more \(taskTemp.count) task.."
     
     return cell
   }
