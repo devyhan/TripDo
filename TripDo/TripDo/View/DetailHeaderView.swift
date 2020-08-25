@@ -194,17 +194,14 @@ extension DetailHeaderView: MKMapViewDelegate {
       if let days = self.getPost?.firstIndex(where: {
         $0 == name
       }) {
-        
         self.addAnnotation(at: coordinate, with: days, subTitle: self.getAddress![days])
         //        self.locationArray.append(CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
         //        print("\(days)번째")
       }
       
       //      print("👊", self.locationArray)
-      
       print("🙏", coordinate)
       completion(coordinate)
-      
     }
   }
 }

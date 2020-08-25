@@ -57,7 +57,27 @@ class MainCollectionViewCell: UICollectionViewCell {
     return l
   }()
   
-  lazy var floatingCloseButton: UIButton = {
+  fileprivate let moreLabel: UILabel = {
+    let l = UILabel()
+    l.text = "more"
+    l.textAlignment = .center
+    l.textColor = Common.mainColor
+    l.font = UIFont.preferredFont(forTextStyle: .footnote)
+    
+    return l
+  }()
+  
+  fileprivate let imageView: UIImageView = {
+    let iv = UIImageView()
+    iv.image = UIImage(systemName: Common.SFSymbolKey.more.rawValue)
+    iv.tintColor = Common.mainColor
+    iv.contentMode = .scaleAspectFit
+    iv.alpha = 0.3
+    
+    return iv
+  }()
+  
+  lazy var taskDeleteButton: UIButton = {
     let b = UIButton()
     b.setImage(UIImage(systemName: Common.SFSymbolKey.cancle.rawValue), for: .normal)
     b.tintColor = Common.mainColor
@@ -65,6 +85,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     return b
   }()
+
   
   // MARK: - LifeCycle
   
@@ -82,13 +103,13 @@ class MainCollectionViewCell: UICollectionViewCell {
   
   private func setUI() {
   
-    [mkMapView, tripNameLabel, tripStartDateLabel].forEach {
+    [mkMapView, tripNameLabel, tripStartDateLabel, moreLabel, imageView].forEach {
       self.addSubview($0)
     }
     
-    mkMapView.addSubview(floatingCloseButton)
+    mkMapView.addSubview(taskDeleteButton)
     
-    floatingCloseButton.snp.makeConstraints {
+    taskDeleteButton.snp.makeConstraints {
       $0.top.equalTo(mkMapView.snp.top).offset(20)
       $0.trailing.equalTo(mkMapView.snp.trailing).offset(-20)
     }
@@ -109,15 +130,33 @@ class MainCollectionViewCell: UICollectionViewCell {
       $0.trailing.equalTo(self)
       $0.leading.equalTo(self).offset(20)
     }
+    
+    moreLabel.snp.makeConstraints {
+      $0.top.equalTo(tripNameLabel.snp.bottom).offset(20)
+      $0.trailing.equalTo(self)
+      $0.leading.equalTo(self)
+    }
+    
+    imageView.snp.makeConstraints {
+      $0.top.equalTo(moreLabel.snp.bottom).offset(10)
+      $0.trailing.equalTo(self)
+      $0.leading.equalTo(self)
+      $0.centerX.equalTo(self)
+      $0.bottom.equalTo(self).offset(-20)
+    }
   }
   
-  @objc fileprivate func btnCloseTapped(_ sender: Any) {
-    print("floatingButtonDidTap")
-    closeButtonAction?()
+  @objc fileprivate func btnCloseTapped(_ sender: UIButton) {
+    switch sender {
+    case taskDeleteButton:
+      closeButtonAction?()
+      print("closeButtonAction")
+    default:
+      print("moreButtonAction")
+    }
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
 }

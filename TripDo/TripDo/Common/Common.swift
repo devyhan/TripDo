@@ -65,6 +65,7 @@ struct Common {
     case reload = "arrow.counterclockwise"
     case checkMark = "checkmark"
     case disableNetWork = "wifi.exclamationmark"
+    case more = "chevron.compact.down"
   }
   
   static func shadowMaker(view: UIView) {

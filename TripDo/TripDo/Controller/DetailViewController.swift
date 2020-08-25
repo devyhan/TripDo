@@ -200,7 +200,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     header.getTitle = userName?[cellIndexPath]
     header.getTaskTitle = taskTemp.map { $0.title! }
     
-    
     return header
   }
   
