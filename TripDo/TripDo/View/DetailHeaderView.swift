@@ -13,9 +13,10 @@ import SnapKit
 class DetailHeaderView: UICollectionReusableView {
   
   static let identifire = "DetailHeaderView"
-  let semaphore = DispatchSemaphore(value: 0)
   
   var didInputAddress = false
+  var getTaskTitle: [String]?
+  var getAddress: [String]?
   var getTitle: String? {
     didSet {
       titleLabel.text = getTitle
@@ -42,8 +43,7 @@ class DetailHeaderView: UICollectionReusableView {
       }
     }
   }
-  var getTaskTitle: [String]?
-  var getAddress: [String]?
+
   //  var locationArray: [CLLocationCoordinate2D] = []
   
   fileprivate lazy var mapView: MKMapView = {

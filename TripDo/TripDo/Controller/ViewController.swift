@@ -253,9 +253,6 @@ extension ViewController {
     }
   }
   
-  fileprivate func editUserInfo() {
-    
-  }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -272,6 +269,8 @@ extension ViewController: UICollectionViewDataSource {
     
     cell.getTripNameString = userName![indexPath.row]
     cell.getTripStartDateString = "\(userStartDate![indexPath.row]) ~ \(userEndDate![indexPath.row])"
+    cell.cellIndexPath = indexPath.row
+    print("cellIndePath", indexPath.row)
     
     // delete button
     cell.closeButtonAction = {
@@ -290,7 +289,11 @@ extension ViewController: UICollectionViewDataSource {
     let taskTemp = task.filter({
       $0.taskId == userInfo[indexPath.row].id
     })
+    
     cell.taskString = "more \(taskTemp.count) task.."
+    cell.getPost = taskTemp.map { $0.post! }
+    cell.getAddress = taskTemp.map { $0.address! }
+    cell.getTaskTitle = taskTemp.map { $0.title! }
     
     return cell
   }
