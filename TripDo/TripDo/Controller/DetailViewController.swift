@@ -76,8 +76,8 @@ class DetailViewController: UIViewController {
     floatingButton.frame = CGRect(
       x: view.bounds.maxX - 100,
       y: view.bounds.height - 120,
-      width: 60,
-      height: 60
+      width: view.frame.width / 6.5,
+      height: view.frame.width / 6.5
     )
     floatingButton.layer.cornerRadius = floatingButton.bounds.width / 2
     

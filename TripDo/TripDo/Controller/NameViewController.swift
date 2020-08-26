@@ -86,16 +86,16 @@ extension NameViewController {
     backButton.frame = CGRect(
       x: view.bounds.minX + 40,
       y: view.bounds.height - 120,
-      width: 60,
-      height: 60
+      width: view.frame.width / 6.5,
+      height: view.frame.width / 6.5
     )
     backButton.layer.cornerRadius = backButton.bounds.width / 2
     
     nextButton.frame = CGRect(
       x: view.bounds.maxX - 100,
       y: view.bounds.height - 120,
-      width: 60,
-      height: 60
+      width: view.frame.width / 6.5,
+      height: view.frame.width / 6.5
     )
     nextButton.layer.cornerRadius = nextButton.bounds.height / 2
     

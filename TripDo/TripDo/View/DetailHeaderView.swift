@@ -30,12 +30,10 @@ class DetailHeaderView: UICollectionReusableView {
   
   var getPost: [String]? {
     didSet {
-      //      print("🥇", getPost)
       getPost!.forEach {
         if $0 != "" && self.mapView.annotations.count <= self.getPost!.count - 1{
           findLocationByAddress(address: $0) {_ in
             print("❤️", self.mapView.annotations.count <= self.getPost!.count)
-            
             let annotations = self.mapView.annotations
             self.mapView.showAnnotations(annotations, animated: false)
             //              self.addPolylineOverlay(at: self.locationArray)

@@ -34,7 +34,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  fileprivate let mkMapView: MKMapView = {
+  fileprivate let mapView: MKMapView = {
     let mv = MKMapView()
     mv.clipsToBounds = true
     mv.layer.cornerRadius = 30
@@ -69,6 +69,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     l.textAlignment = .center
     l.textColor = Common.mainColor
     l.font = UIFont.preferredFont(forTextStyle: .footnote)
+    l.alpha = 0.6
     
     return l
   }()
@@ -109,24 +110,24 @@ class MainCollectionViewCell: UICollectionViewCell {
   
   private func setUI() {
   
-    [mkMapView, tripNameLabel, tripStartDateLabel, moreLabel, imageView].forEach {
+    [mapView, tripNameLabel, tripStartDateLabel, moreLabel, imageView].forEach {
       self.addSubview($0)
     }
     
-    mkMapView.addSubview(taskDeleteButton)
+    mapView.addSubview(taskDeleteButton)
     
     taskDeleteButton.snp.makeConstraints {
-      $0.top.equalTo(mkMapView.snp.top).offset(20)
-      $0.trailing.equalTo(mkMapView.snp.trailing).offset(-20)
+      $0.top.equalTo(mapView.snp.top).offset(20)
+      $0.trailing.equalTo(mapView.snp.trailing).offset(-20)
     }
     
-    mkMapView.snp.makeConstraints {
+    mapView.snp.makeConstraints {
       $0.top.trailing.leading.equalTo(self)
-      $0.height.equalTo(self.frame.height / 1.3)
+      $0.height.equalTo(self.frame.height / 1.35)
     }
     
     tripStartDateLabel.snp.makeConstraints {
-      $0.top.equalTo(mkMapView.snp.bottom).offset(20)
+      $0.top.equalTo(mapView.snp.bottom).offset(20)
       $0.trailing.equalTo(self)
       $0.leading.equalTo(self).offset(20)
     }
@@ -145,8 +146,6 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     imageView.snp.makeConstraints {
       $0.top.equalTo(moreLabel.snp.bottom).offset(10)
-      $0.trailing.equalTo(self)
-      $0.leading.equalTo(self)
       $0.centerX.equalTo(self)
       $0.bottom.equalTo(self).offset(-20)
     }

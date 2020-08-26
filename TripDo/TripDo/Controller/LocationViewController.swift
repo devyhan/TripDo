@@ -109,24 +109,24 @@ class LocationViewController: UIViewController {
     floatingCheckButton.frame = CGRect(
       x: view.bounds.maxX - 100,
       y: view.bounds.height - 200,
-      width: 60,
-      height: 60
+      width: view.frame.width / 6.5,
+      height: view.frame.width / 6.5
     )
     floatingCheckButton.layer.cornerRadius = floatingCheckButton.bounds.height / 2
     
     floatingSearchButton.frame = CGRect(
       x: view.bounds.maxX - 100,
       y: view.bounds.height - 120,
-      width: 60,
-      height: 60
+      width: view.frame.width / 6.5,
+      height: view.frame.width / 6.5
     )
     floatingSearchButton.layer.cornerRadius = floatingSearchButton.bounds.height / 2
     
     floatingCloseButton.frame = CGRect(
       x: view.bounds.maxX - 70,
       y: view.bounds.minY + 70,
-      width: 30,
-      height: 30
+      width: view.frame.width / 12.5,
+      height: view.frame.width / 12.5
     )
     floatingCloseButton.layer.cornerRadius = floatingCloseButton.bounds.width / 2
     
