@@ -12,7 +12,7 @@ import SnapKit
 class ViewController: UIViewController {
   
   let layout = UICollectionViewFlowLayout()
-  
+  var saveCount: Int = 0
   var userId: [Int64]?
   var userName: [String]?
   var userStartDate: [String]?
@@ -106,6 +106,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     mainCollectionView.delegate = self
+    saveCount = 0
     //    deleteUserInfo(id: 0)
     //    saveUserInfo(id: 1, name: "devyhan", age: 123)
     getUserInfo()
@@ -287,12 +288,17 @@ extension ViewController: UICollectionViewDataSource {
     let taskTemp = task.filter({
       $0.taskId == userInfo[indexPath.row].id
     })
+    print("😎", saveCount)
+    
     
     cell.taskString = "more \(taskTemp.count) task.."
-    cell.getPost = taskTemp.map { $0.post! }
-    cell.getAddress = taskTemp.map { $0.address! }
-    cell.getTaskTitle = taskTemp.map { $0.title! }
     
+    if saveCount <= indexPath.row {
+      cell.getPost = taskTemp.map { $0.post! }
+      cell.getAddress = taskTemp.map { $0.address! }
+      cell.getTaskTitle = taskTemp.map { $0.title! }
+      saveCount += 1
+    }
     return cell
   }
 }
