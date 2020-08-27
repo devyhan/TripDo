@@ -269,8 +269,6 @@ extension ViewController: UICollectionViewDataSource {
     
     cell.getTripNameString = userName![indexPath.row]
     cell.getTripStartDateString = "\(userStartDate![indexPath.row]) ~ \(userEndDate![indexPath.row])"
-    cell.cellIndexPath = indexPath.row
-    print("cellIndePath", indexPath.row)
     
     // delete button
     cell.closeButtonAction = {

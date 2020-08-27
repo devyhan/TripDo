@@ -14,7 +14,6 @@ class MainCollectionViewCell: UICollectionViewCell {
 
   static let identifier = "MainCollectionViewCell"
   
-  var cellIndexPath: Int?
   var closeButtonAction: (() -> ())?
   var getTaskTitle: [String]?
   var getAddress: [String]?
@@ -39,7 +38,7 @@ class MainCollectionViewCell: UICollectionViewCell {
   var getPost: [String]? {
     didSet {
       getPost!.forEach {
-        if $0 != "" && self.mapView.annotations.count <= self.getPost!.count - 1{
+        if $0 != "" && self.mapView.annotations.isEmpty == true {
           findLocationByAddress(address: $0) {_ in
             print("❤️", self.mapView.annotations.count <= self.getPost!.count)
             let annotations = self.mapView.annotations
