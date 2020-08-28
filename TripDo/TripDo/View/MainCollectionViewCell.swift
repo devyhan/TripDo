@@ -50,7 +50,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  let mapView: MKMapView = {
+  lazy var mapView: MKMapView = {
     let mv = MKMapView()
     mv.clipsToBounds = true
     mv.layer.cornerRadius = 30
