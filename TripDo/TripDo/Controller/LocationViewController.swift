@@ -21,6 +21,8 @@ class LocationViewController: UIViewController {
   var taskIndexPath: Int?
   var addressString: String?
   var postString = ""
+  var latitude: Double?
+  var longitude: Double?
   
   fileprivate let mapView: MKMapView = {
     let mv = MKMapView()
@@ -158,7 +160,9 @@ class LocationViewController: UIViewController {
         title: name,
         address: addressString ?? "",
         post: postString,
-        check: false) { (onSuccess) in
+        check: false,
+        latitude: latitude,
+        longitude: longitude) { (onSuccess) in
           print("updateTask =", onSuccess)
       }
       dismiss(animated: true)
@@ -187,6 +191,8 @@ extension LocationViewController: PostAddressDelegate {
         let coordinate = placemark.location?.coordinate
         else { return }
       
+      self.latitude = coordinate.latitude
+      self.longitude = coordinate.longitude
       let span = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
       let region = MKCoordinateRegion(center: coordinate, span: span)
       self.mapView.setRegion(region, animated: true)

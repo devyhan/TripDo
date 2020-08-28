@@ -137,7 +137,7 @@ class CoreDataManager {
     }
   }
   
-  func updateTask(taskId: Int64, taskCellId: Int64, title: String, address: String, post: String, check: Bool, onSuccess: @escaping ((Bool) -> Void)) {
+  func updateTask(taskId: Int64, taskCellId: Int64, title: String, address: String, post: String, check: Bool, latitude: Double? = nil, longitude: Double? = nil, onSuccess: @escaping ((Bool) -> Void)) {
     
     let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskFilteredRequest(taskId: taskId)
     
@@ -151,7 +151,8 @@ class CoreDataManager {
               task.setValue(address, forKey: "address")
               task.setValue(post, forKey: "post")
               task.setValue(check, forKey: "check")
-              print("print task ========= \n ", results[i].taskCellId == taskCellId)
+              task.setValue(latitude, forKey: "latitude")
+              task.setValue(longitude, forKey: "longitude")
               contextSave { success in
                 onSuccess(success)
               }

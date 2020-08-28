@@ -37,7 +37,6 @@ class MainCollectionViewCell: UICollectionViewCell {
   
   var getPost: [String]? {
     didSet {
-      print("🦷",getPost! )
       getPost!.forEach {
         if $0 != "" && self.mapView.annotations.isEmpty == true {
           findLocationByAddress(address: $0) {_ in
@@ -46,7 +45,7 @@ class MainCollectionViewCell: UICollectionViewCell {
             self.mapView.showAnnotations(annotations, animated: false)
             //              self.addPolylineOverlay(at: self.locationArray)
           }
-        } 
+        }
       }
     }
   }

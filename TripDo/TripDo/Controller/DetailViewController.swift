@@ -131,6 +131,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     let addressTemp = taskTemp.map { $0.address }
     let postTemp = taskTemp.map { $0.post }
     let dateTemp = taskTemp.map { $0.date }
+    let latiTemp = taskTemp.map { $0.latitude }
+    let longTemp = taskTemp.map { $0.longitude }
     
     cell.countString = "\(indexPath.row + 1)일차"
     cell.dateString = dateTemp[indexPath.row]
@@ -149,8 +151,11 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           title: titleTemp[indexPath.row] ?? "",
           address: addressTemp[indexPath.row] ?? "",
           post: postTemp[indexPath.row] ?? "",
-          check: false) { (onSuccess) in
-            print("updateTask =", onSuccess)
+          check: false,
+          latitude: latiTemp[indexPath.row],
+          longitude: longTemp[indexPath.row]
+        ) { (onSuccess) in
+          print("updateTask =", onSuccess)
         }
       default:
         cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
@@ -162,8 +167,11 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           title: titleTemp[indexPath.row] ?? "",
           address: addressTemp[indexPath.row] ?? "",
           post: postTemp[indexPath.row] ?? "",
-          check: true) { (onSuccess) in
-            print("updateTask =", onSuccess)
+          check: true,
+          latitude: latiTemp[indexPath.row],
+          longitude: longTemp[indexPath.row]
+        ) { (onSuccess) in
+          print("updateTask =", onSuccess)
         }
       }
     }
@@ -175,6 +183,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     print("title =", taskTemp.map { $0.title! } )
     print("address =", taskTemp.map { $0.address! } )
     print("post =", taskTemp.map { $0.post! } )
+    print("latitude =", taskTemp.map { $0.latitude })
+    print("longitude =", taskTemp.map { $0.longitude })
     
     return cell
   }
@@ -194,11 +204,23 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
       $0.taskId == userInfo[cellIndexPath].id
     })
     
-    header.getPost = taskTemp.map { $0.post! }
     header.getAddress = taskTemp.map { $0.address! }
     header.getDate = "\(userStartDate![cellIndexPath]) ~ \(userEndDate![cellIndexPath])"
     header.getTitle = userName?[cellIndexPath]
     header.getTaskTitle = taskTemp.map { $0.title! }
+    
+    let longitude = taskTemp.map { $0.longitude }
+    let latitude = taskTemp.map { $0.latitude }
+    for i in 0...latitude.count - 1 {
+      let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
+      
+      if location.latitude != 0 && location.longitude != 0 {
+         header.addAnnotation(at: location, with: i, subTitle: "")
+        header.locationArray.append(location)
+      }
+      header.getLocation = location
+      header.getDays = i
+    }
     
     return header
   }

@@ -4,6 +4,8 @@
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="check" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="post" optional="YES" attributeType="String"/>
         <attribute name="taskCellId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="taskId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -19,7 +21,7 @@
         <relationship name="task" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="userInfo" inverseEntity="Task"/>
     </entity>
     <elements>
-        <element name="Task" positionX="-45" positionY="36" width="128" height="163"/>
+        <element name="Task" positionX="-45" positionY="36" width="128" height="28"/>
         <element name="UserInfo" positionX="-249.078125" positionY="-130.72265625" width="128" height="133"/>
     </elements>
 </model>
