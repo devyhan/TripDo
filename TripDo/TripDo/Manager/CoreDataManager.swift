@@ -78,7 +78,7 @@ class CoreDataManager {
     }
   }
   
-  func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String, onSuccess: @escaping ((Bool) -> Void)) {
+  func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String, latitude: Double, longitude: Double, onSuccess: @escaping ((Bool) -> Void)) {
     if let context = context,
       let entity: NSEntityDescription
       = NSEntityDescription.entity(forEntityName: taskModelName, in: context) {
@@ -91,6 +91,8 @@ class CoreDataManager {
         task.title = title
         task.post = post
         task.address = address
+        task.latitude = latitude
+        task.longitude = longitude
         
         contextSave { success in
           onSuccess(success)
@@ -137,7 +139,7 @@ class CoreDataManager {
     }
   }
   
-  func updateTask(taskId: Int64, taskCellId: Int64, title: String, address: String, post: String, check: Bool, latitude: Double? = nil, longitude: Double? = nil, onSuccess: @escaping ((Bool) -> Void)) {
+  func updateTask(taskId: Int64, taskCellId: Int64, title: String, address: String, post: String, check: Bool, latitude: Double, longitude: Double, onSuccess: @escaping ((Bool) -> Void)) {
     
     let fetchRequest: NSFetchRequest<NSFetchRequestResult> = taskFilteredRequest(taskId: taskId)
     

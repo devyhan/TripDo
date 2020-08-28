@@ -140,6 +140,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     cell.addressString = addressTemp[indexPath.row]
     cell.checkButtonBool = checkTemp[indexPath.row]
     cell.checkButtonToggle = {
+      print("🦷", indexPath.row)
       switch checkTemp[indexPath.row] {
       case true:
         cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.check.rawValue), for: .normal)
@@ -156,6 +157,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           longitude: longTemp[indexPath.row]
         ) { (onSuccess) in
           print("updateTask =", onSuccess)
+          print("task", task)
         }
       default:
         cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)

@@ -160,9 +160,9 @@ class LocationViewController: UIViewController {
         title: name,
         address: addressString ?? "",
         post: postString,
-        check: false,
-        latitude: latitude,
-        longitude: longitude) { (onSuccess) in
+        check: task[cellIndexPath!].check,
+        latitude: latitude ?? 0.0,
+        longitude: longitude ?? 0.0) { (onSuccess) in
           print("updateTask =", onSuccess)
       }
       dismiss(animated: true)
@@ -273,7 +273,7 @@ extension LocationViewController: UITextFieldDelegate {
 // MARK: - CoreData
 
 extension LocationViewController {
-  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String) {
+  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String, latitude: Double, longitude: Double) {
     CoreDataManager.coreDataShared.saveTask(
       taskId: taskId,
       taskCellId: taskCellId,
@@ -281,7 +281,9 @@ extension LocationViewController {
       date: date,
       title: title,
       post: post,
-      address: address) { (onSuccess) in
+      address: address,
+      latitude: latitude,
+      longitude: longitude) { (onSuccess) in
         print("savedTask =", onSuccess)
     }
   }

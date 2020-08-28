@@ -247,7 +247,7 @@ extension StartDateViewController {
       let dateFormat = DateFormatter()
       dateFormat.dateFormat = "M월 dd일"
       let date = dateFormat.string(from: Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + Double(86400 * (i - 1))))
-      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "여행의 세부 설정이 필요합니다", post: "", address: "")
+      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "여행의 세부 설정이 필요합니다", post: "", address: "", latitude: 0.0, longitude: 0.0)
     }
     
     saveUserInfo(id: idTemp, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
@@ -514,7 +514,7 @@ extension StartDateViewController {
     }
   }
   
-  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String) {
+  fileprivate func saveTask(taskId: Int64, taskCellId: Int64, check: Bool, date: String, title: String, post: String, address: String, latitude: Double, longitude: Double) {
     CoreDataManager.coreDataShared.saveTask(
       taskId: taskId,
       taskCellId: taskCellId,
@@ -522,7 +522,9 @@ extension StartDateViewController {
       date: date,
       title: title,
       post: post,
-      address: address) { (onSuccess) in
+      address: address,
+      latitude: latitude,
+      longitude: longitude) { (onSuccess) in
         print("savedTask =", onSuccess)
     }
   }
