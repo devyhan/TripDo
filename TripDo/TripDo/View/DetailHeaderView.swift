@@ -44,7 +44,7 @@ class DetailHeaderView: UICollectionReusableView {
     }
   }
   
-  fileprivate lazy var mapView: MKMapView = {
+  lazy var mapView: MKMapView = {
     let mv = MKMapView()
     mv.isRotateEnabled = false
     

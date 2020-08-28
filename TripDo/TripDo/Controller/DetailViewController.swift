@@ -214,8 +214,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     for i in 0...latitude.count - 1 {
       let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
       
-      if location.latitude != 0 && location.longitude != 0 {
-         header.addAnnotation(at: location, with: i, subTitle: "")
+      if location.latitude != 0 && location.longitude != 0 && header.mapView.annotations.count < latitude.count {
+        header.addAnnotation(at: location, with: i, subTitle: "")
         header.locationArray.append(location)
       }
       header.getLocation = location

@@ -23,6 +23,8 @@ extension Task {
   @NSManaged public var title: String?
   @NSManaged public var post: String?
   @NSManaged public var address: String?
+  @NSManaged public var latitude: Double
+  @NSManaged public var longitude: Double
   @NSManaged public var userInfo: UserInfo?
   
 }
