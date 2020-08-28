@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 import SnapKit
 
 class ViewController: UIViewController {
@@ -289,9 +290,23 @@ extension ViewController: UICollectionViewDataSource {
     })
     
     cell.taskString = "more \(taskTemp.count) task.."
-    cell.getPost = taskTemp.map { $0.post! }
     cell.getAddress = taskTemp.map { $0.address! }
     cell.getTaskTitle = taskTemp.map { $0.title! }
+    
+    //
+    
+    let longitude = taskTemp.map { $0.longitude }
+    let latitude = taskTemp.map { $0.latitude }
+    for i in 0...latitude.count - 1 {
+      let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
+      
+      if location.latitude != 0 && location.longitude != 0 && cell.mapView.annotations.count < latitude.count {
+        cell.addAnnotation(at: location, with: i, subTitle: "")
+        cell.locationArray.append(location)
+      }
+      cell.getLocation = location
+      cell.getDays = i
+    }
     
     return cell
   }

@@ -11,18 +11,33 @@ import MapKit
 import SnapKit
 
 class MainCollectionViewCell: UICollectionViewCell {
-
+  
   static let identifier = "MainCollectionViewCell"
   
   var closeButtonAction: (() -> ())?
   var getTaskTitle: [String]?
   var getAddress: [String]?
+  var getDays: Int?
+  var locationArray = [CLLocationCoordinate2D]()
+  var getLocation: CLLocationCoordinate2D? {
+    didSet {
+      guard let getLocation = getLocation else { return }
+      if getLocation.latitude != 0.0 && getLocation.longitude != 0.0 {
+        let annotations = self.mapView.annotations
+        self.mapView.showAnnotations(annotations, animated: false)
+        self.addPolylineOverlay(at: self.locationArray)
+      } else {
+        // else action
+      }
+    }
+  }
+  
   var taskString: String? {
     didSet {
       moreLabel.text = taskString
     }
   }
-
+  
   var getTripNameString: String? {
     didSet {
       tripNameLabel.text = getTripNameString
@@ -35,22 +50,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  var getPost: [String]? {
-    didSet {
-      getPost!.forEach {
-        if $0 != "" && self.mapView.annotations.isEmpty == true {
-          findLocationByAddress(address: $0) {_ in
-            print("❤️", self.mapView.annotations.count <= self.getPost!.count)
-            let annotations = self.mapView.annotations
-            self.mapView.showAnnotations(annotations, animated: false)
-            //              self.addPolylineOverlay(at: self.locationArray)
-          }
-        }
-      }
-    }
-  }
-  
-  fileprivate let mapView: MKMapView = {
+  let mapView: MKMapView = {
     let mv = MKMapView()
     mv.clipsToBounds = true
     mv.layer.cornerRadius = 30
@@ -108,7 +108,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     return b
   }()
-
+  
   fileprivate let networkImageView: UIImageView = {
     let iv = UIImageView()
     iv.image = UIImage(systemName: Common.SFSymbolKey.disableNetWork.rawValue)
@@ -204,7 +204,7 @@ class MainCollectionViewCell: UICollectionViewCell {
       print("moreButtonAction")
     }
   }
-
+  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -231,51 +231,21 @@ extension MainCollectionViewCell: MKMapViewDelegate {
     pin.coordinate = center
   }
   
-  //  func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
-  //
-  //    let polyline = MKPolyline(coordinates: points, count: points.count)
-  //    mapView.addOverlay(polyline)
-  //  }
+  func addPolylineOverlay(at points: [CLLocationCoordinate2D]) {
+    
+    let polyline = MKPolyline(coordinates: points, count: points.count)
+    mapView.addOverlay(polyline)
+  }
   
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     if let polyline = overlay as? MKPolyline {
       let renderer = MKPolylineRenderer(polyline: polyline)
       renderer.lineWidth = 2
       renderer.strokeColor = Common.mainColor
-      renderer.alpha = 0.8
       
       return renderer
     }
     return MKOverlayRenderer(overlay: overlay)
-  }
-  
-  func findLocationByAddress(address: String, completion: @escaping((CLLocationCoordinate2D) -> Void)) {
-    let geoCoder = CLGeocoder()
-    print("😛", address)
-    
-    geoCoder.geocodeAddressString(address) { (placemarks, error) in
-      
-      if let error = error {
-        self.setBlurEffect()
-        return print(error.localizedDescription)
-      }
-      guard let placemark = placemarks?.first,
-        let coordinate = placemark.location?.coordinate,
-        let name = placemark.name
-        else { return }
-      
-      if let days = self.getPost?.firstIndex(where: {
-        $0 == name
-      }) {
-        self.addAnnotation(at: coordinate, with: days, subTitle: self.getAddress![days])
-        //        self.locationArray.append(CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
-        //        print("\(days)번째")
-      }
-      
-      //      print("👊", self.locationArray)
-      print("🙏", coordinate)
-      completion(coordinate)
-    }
   }
 }
 
