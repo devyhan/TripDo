@@ -126,6 +126,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
       $0.taskId == userInfo[cellIndexPath!].id
     })
     
+    let cellIdTemp = taskTemp.map { $0.taskCellId }
     let checkTemp = taskTemp.map { $0.check }
     let titleTemp = taskTemp.map { $0.title }
     let addressTemp = taskTemp.map { $0.address }
@@ -148,7 +149,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         print("true")
         CoreDataManager.coreDataShared.updateTask(
           taskId: userInfo[self.cellIndexPath!].id,
-          taskCellId: task[indexPath.row].taskCellId,
+          taskCellId: cellIdTemp[indexPath.row],
           title: titleTemp[indexPath.row] ?? "",
           address: addressTemp[indexPath.row] ?? "",
           post: postTemp[indexPath.row] ?? "",
@@ -157,7 +158,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           longitude: longTemp[indexPath.row]
         ) { (onSuccess) in
           print("updateTask =", onSuccess)
-          print("task", task)
+          print("task", cellIdTemp[indexPath.row])
+           print("task", task[indexPath.row].taskCellId)
         }
       default:
         cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
@@ -165,7 +167,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         print("false")
         CoreDataManager.coreDataShared.updateTask(
           taskId: userInfo[self.cellIndexPath!].id,
-          taskCellId: task[indexPath.row].taskCellId,
+          taskCellId: cellIdTemp[indexPath.row],
           title: titleTemp[indexPath.row] ?? "",
           address: addressTemp[indexPath.row] ?? "",
           post: postTemp[indexPath.row] ?? "",
@@ -174,6 +176,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           longitude: longTemp[indexPath.row]
         ) { (onSuccess) in
           print("updateTask =", onSuccess)
+          print("task", cellIdTemp[indexPath.row])
+          print("task", task[indexPath.row].taskCellId)
         }
       }
     }
