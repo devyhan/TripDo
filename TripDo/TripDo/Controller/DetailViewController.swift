@@ -158,8 +158,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           longitude: longTemp[indexPath.row]
         ) { (onSuccess) in
           print("updateTask =", onSuccess)
-          print("task", cellIdTemp[indexPath.row])
-           print("task", task[indexPath.row].taskCellId)
         }
       default:
         cell.checkButton.setImage(UIImage(systemName: Common.SFSymbolKey.uncheck.rawValue), for: .normal)
@@ -176,8 +174,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
           longitude: longTemp[indexPath.row]
         ) { (onSuccess) in
           print("updateTask =", onSuccess)
-          print("task", cellIdTemp[indexPath.row])
-          print("task", task[indexPath.row].taskCellId)
         }
       }
     }

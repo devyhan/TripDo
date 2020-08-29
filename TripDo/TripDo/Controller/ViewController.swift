@@ -296,16 +296,14 @@ extension ViewController: UICollectionViewDataSource {
     //
     cell.mapView.removeAnnotations(cell.mapView.annotations)
     cell.mapView.removeOverlays(cell.mapView.overlays)
-
+    cell.locationArray = []
     let longitude = taskTemp.map { $0.longitude }
     let latitude = taskTemp.map { $0.latitude }
     for i in 0...taskTemp.count - 1 {
       let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
       if location.latitude != 0 && location.longitude != 0 {
         cell.addAnnotation(at: location, with: i, subTitle: "")
-        if cell.locationArray.count < latitude.count {
         cell.locationArray.append(location)
-        }
       }
       cell.getLocation = location
       cell.getDays = i

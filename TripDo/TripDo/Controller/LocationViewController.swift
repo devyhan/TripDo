@@ -154,9 +154,13 @@ class LocationViewController: UIViewController {
       print("floatingCheckButton")
       let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
       let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+      let taskTemp = task.filter({
+        $0.taskId == userInfo[cellIndexPath!].id
+      })
+      let cellIdTemp = taskTemp.map { $0.taskCellId }
       CoreDataManager.coreDataShared.updateTask(
         taskId: userInfo[cellIndexPath!].id,
-        taskCellId: task[taskIndexPath!].taskCellId,
+        taskCellId: cellIdTemp[taskIndexPath!],
         title: name,
         address: addressString ?? "",
         post: postString,
