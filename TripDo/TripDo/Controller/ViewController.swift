@@ -224,6 +224,7 @@ extension ViewController {
 extension ViewController {
   fileprivate func getUserInfo() {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     userId = userInfo.map { $0.id }
     userName = userInfo.map { $0.name ?? "nil" }
     userStartDate = userInfo.map { $0.startDate ?? "nil" }
@@ -233,6 +234,7 @@ extension ViewController {
     print("getUserInfo :", userName as Any)
     print("getUserStartDate :", userStartDate as Any)
     print("getUserEndDate :", userEndDate as Any)
+    print("show task =", task.map { $0.taskId })
   }
   
   fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String, task: NSSet) {
@@ -250,6 +252,11 @@ extension ViewController {
   
   fileprivate func deleteUserInfo(id: Int64) {
     CoreDataManager.coreDataShared.deleteUser(id: id) { (onSuccess) in
+      print("delete =", onSuccess)
+    }
+  }
+  fileprivate func deleteUserTask(id: Int64) {
+    CoreDataManager.coreDataShared.deleteTask(taskId: id) { (onSuccess) in
       print("delete =", onSuccess)
     }
   }
@@ -275,7 +282,11 @@ extension ViewController: UICollectionViewDataSource {
     cell.closeButtonAction = {
       let alert = UIAlertController(title: "기록을 제거합니다", message: "저장한 기록을 삭제하시겠습니까 ?", preferredStyle: UIAlertController.Style.alert)
       let okAction = UIAlertAction(title: "확인", style: .default) { (UIAlertAction) in
+        print("🙏delete cell =", indexPath.row)
+        print("delete Id =", userInfo[indexPath.row].id)
         self.deleteUserInfo(id: userInfo[indexPath.row].id)
+        self.deleteUserTask(id: userInfo[indexPath.row].id)
+        print("show task =", task.map { $0.taskId })
         self.viewWillAppear(true)
       }
       let cancel = UIAlertAction(title: "취소", style: .destructive, handler : nil)
@@ -293,12 +304,14 @@ extension ViewController: UICollectionViewDataSource {
     cell.getAddress = taskTemp.map { $0.address! }
     cell.getTaskTitle = taskTemp.map { $0.title! }
     
-    //
+    // initialize
     cell.mapView.removeAnnotations(cell.mapView.annotations)
     cell.mapView.removeOverlays(cell.mapView.overlays)
     cell.locationArray = []
     let longitude = taskTemp.map { $0.longitude }
     let latitude = taskTemp.map { $0.latitude }
+    print(indexPath.row)
+
     for i in 0...taskTemp.count - 1 {
       let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
       if location.latitude != 0 && location.longitude != 0 {
@@ -308,6 +321,7 @@ extension ViewController: UICollectionViewDataSource {
       cell.getLocation = location
       cell.getDays = i
     }
+    
     return cell
   }
 }

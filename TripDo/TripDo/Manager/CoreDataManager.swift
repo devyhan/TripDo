@@ -106,6 +106,7 @@ class CoreDataManager {
     
     do {
       if let results: [UserInfo] = try context?.fetch(fetchRequest) as? [UserInfo] {
+        print("🧘🏻", results)
         if results.count != 0 {
           context?.delete(results[0])
         }

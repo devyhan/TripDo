@@ -27,7 +27,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         self.mapView.showAnnotations(annotations, animated: false)
         self.addPolylineOverlay(at: self.locationArray)
       } else {
-        // else action
+        
       }
     }
   }
@@ -255,7 +255,6 @@ extension MainCollectionViewCell {
   fileprivate func setBlurEffect() {
     let blurEffect = UIBlurEffect(style: .regular)
     let visualEffectView = UIVisualEffectView(effect: blurEffect)
-    
     // addViews
     [visualEffectView, stackView].forEach {
       mapView.addSubview($0)

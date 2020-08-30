@@ -240,7 +240,6 @@ extension StartDateViewController {
     guard let endDate = format.date(from: getEndDate) else { return }
     let timeInterval = Double(endDate.timeIntervalSince(startDate))
     let taskCount = Int(floor(timeInterval / 86400) + 1)
-    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     let idTemp = Int64(Date().timeIntervalSince1970)
     
     for i in 1...taskCount {
@@ -249,8 +248,11 @@ extension StartDateViewController {
       let date = dateFormat.string(from: Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + Double(86400 * (i - 1))))
       saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "여행의 세부 설정이 필요합니다", post: "", address: "", latitude: 0.0, longitude: 0.0)
     }
-    
-    saveUserInfo(id: idTemp, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: task)
+    let task: [Task] = CoreDataManager.coreDataShared.getTasks()
+    let taskTemp = task.filter({
+      $0.taskId == idTemp
+    })
+    saveUserInfo(id: idTemp, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: taskTemp)
     
     self.navigationController?.popToRootViewController(animated: true)
     print("nextButtonDidTap")
