@@ -7,9 +7,28 @@
 //
 
 import UIKit
+import SnapKit
 
 class SettingHeaderView: UICollectionReusableView {
   static let identifier = "SettingHeaderView"
+  
+  fileprivate let titleLabel: UILabel = {
+    let l = UILabel()
+    l.text = "Infomation"
+    l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+    l.textColor = Common.subColor
+    
+    return l
+  }()
+  
+  fileprivate let subTitleLable: UILabel = {
+    let l = UILabel()
+    l.text = "사용자의 TripDo 사용 현황 및 정보"
+    l.font = UIFont.preferredFont(forTextStyle: .footnote)
+    l.textColor = Common.subColor
+    
+    return l
+  }()
   
   // MARK: - LifeCycle
   
@@ -23,8 +42,20 @@ class SettingHeaderView: UICollectionReusableView {
   
   private func setUI() {
     // UI Code
+    self.backgroundColor = .clear
+    [titleLabel, subTitleLable].forEach {
+      self.addSubview($0)
+    }
     
-    self.backgroundColor = .magenta
+    titleLabel.snp.makeConstraints {
+      $0.leading.equalTo(self).offset(20)
+      $0.centerY.equalTo(self)
+    }
+    
+    subTitleLable.snp.makeConstraints {
+      $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+      $0.leading.equalTo(self).offset(20)
+    }
   }
   
   required init?(coder: NSCoder) {

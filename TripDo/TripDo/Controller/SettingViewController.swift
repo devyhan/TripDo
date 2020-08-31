@@ -12,7 +12,7 @@ import SnapKit
 class SettingViewController: UIViewController {
   fileprivate let layout: UICollectionViewFlowLayout = {
     let fl = UICollectionViewFlowLayout()
-    fl.sectionInset = .init(top: 8, left: 8, bottom: 8, right: 8)
+    fl.sectionInset = .init(top: 16, left: 16, bottom: 16, right: 16)
     
     return fl
   }()
@@ -21,6 +21,7 @@ class SettingViewController: UIViewController {
     let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
     cv.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: SettingCollectionViewCell.identifier)
     cv.register(SettingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SettingHeaderView.identifier)
+    cv.backgroundColor = .clear
     
     return cv
   }()
@@ -108,15 +109,15 @@ extension SettingViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    8
+    16
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    8
+    0
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let width = collectionView.frame.width / 2.15
+    let width = collectionView.frame.width / 2.3
     let height = CGFloat(150)
     
     return CGSize(width: width, height: height)
@@ -130,6 +131,6 @@ extension SettingViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     
-    return .init(width: view.frame.width, height: view.frame.height / 6)
+    return .init(width: view.frame.width, height: view.frame.height / 8)
   }
 }
