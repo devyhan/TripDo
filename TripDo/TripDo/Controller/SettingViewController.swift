@@ -10,6 +10,16 @@ import UIKit
 import SnapKit
 
 class SettingViewController: UIViewController {
+  
+  // 여행 템플릿 수
+  var totalTrip: String?
+  // 여행 총 개수
+  var totalTask: String?
+  // 완료한 여행
+  var finishTask: String?
+  // 사용자 평균 여행 완료율
+  var userFinishPercent: String?
+  
   fileprivate let layout: UICollectionViewFlowLayout = {
     let fl = UICollectionViewFlowLayout()
     fl.sectionInset = .init(top: 16, left: 16, bottom: 16, right: 16)
@@ -72,18 +82,13 @@ extension SettingViewController {
     }
     
     // 여행 템플릿 수
-    let totalTrip = userInfo.count
+    totalTrip = "\(userInfo.count)"
     // 여행 총 개수
-    let totalTask = task.count
+    totalTask = "\(task.count)"
     // 완료한 여행
-    let finishTask = taskCheck.count
+    finishTask = "\(taskCheck.count)"
     // 사용자 평균 여행 완료율
-    let userFinishPercent = Double(taskCheck.count) / Double(task.count)  * 100
-    
-    print("지금까지 만든 여행 템플릿 \(totalTrip)개")
-    print("지도에 찍힌 핀의 개수 \(totalTask)개")
-    print("완료한 핀 개수 \(finishTask)개")
-    print("사용자의 여행 완주율 \(userFinishPercent)%")
+    userFinishPercent = "\(Double(taskCheck.count) / Double(task.count)  * 100)"
   }
 }
 
@@ -95,7 +100,25 @@ extension SettingViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingCollectionViewCell.identifier, for: indexPath)
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingCollectionViewCell.identifier, for: indexPath) as! SettingCollectionViewCell
+    switch indexPath.row {
+    case 0:
+      cell.titleString = "만든 여행 템플릿"
+      cell.valueString = totalTrip
+      cell.unitString = "개"
+    case 1:
+      cell.titleString = "지도에 찍은 핀의 개수"
+      cell.valueString = totalTask
+      cell.unitString = "개"
+    case 2:
+      cell.titleString = "완료된 핀의 개수"
+      cell.valueString = finishTask
+      cell.unitString = "개"
+    default:
+      cell.titleString = "여행의 완주율"
+      cell.valueString = userFinishPercent
+      cell.unitString = "%"
+    }
     
     return cell
   }

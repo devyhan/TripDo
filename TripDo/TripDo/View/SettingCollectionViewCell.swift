@@ -12,6 +12,24 @@ import SnapKit
 class SettingCollectionViewCell: UICollectionViewCell {
   static let identifier = "SettingCollectionViewCell"
   
+  var titleString: String? {
+    didSet {
+      titleLabel.text = titleString
+    }
+  }
+  
+  var valueString: String? {
+    didSet {
+      valueLabel.text = valueString
+    }
+  }
+  
+  var unitString: String? {
+    didSet {
+      unitLabel.text = unitString
+    }
+  }
+  
   fileprivate let titleLabel: UILabel = {
     let l =  UILabel()
     l.text = "여행 템플릿"
