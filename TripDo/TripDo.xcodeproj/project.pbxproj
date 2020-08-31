@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7E3B00A624D9C4EF00D2B369 /* CalendarVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3B00A524D9C4EF00D2B369 /* CalendarVars.swift */; };
+		7E639FF424FD03DF00547BC4 /* SettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E639FF324FD03DF00547BC4 /* SettingCollectionViewCell.swift */; };
 		7E77796724D3AD9300F79259 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77796624D3AD9300F79259 /* AppDelegate.swift */; };
 		7E77796B24D3AD9300F79259 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77796A24D3AD9300F79259 /* ViewController.swift */; };
 		7E77797024D3AD9400F79259 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E77796F24D3AD9400F79259 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		48BDEBB8F97A9BE4C0ED665B /* Pods-TripDo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TripDo.debug.xcconfig"; path = "Target Support Files/Pods-TripDo/Pods-TripDo.debug.xcconfig"; sourceTree = "<group>"; };
 		7E3B00A524D9C4EF00D2B369 /* CalendarVars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarVars.swift; sourceTree = "<group>"; };
+		7E639FF324FD03DF00547BC4 /* SettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCollectionViewCell.swift; sourceTree = "<group>"; };
 		7E77796324D3AD9300F79259 /* TripDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E77796624D3AD9300F79259 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E77796A24D3AD9300F79259 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -200,6 +202,7 @@
 				7E90AB3D24E10DE20092AF93 /* DetailHeaderView.swift */,
 				7E90AB3F24E113F50092AF93 /* DetailHeaderLayout.swift */,
 				7E90AB4124E17A220092AF93 /* DetailCellView.swift */,
+				7E639FF324FD03DF00547BC4 /* SettingCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				7E90AB3E24E10DE20092AF93 /* DetailHeaderView.swift in Sources */,
 				7E7C358424DE6AF8008D92B1 /* SettingViewController.swift in Sources */,
 				7E77796B24D3AD9300F79259 /* ViewController.swift in Sources */,
+				7E639FF424FD03DF00547BC4 /* SettingCollectionViewCell.swift in Sources */,
 				7E77797F24D3B05A00F79259 /* UserInfo.xcdatamodeld in Sources */,
 				7E90AB8F24E657640092AF93 /* Task+CoreDataClass.swift in Sources */,
 				7E77798624D3CC2C00F79259 /* CoreDataManager.swift in Sources */,

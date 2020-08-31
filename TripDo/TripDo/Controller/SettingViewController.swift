@@ -19,7 +19,7 @@ class SettingViewController: UIViewController {
 
   fileprivate lazy var collectionView: UICollectionView = {
     let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+    cv.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: SettingCollectionViewCell.identifier)
     
     return cv
   }()
@@ -93,8 +93,7 @@ extension SettingViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-    cell.backgroundColor = .cyan
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingCollectionViewCell.identifier, for: indexPath)
     
     return cell
   }
