@@ -21,17 +21,6 @@ class ViewController: UIViewController {
   var currentIndex: CGFloat = 0
   var isOneStepPaging = true
   
-  lazy var leftButton: UIBarButtonItem = {
-    let b = UIBarButtonItem(
-      image: UIImage(systemName: Common.SFSymbolKey.rightNavigation.rawValue),
-      style: .plain,
-      target: self,
-      action: #selector(buttonPressed(_:))
-    )
-    b.tag = 1
-    return b
-  }()
-  
   lazy var rightButton: UIBarButtonItem = {
     let b = UIBarButtonItem(
       image: UIImage(systemName: Common.SFSymbolKey.rightNavigation.rawValue),
@@ -40,7 +29,7 @@ class ViewController: UIViewController {
       action: #selector(buttonPressed(_:))
     )
     b.tintColor = Common.subColor
-    b.tag = 2
+    b.tag = 1
     
     return b
   }()
@@ -56,6 +45,14 @@ class ViewController: UIViewController {
   //    return l
   //  }()
   
+  fileprivate let logoImageView: UIImageView = {
+    let iv = UIImageView()
+    iv.image = UIImage(named: "NavigationLogo")
+    iv.contentMode = .scaleAspectFit
+    
+    return iv
+  }()
+  
   fileprivate let subTitleLabel: UILabel = {
     let l = UILabel()
     l.text = "여행의 시작,\n여행의 일정관리와 기록까지."
@@ -64,14 +61,6 @@ class ViewController: UIViewController {
     l.textColor = Common.subColor
     
     return l
-  }()
-  
-  fileprivate lazy var stackView: UIStackView = {
-    let sv = UIStackView(arrangedSubviews: [subTitleLabel])
-    sv.axis = .vertical
-    sv.spacing = 0
-    
-    return sv
   }()
   
   fileprivate lazy var mainCollectionView: UICollectionView = {
@@ -137,27 +126,26 @@ extension ViewController {
     // Layout
     
     view.bringSubviewToFront(floatingButton)
-    [testView, stackView, mainCollectionView, floatingButton].forEach {
+    [logoImageView, subTitleLabel, mainCollectionView, floatingButton].forEach {
       view.addSubview($0)
     }
     
     // Constraint
     
-    stackView.snp.makeConstraints {
-      $0.top.equalTo(guid).offset(-70)
-      $0.trailing.equalTo(guid).offset(-40)
-      $0.bottom.equalTo(mainCollectionView.snp.top).offset(-20)
+    logoImageView.snp.makeConstraints {
+      $0.top.equalTo(guid)
       $0.leading.equalTo(guid).offset(40)
-      $0.height.equalTo(view.frame.height / 4.1)
+      $0.height.equalTo(80)
+      $0.width.equalTo(140)
     }
     
-    testView.snp.makeConstraints {
-      $0.top.equalTo(stackView.snp.bottom)
-      $0.trailing.leading.bottom.equalTo(guid)
+    subTitleLabel.snp.makeConstraints {
+      $0.top.equalTo(logoImageView.snp.bottom).offset(20)
+      $0.leading.equalTo(guid).offset(40)
     }
     
     mainCollectionView.snp.makeConstraints {
-      $0.top.equalTo(stackView.snp.bottom)
+      $0.top.equalTo(subTitleLabel.snp.bottom).offset(20)
       $0.trailing.leading.bottom.equalTo(guid)
     }
     
@@ -166,7 +154,6 @@ extension ViewController {
   }
   
   fileprivate func setNavigation() {
-    //    navigationItem.leftBarButtonItem = self.leftButton
     navigationItem.rightBarButtonItem = self.rightButton
     let navBar = self.navigationController?.navigationBar
     navBar?.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -205,8 +192,6 @@ extension ViewController {
     if let button = sender as? UIBarButtonItem {
       switch button.tag {
       case 1:
-        print("left btn")
-      case 2:
         let settingVC = SettingViewController()
         navigationController?.pushViewController(settingVC, animated: true)
       default:

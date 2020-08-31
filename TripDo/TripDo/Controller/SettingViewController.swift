@@ -36,6 +36,14 @@ class SettingViewController: UIViewController {
     return cv
   }()
   
+  fileprivate let logoImageView: UIImageView = {
+    let iv = UIImageView()
+    iv.image = UIImage(named: "Logo")
+    iv.contentMode = .scaleAspectFit
+    
+    return iv
+  }()
+  
   fileprivate let versionLabel: UILabel = {
     let l = UILabel()
     l.text = "ver \(Common.version) \n \(Common.developer)"
@@ -66,7 +74,7 @@ class SettingViewController: UIViewController {
     collectionView.dataSource = self
     collectionView.delegate = self
     
-    [collectionView, versionLabel].forEach {
+    [collectionView, logoImageView, versionLabel].forEach {
       view.addSubview($0)
     }
     
@@ -74,8 +82,14 @@ class SettingViewController: UIViewController {
       $0.top.trailing.leading.equalTo(guid)
     }
     
-    versionLabel.snp.makeConstraints {
+    logoImageView.snp.makeConstraints {
       $0.top.equalTo(collectionView.snp.bottom)
+      $0.centerX.equalTo(guid)
+      $0.height.equalTo(100)
+    }
+    
+    versionLabel.snp.makeConstraints {
+      $0.top.equalTo(logoImageView.snp.bottom)
       $0.centerX.equalTo(guid)
       $0.bottom.equalTo(guid)
     }
