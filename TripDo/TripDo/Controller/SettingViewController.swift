@@ -36,6 +36,20 @@ class SettingViewController: UIViewController {
     return cv
   }()
   
+  fileprivate let versionLabel: UILabel = {
+    let l = UILabel()
+    l.text = "ver \(Common.version) \n \(Common.developer)"
+    l.font = UIFont.preferredFont(forTextStyle: .footnote)
+    l.numberOfLines = .zero
+    l.textAlignment = .center
+    l.textColor = Common.subColor
+    l.alpha = 0.7
+    
+    return l
+  }()
+  
+  // MARK: - LifeCycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -44,18 +58,26 @@ class SettingViewController: UIViewController {
     getData()
   }
   
+  // MARK: - UI
+  
   fileprivate func setUI() {
     let guid = view.safeAreaLayoutGuide
     setNavigation()
     collectionView.dataSource = self
     collectionView.delegate = self
     
-    [collectionView].forEach {
+    [collectionView, versionLabel].forEach {
       view.addSubview($0)
     }
     
     collectionView.snp.makeConstraints {
-      $0.top.trailing.leading.bottom.equalTo(guid)
+      $0.top.trailing.leading.equalTo(guid)
+    }
+    
+    versionLabel.snp.makeConstraints {
+      $0.top.equalTo(collectionView.snp.bottom)
+      $0.centerX.equalTo(guid)
+      $0.bottom.equalTo(guid)
     }
   }
   

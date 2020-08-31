@@ -10,6 +10,9 @@ import UIKit
 
 struct Common {
   
+  static let version: String = "1.0"
+  static let developer: String = "devyhan93@gmail.com"
+  
   // UserDefault Key
   
   enum UserDefaultKey: String {
