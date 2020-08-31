@@ -45,16 +45,16 @@ class ViewController: UIViewController {
     return b
   }()
   
-//  fileprivate let titleLabel: UILabel = {
-//    let l = UILabel()
-//    let style = [NSAttributedString.Key.kern: 5, NSMutableAttributedString.Key.baselineOffset: -20]
-//    let attributeString = NSMutableAttributedString(string: "TripDo", attributes: style)
-//    l.attributedText = attributeString
-//    l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-//    l.textColor = Common.edgeColor
-//
-//    return l
-//  }()
+  //  fileprivate let titleLabel: UILabel = {
+  //    let l = UILabel()
+  //    let style = [NSAttributedString.Key.kern: 5, NSMutableAttributedString.Key.baselineOffset: -20]
+  //    let attributeString = NSMutableAttributedString(string: "TripDo", attributes: style)
+  //    l.attributedText = attributeString
+  //    l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+  //    l.textColor = Common.edgeColor
+  //
+  //    return l
+  //  }()
   
   fileprivate let subTitleLabel: UILabel = {
     let l = UILabel()
@@ -107,10 +107,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     mainCollectionView.delegate = self
-    //    deleteUserInfo(id: 0)
-    //    saveUserInfo(id: 1, name: "devyhan", age: 123)
     getUserInfo()
-    
     setUI()
   }
   
@@ -176,6 +173,7 @@ extension ViewController {
     navBar?.shadowImage = UIImage()
     navBar?.isTranslucent = true
     navBar?.backgroundColor = UIColor.clear
+    navBar?.barStyle = .black
   }
   
   fileprivate func setCollectionView() {
@@ -294,7 +292,7 @@ extension ViewController: UICollectionViewDataSource {
       alert.addAction(okAction)
       self.present(alert, animated: true)
     }
-
+    
     // task count
     let taskTemp = task.filter({
       $0.taskId == userInfo[indexPath.row].id
@@ -311,7 +309,7 @@ extension ViewController: UICollectionViewDataSource {
     let longitude = taskTemp.map { $0.longitude }
     let latitude = taskTemp.map { $0.latitude }
     print(indexPath.row)
-
+    
     for i in 0...taskTemp.count - 1 {
       let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
       if location.latitude != 0 && location.longitude != 0 {
