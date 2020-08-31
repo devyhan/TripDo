@@ -373,7 +373,7 @@ extension ViewController: UICollectionViewDelegate {
   }
 }
 
-// MARK: - MARK Title
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
