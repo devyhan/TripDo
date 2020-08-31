@@ -45,16 +45,16 @@ class ViewController: UIViewController {
     return b
   }()
   
-  fileprivate let titleLabel: UILabel = {
-    let l = UILabel()
-    let style = [NSAttributedString.Key.kern: 5, NSMutableAttributedString.Key.baselineOffset: -20]
-    let attributeString = NSMutableAttributedString(string: "TripDo", attributes: style)
-    l.attributedText = attributeString
-    l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-    l.textColor = Common.edgeColor
-    
-    return l
-  }()
+//  fileprivate let titleLabel: UILabel = {
+//    let l = UILabel()
+//    let style = [NSAttributedString.Key.kern: 5, NSMutableAttributedString.Key.baselineOffset: -20]
+//    let attributeString = NSMutableAttributedString(string: "TripDo", attributes: style)
+//    l.attributedText = attributeString
+//    l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+//    l.textColor = Common.edgeColor
+//
+//    return l
+//  }()
   
   fileprivate let subTitleLabel: UILabel = {
     let l = UILabel()
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
   }()
   
   fileprivate lazy var stackView: UIStackView = {
-    let sv = UIStackView(arrangedSubviews: [titleLabel, subTitleLabel])
+    let sv = UIStackView(arrangedSubviews: [subTitleLabel])
     sv.axis = .vertical
     sv.spacing = 0
     
