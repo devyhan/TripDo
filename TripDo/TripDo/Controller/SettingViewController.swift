@@ -20,6 +20,7 @@ class SettingViewController: UIViewController {
   fileprivate lazy var collectionView: UICollectionView = {
     let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
     cv.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: SettingCollectionViewCell.identifier)
+    cv.register(SettingHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SettingHeaderView.identifier)
     
     return cv
   }()
@@ -119,5 +120,16 @@ extension SettingViewController: UICollectionViewDelegateFlowLayout {
     let height = CGFloat(150)
     
     return CGSize(width: width, height: height)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SettingHeaderView.identifier, for: indexPath)
+    
+    return header
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    
+    return .init(width: view.frame.width, height: view.frame.height / 6)
   }
 }

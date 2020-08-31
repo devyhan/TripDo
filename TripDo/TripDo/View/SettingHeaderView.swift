@@ -1,5 +1,5 @@
 //
-//  SettingCollectionViewCell.swift
+//  SettingHeaderView.swift
 //  TripDo
 //
 //  Created by 요한 on 2020/08/31.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class SettingCollectionViewCell: UICollectionViewCell {
-  static let identifier = "SettingCollectionViewCell"
+class SettingHeaderView: UICollectionReusableView {
+  static let identifier = "SettingHeaderView"
   
   // MARK: - LifeCycle
   
@@ -21,10 +21,10 @@ class SettingCollectionViewCell: UICollectionViewCell {
   
   // MARK: - Layout
   
-  fileprivate func setUI() {
+  private func setUI() {
     // UI Code
-    self.layer.cornerRadius = 14
-    self.backgroundColor = .yellow
+    
+    self.backgroundColor = .magenta
   }
   
   required init?(coder: NSCoder) {
