@@ -124,7 +124,7 @@ extension SettingViewController {
     // 완료한 여행
     finishTask = "\(taskCheck.count)"
     // 사용자 평균 여행 완료율
-    userFinishPercent = "\(Double(taskCheck.count) / Double(task.count)  * 100)"
+    userFinishPercent = "\(String(format: "%.2f", (Double(taskCheck.count) / Double(task.count)  * 100)))"
   }
 }
 
