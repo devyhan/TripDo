@@ -97,11 +97,9 @@ class SettingViewController: UIViewController {
   
   fileprivate func setNavigation() {
     let navController = self.navigationController?.navigationBar
-    navigationItem.title = "Trip Do"
     
     navController?.tintColor = Common.subColor
     navController?.topItem?.title = ""
-    navController?.titleTextAttributes = [.foregroundColor: Common.subColor]
   }
 }
 
