@@ -246,7 +246,7 @@ extension StartDateViewController {
       let dateFormat = DateFormatter()
       dateFormat.dateFormat = "M월 dd일"
       let date = dateFormat.string(from: Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + Double(86400 * (i - 1))))
-      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "여행의 세부 설정이 필요합니다", post: "", address: "", latitude: 0.0, longitude: 0.0)
+      saveTask(taskId: idTemp, taskCellId: Int64(i), check: false, date: date, title: "여행의 세부 설정이 필요합니다", post: "", address: "이곳을 눌러 남은 설정을 완료해주세요", latitude: 0.0, longitude: 0.0)
     }
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     let taskTemp = task.filter({
@@ -390,7 +390,7 @@ extension StartDateViewController: UICollectionViewDataSource  {
       cell.DrawCircle()
       Common.shadowMaker(view: cell)
     }
-   
+    
     return cell
   }
 }
@@ -429,17 +429,29 @@ extension StartDateViewController: UICollectionViewDelegateFlowLayout {
     
     switch direction {
     case 0:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      if indexPath.row < 10 {
+        getStartDate = "\(year)-\(currentMonth)-0\(indexPath.row - numberOfEmptyBox)"
+      } else {
+        getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      }
       print(getStartDate)
       selectionArray.append(getStartDate)
       print("0 Array:", selectionArray.sorted())
     case 1:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - nextNumberOfEmptyBox)"
+      if indexPath.row < 10 {
+        getStartDate = "\(year)-\(currentMonth)-0\(indexPath.row - numberOfEmptyBox)"
+      } else {
+        getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      }
       print(getStartDate)
       selectionArray.append(getStartDate)
       print("1 Array:", selectionArray.sorted())
     case -1:
-      getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - previousNumberOfEmptyBox)"
+      if indexPath.row < 10 {
+        getStartDate = "\(year)-\(currentMonth)-0\(indexPath.row - numberOfEmptyBox)"
+      } else {
+        getStartDate = "\(year)-\(currentMonth)-\(indexPath.row - numberOfEmptyBox)"
+      }
       print(getStartDate)
       selectionArray.append(getStartDate)
       print("-1 Array:", selectionArray.sorted())
