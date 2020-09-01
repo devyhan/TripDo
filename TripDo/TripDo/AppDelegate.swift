@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window?.rootViewController = UINavigationController(rootViewController: ViewController())
     window?.makeKeyAndVisible()
     FirebaseApp.configure()
+    Thread.sleep(forTimeInterval: 0.4)
+    
     return true
   }
   
