@@ -213,6 +213,11 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     
     let longitude = taskTemp.map { $0.longitude }
     let latitude = taskTemp.map { $0.latitude }
+    
+    // initialize
+    header.locationArray = []
+    header.mapView.removeAnnotations(header.mapView.annotations)
+    header.mapView.removeOverlays(header.mapView.overlays)
     for i in 0...latitude.count - 1 {
       let location = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
       

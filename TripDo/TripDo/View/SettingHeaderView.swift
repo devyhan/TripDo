@@ -14,7 +14,7 @@ class SettingHeaderView: UICollectionReusableView {
   
   fileprivate let titleLabel: UILabel = {
     let l = UILabel()
-    l.text = "Infomation"
+    l.text = "여행 기록"
     l.font = UIFont.preferredFont(forTextStyle: .largeTitle)
     l.textColor = Common.subColor
     
@@ -23,7 +23,7 @@ class SettingHeaderView: UICollectionReusableView {
   
   fileprivate let subTitleLable: UILabel = {
     let l = UILabel()
-    l.text = "사용자의 TripDo 사용 현황 및 정보"
+    l.text = "나의 여행 기록 현황 및 정보"
     l.font = UIFont.preferredFont(forTextStyle: .footnote)
     l.textColor = Common.subColor
     
