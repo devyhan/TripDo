@@ -28,9 +28,18 @@
 |:---:|:---:|
 | [Firebase Analytics](https://firebase.google.com/docs/analytics/ios/start?hl=ko) | [Snapkit](https://github.com/SnapKit/SnapKit#contents) |
 
+## CoreData diagram
+
+## App Demo
+<p align="center">
+    <a href="https://youtu.be/52FDect9ko4">
+        <img width="180" height="360" src="./images/TripDo.gif" alt="DEMO" style="zoom: 100%;" />
+    </a>
+<p>
+
 ---
 
-## 회고
+### 회고
 
 iOS개발을 시작하면서 처음으로 혼자서 앱을 기획하고, 개발하며 앱스토어에 배포까지 하게된 App입니다.
 
