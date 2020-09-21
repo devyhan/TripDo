@@ -209,7 +209,6 @@ extension ViewController {
     let userInfo: [UserInfo] = CoreDataManager.coreDataShared.getUsers()
     let task: [Task] = CoreDataManager.coreDataShared.getTasks()
     userId = userInfo.map { $0.id }
-    userName = userInfo.map { $0.name ?? "nil" }
     userStartDate = userInfo.map { $0.startDate ?? "nil" }
     userEndDate = userInfo.map { $0.endDate ?? "nil" }
     
@@ -220,11 +219,9 @@ extension ViewController {
     print("show task =", task.map { $0.taskId })
   }
   
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String, task: NSSet) {
+  fileprivate func saveUserInfo(id: Int64, startDate: String, endDate: String, task: NSSet) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
-      name: name,
-      age: age,
       startDate: startDate,
       endDate: endDate,
       task: task,

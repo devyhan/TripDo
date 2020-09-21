@@ -252,7 +252,7 @@ extension StartDateViewController {
     let taskTemp = task.filter({
       $0.taskId == idTemp
     })
-    saveUserInfo(id: idTemp, name: getName, age: 24, startDate: getStartDate, endDate: getEndDate, task: taskTemp)
+    saveUserInfo(id: idTemp, startDate: getStartDate, endDate: getEndDate, task: taskTemp)
     
     self.navigationController?.popToRootViewController(animated: true)
     print("nextButtonDidTap")
@@ -515,11 +515,9 @@ extension StartDateViewController {
 // MARK: - CoreData
 
 extension StartDateViewController {
-  fileprivate func saveUserInfo(id: Int64, name: String, age: Int64, startDate: String, endDate: String, task: [Any]) {
+  fileprivate func saveUserInfo(id: Int64, startDate: String, endDate: String, task: [Any]) {
     CoreDataManager.coreDataShared.saveUser(
       id: id,
-      name: name,
-      age: age,
       startDate: startDate,
       endDate: endDate,
       task: NSSet.init(array: task),

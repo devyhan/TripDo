@@ -57,16 +57,13 @@ class CoreDataManager {
     return models
   }
   
-  func saveUser(id: Int64, name: String,
-                age: Int64, startDate: String, endDate: String, task: NSSet, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
+  func saveUser(id: Int64, startDate: String, endDate: String, task: NSSet, date: Date, onSuccess: @escaping ((Bool) -> Void)) {
     if let context = context,
       let entity: NSEntityDescription
       = NSEntityDescription.entity(forEntityName: userModelName, in: context) {
       
       if let user: UserInfo = NSManagedObject(entity: entity, insertInto: context) as? UserInfo {
         user.id = id
-        user.name = name
-        user.age = age
         user.startDate = startDate
         user.endDate = endDate
         user.task = task

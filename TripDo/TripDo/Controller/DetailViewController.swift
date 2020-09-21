@@ -260,7 +260,6 @@ extension DetailViewController {
     
     // get UserInfo
     userId = userInfo.map { $0.id }
-    userName = userInfo.map { $0.name ?? "nil" }
     userStartDate = userInfo.map { $0.startDate ?? "nil" }
     userEndDate = userInfo.map { $0.endDate ?? "nil" }
     

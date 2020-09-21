@@ -16,10 +16,8 @@ extension UserInfo {
     return NSFetchRequest<UserInfo>(entityName: "UserInfo")
   }
   
-  @NSManaged public var age: Int64
   @NSManaged public var endDate: String?
   @NSManaged public var id: Int64
-  @NSManaged public var name: String?
   @NSManaged public var startDate: String?
   @NSManaged public var task: NSSet?
   
