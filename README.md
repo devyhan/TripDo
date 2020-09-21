@@ -29,6 +29,9 @@
 | [Firebase Analytics](https://firebase.google.com/docs/analytics/ios/start?hl=ko) | [Snapkit](https://github.com/SnapKit/SnapKit#contents) |
 
 ## CoreData diagram
+<p align="center">
+    <img width="250" src="./images/CoreData.png" alt="singh08prashant" />
+<p>
 
 ## App Demo
 <p align="center">
