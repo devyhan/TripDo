@@ -36,7 +36,13 @@
 ## App Demo
 <p align="center">
     <a href="https://youtu.be/52FDect9ko4">
-        <img width="180" height="360" src="./images/TripDo.gif" alt="DEMO" style="zoom: 100%;" />
+        <img width="180" height="400" src="./images/TripDo01.gif" alt="DEMO" style="zoom: 100%;" />
+    </a>
+        <a href="https://youtu.be/52FDect9ko4">
+        <img width="180" height="400" src="./images/TripDo02.gif" alt="DEMO" style="zoom: 100%;" />
+    </a>
+        <a href="https://youtu.be/52FDect9ko4">
+        <img width="180" height="400" src="./images/TripDo03.gif" alt="DEMO" style="zoom: 100%;" />
     </a>
 <p>
 
