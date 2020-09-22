@@ -6,6 +6,8 @@
 
 코어데이터를 활용하여 비 로그인 상태로 사용자의 개인정보를 저장하지 않는 컨셉으로 개발하게 되었습니다.
 
+[AppStore](https://apps.apple.com/kr/app/tripdo/id1530001128)
+
 ## Architecture
 
 - MVC(리팩터링 필요)
